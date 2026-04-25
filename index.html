@@ -1,47 +1,56 @@
+<!-- ============================================================
+     Zakat Calculator — v2.000
+     [v2.000] Ajout : Guide Zakat bilingue FR/AR (modale header)
+              Correction : Math.ceil() sur Zakat finale (arrondi surplus)
+              Correction : Validation schéma JSON localStorage
+     ============================================================ -->
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>حاسبة الزكاة — By XeneX Ameen</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@400;600;700;900&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root {
-  --bg: #f5f0e8;
-  --bg2: #ede8dc;
-  --card: #fffdf8;
-  --card2: #faf6ee;
-  --gold: #c9962a;
-  --gold-light: #f0d98a;
-  --gold-lighter: #fdf5d8;
+  --bg: #f4efe6;
+  --bg2: #ebe4d8;
+  --card: #ffffff;
+  --card2: #faf6ef;
+  --gold: #b8851f;
+  --gold-light: #e8cc72;
+  --gold-lighter: #fdf3d0;
   --gold-dark: #7a5c10;
-  --gold-border: #d4a843;
-  --green: #1a6b3c;
-  --green-light: #d6f0e0;
-  --green-deep: #0e4a28;
+  --gold-border: #c9a030;
+  --green: #16603a;
+  --green-light: #d1ead9;
+  --green-deep: #092e19;
   --red: #b91c1c;
   --red-light: #fee2e2;
-  --text: #1c1408;
-  --text-muted: #7a6a4a;
-  --border: #ddd0b0;
-  --shadow: 0 2px 16px rgba(120,90,20,0.10);
-  --shadow-md: 0 6px 32px rgba(120,90,20,0.15);
+  --text: #1a1208;
+  --text-muted: #6b5c3e;
+  --border: #d8ccb0;
+  --shadow: 0 2px 20px rgba(100,75,15,0.08);
+  --shadow-md: 0 8px 40px rgba(100,75,15,0.14);
+  --shadow-lg: 0 16px 60px rgba(100,75,15,0.18);
   --radius: 16px;
   --radius-sm: 10px;
   --font: 'Cairo','Tajawal',sans-serif;
   --font-ar: 'Tajawal','Cairo','Arial','Tahoma',sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
 }
 
 * { box-sizing:border-box; margin:0; padding:0; }
 
 body {
   font-family: var(--font);
-  background: var(--bg);
+  background-color: var(--bg);
   background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(201,150,42,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 100%, rgba(26,107,60,0.06) 0%, transparent 60%);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 0l7 7-7 7-7-7zm0 46l7 7-7 7-7-7zm-30-16l7-7 7 7-7 7zm60 0l-7-7-7 7 7 7zM15 15l7-7 7 7-7 7zm30 0l7-7 7 7-7 7zM15 45l7-7 7 7-7 7zm30 0l7-7 7 7-7 7z' fill='%23b8851f' fill-opacity='0.04'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 15% 0%, rgba(184,133,31,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 100%, rgba(22,96,58,0.06) 0%, transparent 55%);
   color: var(--text);
   min-height: 100vh;
   padding: 0 0 50px;
@@ -49,60 +58,82 @@ body {
 
 /* ═══ HEADER ═══ */
 .page-header {
-  background: linear-gradient(160deg,#0e3320 0%,#1a6b3c 50%,#0e3320 100%);
-  padding: 20px 20px 16px;
+  background: linear-gradient(160deg,#071c0e 0%,#0f3d22 40%,#16603a 70%,#0a2a16 100%);
+  padding: 22px 24px 18px;
   text-align: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 40px rgba(14,51,32,0.4);
+  box-shadow: 0 10px 50px rgba(7,28,14,0.55);
 }
 .page-header::before {
   content:'';position:absolute;inset:0;
-  background-image:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(201,150,42,0.04) 20px,rgba(201,150,42,0.04) 40px);
+  background-image:
+    repeating-linear-gradient(45deg,transparent,transparent 22px,rgba(184,133,31,0.05) 22px,rgba(184,133,31,0.05) 44px),
+    repeating-linear-gradient(-45deg,transparent,transparent 22px,rgba(184,133,31,0.03) 22px,rgba(184,133,31,0.03) 44px);
 }
 .page-header::after {
-  content:'';position:absolute;bottom:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,transparent,var(--gold),#f0d98a,var(--gold),transparent);
+  content:'';position:absolute;bottom:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 20%,var(--gold-light) 50%,var(--gold) 80%,transparent 100%);
+  box-shadow: 0 0 20px rgba(184,133,31,0.6);
 }
 .header-logo {
   display:flex;align-items:center;justify-content:center;gap:20px;position:relative;flex-wrap:wrap;
 }
-.header-logo img { width:100px;height:auto; }
+.header-logo img { width:100px;height:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
 .header-text { text-align:left; }
-.header-text h1 { font-size:1.6rem;font-weight:900;color:#f0d98a;letter-spacing:0.5px;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,0.4); }
-.header-text h1 .ar { font-family:var(--font-ar);font-size:1.4rem;color:#fff;display:block;margin-top:2px; }
-.header-text p { color:rgba(240,217,138,0.7);font-size:0.8rem;margin-top:5px; }
+.header-text h1 {
+  font-size:1.75rem;font-weight:900;color:#e8cc72;
+  letter-spacing:1px;line-height:1.15;
+  text-shadow:0 3px 12px rgba(0,0,0,0.5);
+}
+.header-text h1 .ar {
+  font-family:var(--font-ar);font-size:1.5rem;color:rgba(255,255,255,0.92);
+  display:block;margin-top:3px;letter-spacing:0;
+}
+.header-text p {
+  color:rgba(232,204,114,0.6);font-size:0.78rem;margin-top:6px;
+  letter-spacing:0.06em;text-transform:uppercase;
+}
 
 /* ═══ STICKY DASHBOARD ═══ */
 .sticky-dash {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(135deg,#0e3320,#1a5c35);
-  border-bottom: 3px solid var(--gold);
-  padding: 8px 20px;
+  background: linear-gradient(135deg,#071c0e 0%,#0f3d22 50%,#071c0e 100%);
+  border-bottom: 3px solid var(--gold-border);
+  padding: 9px 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 28px;
   flex-wrap: wrap;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.35);
 }
 .dash-item { text-align:center; }
-.dash-item .d-label { font-size:0.6rem;font-weight:700;color:rgba(240,217,138,0.7);text-transform:uppercase;letter-spacing:0.08em; }
-.dash-item .d-val { font-size:1rem;font-weight:900;color:#fff; }
-.dash-item .d-val.gold { color:#f0d98a; }
-.dash-item .d-val.zakat-val { font-size:1.25rem;color:#f0d98a; }
-.dash-sep { width:1px;height:36px;background:rgba(255,255,255,0.2); }
-.dash-zakat-badge {
-  background: linear-gradient(135deg,var(--gold),var(--gold-dark));
-  border-radius:8px;
-  padding:5px 16px;
-  text-align:center;
-  box-shadow: 0 2px 10px rgba(201,150,42,0.4);
+.dash-item .d-label {
+  font-size:0.55rem;font-weight:700;color:rgba(232,204,114,0.6);
+  text-transform:uppercase;letter-spacing:0.1em;
 }
-.dash-zakat-badge .d-label { color:rgba(255,255,255,0.8); }
-.dash-zakat-badge .d-val { color:#fff;font-size:1.2rem; }
+.dash-item .d-val {
+  font-family:var(--font-display);font-size:1.05rem;font-weight:600;color:rgba(255,255,255,0.9);
+}
+.dash-item .d-val.gold { color:#e8cc72; }
+.dash-item .d-val.zakat-val { font-size:1.1rem;color:#e8cc72; }
+.dash-sep { width:1px;height:32px;background:rgba(184,133,31,0.3); }
+.dash-zakat-badge {
+  background: linear-gradient(135deg,#8a6a12,#b8851f,#8a6a12);
+  border-radius:10px;
+  padding:6px 18px;
+  text-align:center;
+  box-shadow: 0 3px 14px rgba(184,133,31,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+  border: 1px solid rgba(232,204,114,0.3);
+}
+.dash-zakat-badge .d-label { color:rgba(255,255,255,0.75); }
+.dash-zakat-badge .d-val {
+  font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
 
 /* ═══ TOAST / RESTORE BANNER ═══ */
 .restore-banner {
@@ -117,28 +148,49 @@ body {
 .restore-banner button:hover { background:rgba(255,255,255,0.35); }
 
 /* ═══ MAIN ═══ */
-.app-body { max-width:1080px;margin:0 auto;padding:16px 16px 0; }
+.app-body { max-width:1080px;margin:0 auto;padding:20px 18px 0; }
 
-.grid2 { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px; }
+.grid2 { display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px; }
 
 /* ═══ CARD ═══ */
-.card {
-  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-  border:1px solid var(--border);padding:15px 17px;position:relative;overflow:hidden;
-  transition:box-shadow 0.2s;
+@keyframes cardFadeIn {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
 }
-.card:hover { box-shadow:var(--shadow-md); }
+.card {
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow: var(--shadow);
+  border:1px solid var(--border);
+  padding:17px 20px;
+  position:relative;overflow:hidden;
+  transition:box-shadow 0.25s, transform 0.22s;
+  animation: cardFadeIn 0.45s ease both;
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
 .card::before {
   content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));
+  background:linear-gradient(90deg,transparent,var(--gold-border),var(--gold-light),var(--gold-border),transparent);
 }
+/* Délais d'animation en cascade */
+.mob-step[data-step="1"] .card:nth-child(1) { animation-delay:0.05s; }
+.mob-step[data-step="1"] .card:nth-child(2) { animation-delay:0.12s; }
+.mob-step[data-step="2"] .card { animation-delay:0.08s; }
+.mob-step[data-step="3"] .card { animation-delay:0.06s; }
+.mob-step[data-step="4"] .card { animation-delay:0.04s; }
+.mob-step[data-step="5"] .card { animation-delay:0.04s; }
+
 .card-title {
-  font-size:0.87rem;font-weight:700;color:var(--green-deep);
-  padding-bottom:9px;margin-bottom:11px;
+  font-size:0.82rem;font-weight:700;color:var(--green-deep);
+  padding-bottom:10px;margin-bottom:13px;
   border-bottom:1.5px solid var(--gold-lighter);
   display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  letter-spacing:0.03em;text-transform:uppercase;
 }
-.card-title .ar { font-family:var(--font-ar);font-size:0.93rem;color:var(--gold-dark);margin-left:4px; }
+.card-title .ar { font-family:var(--font-ar);font-size:0.92rem;color:var(--gold-dark);margin-left:4px;text-transform:none;letter-spacing:0; }
 
 /* ═══ FORM ═══ */
 label { display:block;font-size:0.72rem;font-weight:700;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.03em; }
@@ -175,22 +227,22 @@ input.valid { border-color:#16a34a;background:#f0fdf4; }
 @media (max-width:720px) { .taux-grid { grid-template-columns:1fr 1fr; } }
 
 /* ═══ BUTTONS ═══ */
-.btn { padding:7px 15px;border:none;border-radius:var(--radius-sm);font-family:var(--font);font-size:0.81rem;font-weight:700;cursor:pointer;transition:all 0.18s;letter-spacing:0.02em; }
-.btn-gold { background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#fff;box-shadow:0 2px 8px rgba(201,150,42,0.35); }
-.btn-gold:hover { opacity:0.9;transform:translateY(-1px); }
-.btn-green { background:var(--green);color:#fff; }
-.btn-green:hover { background:var(--green-deep); }
-.btn-danger { background:var(--red-light);color:var(--red);border:1px solid #fca5a5; }
+.btn { padding:8px 16px;border:none;border-radius:var(--radius-sm);font-family:var(--font);font-size:0.81rem;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.03em; }
+.btn-gold { background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#fff;box-shadow:0 3px 10px rgba(184,133,31,0.35); }
+.btn-gold:hover { filter:brightness(1.08);transform:translateY(-1px); }
+.btn-green { background:var(--green);color:#fff;box-shadow:0 3px 10px rgba(22,96,58,0.28); }
+.btn-green:hover { background:var(--green-deep);transform:translateY(-1px); }
+.btn-danger { background:transparent;color:var(--red);border:1.5px solid #fca5a5; }
 .btn-danger:hover { background:var(--red);color:#fff; }
-.btn-outline { background:transparent;border:1.5px solid var(--gold);color:var(--gold-dark); }
-.btn-outline:hover { background:var(--gold-lighter); }
-.btn-sm { padding:4px 9px;font-size:0.74rem; }
-.btn-save { background:linear-gradient(135deg,#1d4ed8,#1e40af);color:#fff;padding:11px 26px;font-size:0.88rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);box-shadow:0 4px 14px rgba(29,78,216,0.3); }
-.btn-save:hover { opacity:0.9;transform:translateY(-1px); }
-.btn-load { background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:11px 26px;font-size:0.88rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);box-shadow:0 4px 14px rgba(5,150,105,0.3); }
-.btn-load:hover { opacity:0.9;transform:translateY(-1px); }
-.btn-reset { background:linear-gradient(135deg,#dc7a2a,#b85a10);color:#fff;padding:11px 22px;font-size:0.88rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);box-shadow:0 4px 14px rgba(220,122,42,0.3); }
-.btn-reset:hover { opacity:0.9;transform:translateY(-1px); }
+.btn-outline { background:transparent;border:1.5px solid var(--gold-border);color:var(--gold-dark); }
+.btn-outline:hover { background:var(--gold-lighter);border-color:var(--gold); }
+.btn-sm { padding:5px 10px;font-size:0.74rem; }
+.btn-save { background:var(--green);color:#fff;padding:11px 24px;font-size:0.86rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);box-shadow:0 4px 14px rgba(22,96,58,0.3); }
+.btn-save:hover { background:var(--green-deep);transform:translateY(-1px); }
+.btn-load { background:transparent;color:var(--green);border:2px solid var(--green);padding:11px 24px;font-size:0.86rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);transition:all 0.2s; }
+.btn-load:hover { background:var(--green);color:#fff;transform:translateY(-1px); }
+.btn-reset { background:transparent;color:var(--text-muted);border:2px solid var(--border);padding:11px 20px;font-size:0.86rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);transition:all 0.2s; }
+.btn-reset:hover { background:var(--red);color:#fff;border-color:var(--red);transform:translateY(-1px); }
 
 /* ═══ DATE ═══ */
 .date-display {
@@ -249,7 +301,7 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 .legend-item { display:flex;align-items:center;gap:10px; }
 .legend-dot { width:14px;height:14px;border-radius:50%;flex-shrink:0; }
 .legend-text .l-label { font-size:0.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em; }
-.legend-text .l-val { font-size:1rem;font-weight:900;color:var(--text); }
+.legend-text .l-val { font-family:var(--font-display);font-size:1.1rem;font-weight:600;color:var(--text); }
 .legend-text .l-pct { font-size:0.75rem;color:var(--text-muted);margin-left:4px; }
 .chart-empty { text-align:center;color:var(--text-muted);font-size:0.85rem;padding:20px;font-style:italic; }
 
@@ -266,8 +318,13 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 .zakat-due-zone::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,255,255,0.12) 0%,transparent 70%); }
 .zakat-due-label { font-size:1rem;font-weight:900;text-transform:uppercase;letter-spacing:0.18em;color:#fff;margin-bottom:6px;position:relative;text-shadow:0 2px 10px rgba(0,0,0,0.35); }
 .zakat-due-label .ar-inline { font-family:var(--font-ar);font-size:1.4rem;letter-spacing:0;text-transform:none;display:block;margin-top:2px;color:rgba(255,255,255,0.95);font-weight:700; }
-.zakat-due-amount { font-size:2.8rem;font-weight:900;color:#fff;letter-spacing:-0.02em;text-shadow:0 4px 20px rgba(0,0,0,0.4);line-height:1.05;position:relative; }
-.zakat-due-amount .zakat-pct { font-size:1rem;font-weight:600;color:rgba(255,255,255,0.75); }
+.zakat-due-amount {
+  font-family:var(--font-display);
+  font-size:3.2rem;font-weight:700;color:#fff;
+  letter-spacing:0.01em;text-shadow:0 4px 24px rgba(0,0,0,0.4);
+  line-height:1.05;position:relative;
+}
+.zakat-due-amount .zakat-pct { font-family:var(--font);font-size:1rem;font-weight:600;color:rgba(255,255,255,0.72); }
 .zakat-below-nissab { font-size:0.87rem;color:rgba(255,255,255,0.8);font-weight:600;margin-top:4px;position:relative; }
 .zakat-due-zone.non-imposable { background:linear-gradient(160deg,#450a0a 0%,#b91c1c 50%,#450a0a 100%); }
 .breakdown-row { background:var(--card);border-radius:0 0 14px 14px;padding:13px 18px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border:1px solid var(--border);border-top:none; }
@@ -276,11 +333,11 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 .b-item .b-val { font-size:0.87rem;font-weight:800;color:var(--green-deep); }
 
 /* ═══ PDF BAR ═══ */
-.pdf-bar { max-width:1080px;margin:20px auto 0;padding:0 16px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap; }
-.btn-pdf { background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:11px 26px;font-size:0.88rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);box-shadow:0 4px 14px rgba(220,38,38,0.3); }
-.btn-pdf:hover { opacity:0.9;transform:translateY(-1px); }
-.btn-print { background:linear-gradient(135deg,#374151,#1f2937);color:#fff;padding:11px 26px;font-size:0.88rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);box-shadow:0 4px 14px rgba(55,65,81,0.3); }
-.btn-print:hover { opacity:0.9;transform:translateY(-1px); }
+.pdf-bar { max-width:1080px;margin:22px auto 0;padding:0 18px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap; }
+.btn-pdf { background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#fff;padding:11px 26px;font-size:0.86rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);box-shadow:0 4px 14px rgba(184,133,31,0.4);transition:all 0.2s; }
+.btn-pdf:hover { filter:brightness(1.08);transform:translateY(-1px); }
+.btn-print { background:transparent;color:var(--text-muted);border:2px solid var(--border);padding:11px 24px;font-size:0.86rem;display:inline-flex;align-items:center;gap:7px;border-radius:var(--radius-sm);transition:all 0.2s; }
+.btn-print:hover { background:var(--text);color:#fff;border-color:var(--text);transform:translateY(-1px); }
 
 
 
@@ -339,6 +396,338 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
   .sticky-dash { display:flex!important;position:static;padding:6px 12px;margin-bottom:8px;border-radius:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact; }
   .chart-inner svg { width:140px!important;height:140px!important; }
 }
+/* Boutons d'action mobile — cachés sur desktop par défaut */
+.mob-action-bar { display: none; }
+.btn-reset-header { display: none; }
+.mob-nav { display: none; }
+
+@media (max-width: 767px) {
+
+  /* Padding body réduit + espace pour nav bar fixe */
+  body { padding-bottom: 80px; }
+
+  /* App body : une colonne, pas de débordement */
+  .app-body { padding: 0 10px; }
+
+  /* Stepper : une seule étape visible */
+  .mob-step         { display: none; }
+  .mob-step.active  { display: block; }
+
+  /* Grille 2 colonnes → 1 colonne */
+  .grid2 { grid-template-columns: 1fr !important; gap: 10px; }
+
+  /* Cartes : plus de padding pour le tactile */
+  .card { padding: 14px 14px; }
+
+  /* Inputs et selects : hauteur tactile minimum */
+  input[type="number"],
+  input[type="text"],
+  select {
+    min-height: 48px;
+    font-size: 1rem !important;
+    padding: 8px 10px !important;
+  }
+
+  /* Bouton + Ajouter */
+  .btn.btn-sm { min-height: 44px; font-size: 0.88rem; padding: 8px 14px; }
+
+  /* add-row : empiler verticalement sur petit écran */
+  .add-row {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  .add-row > div  { flex: unset !important; width: 100% !important; }
+  .add-row > button { width: 100%; }
+
+  /* Taux grid : 2 colonnes au lieu de 4 */
+  .taux-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Currency items : layout compact mobile */
+  .currency-item {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 6px;
+  }
+  .currency-item input[type="number"] {
+    flex: 1 1 90px;
+    min-width: 80px;
+  }
+  .currency-converted {
+    flex: 1 1 100%;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--green-deep);
+    font-weight: 700;
+  }
+
+  /* Tableaux Or & Liquidités : scroll horizontal */
+  #gold-table,
+  .card table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.82rem;
+  }
+  #gold-table th, #gold-table td,
+  .card table th, .card table td {
+    white-space: nowrap;
+    padding: 6px 8px;
+  }
+
+  /* Sticky dash : 2 lignes sur mobile */
+  .sticky-dash {
+    flex-wrap: wrap !important;
+    gap: 3px 4px !important;
+    padding: 7px 10px 5px !important;
+    overflow-x: unset !important;
+    justify-content: space-between;
+  }
+  .dash-sep    { display: none !important; }   /* séparateurs supprimés */
+  .dash-item {
+    flex: 1 1 calc(25% - 4px) !important;
+    min-width: 0;
+    text-align: center;
+  }
+  .dash-zakat-badge {
+    flex: 1 1 100% !important;                 /* pleine largeur, ligne 2 */
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-top: 5px;
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .d-label  { font-size: 0.52rem !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .d-val    { font-size: 0.78rem !important; }
+  .zakat-val { font-size: 1.05rem !important; }
+
+  /* PDF bar : colonne sur mobile */
+  .pdf-bar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 12px 16px;
+  }
+  .pdf-bar .btn { width: 100%; justify-content: center; }
+
+  /* Résultat : textes réduits */
+  .zakat-due-amount { font-size: 1.8rem !important; }
+  .breakdown-row    { grid-template-columns: 1fr 1fr !important; }
+
+  /* Chart section plus compact */
+  .chart-section { padding: 14px; }
+  .chart-inner   { flex-direction: column; align-items: center; gap: 12px; }
+
+  /* Formulaire date hijri : une ligne */
+  .form-row { flex-wrap: wrap; gap: 8px; }
+  .form-row .field { flex: 1 1 80px; min-width: 70px; }
+
+  /* NAV BAR MOBILE — fixée en bas */
+  .mob-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 500;
+    background: linear-gradient(135deg, #0e3320, #1a6b3c);
+    border-top: 2px solid var(--gold-border);
+    padding: 10px 12px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    box-shadow: 0 -4px 20px rgba(10,28,18,0.35);
+  }
+  .mob-nav-btn {
+    background: rgba(240,217,138,0.18);
+    border: 1.5px solid rgba(240,217,138,0.4);
+    color: var(--gold-light);
+    font-size: 1.3rem;
+    width: 46px; height: 46px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.18s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mob-nav-btn:active { background: rgba(240,217,138,0.35); }
+  .mob-nav-btn:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .mob-next {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #1c1408;
+  }
+  .mob-next:active { background: #b8851f; }
+  .mob-nav-center {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .mob-step-label {
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .mob-step-dots {
+    display: flex;
+    gap: 5px;
+  }
+  .mob-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(240,217,138,0.3);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .mob-dot.active {
+    background: var(--gold-light);
+    transform: scale(1.3);
+  }
+
+  /* PDF bar : caché sur mobile (boutons déplacés dans les étapes) */
+  .pdf-bar { display: none !important; }
+
+  /* Header compact dès step 2 */
+  .page-header.hdr-compact { padding: 7px 12px 5px; }
+  .page-header.hdr-compact .header-logo img { display: none; }
+  .page-header.hdr-compact .header-text p   { display: none; }
+  .page-header.hdr-compact .header-text h1  { font-size: 0.95rem; line-height: 1.2; }
+  .page-header.hdr-compact .header-text h1 .ar { font-size: 0.85rem; display: inline; margin: 0; }
+  .page-header.hdr-compact .header-logo { gap: 10px; }
+
+  /* Boutons d'action mobiles (dans step 1 et step 6) */
+  .mob-action-bar {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .mob-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 16px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: 2px solid transparent;
+    cursor: pointer;
+    min-height: 50px;
+    transition: opacity 0.18s;
+  }
+  .mob-action-btn:active { opacity: 0.75; }
+  .mob-btn-load  { background: #e8f5ee; color: var(--green-deep); border-color: var(--green); }
+  .mob-btn-save  { background: var(--gold-lighter); color: var(--gold-dark); border-color: var(--gold-border); }
+  .mob-btn-pdf   { background: #1a6b3c; color: #fff; border-color: #0e3320; }
+  .mob-btn-reset { background: transparent; color: var(--red); border-color: var(--red); font-size: 0.78rem; min-height: 40px; }
+
+  /* Petit bouton reset dans header */
+  .btn-reset-header {
+    background: rgba(185,28,28,0.15);
+    border: 1.5px solid rgba(185,28,28,0.5);
+    color: #fca5a5;
+    font-family: var(--font);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 99px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+}/* end @media (max-width:767px) */
+
+/* ═══ GUIDE ZAKAT — MODALE ═══ */
+.guide-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(10,28,18,0.72);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  align-items: flex-start; justify-content: center;
+  padding: 20px 12px; overflow-y: auto;
+}
+.guide-overlay.open { display: flex; }
+.guide-modal {
+  background: var(--card); border: 2px solid var(--gold-border);
+  border-radius: var(--radius); width: 100%; max-width: 720px;
+  box-shadow: 0 24px 80px rgba(10,28,18,0.55);
+  overflow: hidden; animation: guideSlideIn 0.28s ease;
+}
+@keyframes guideSlideIn {
+  from { opacity:0; transform:translateY(-18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.guide-header {
+  background: linear-gradient(135deg,#0e3320,#1a6b3c);
+  padding: 14px 18px; display: flex; align-items: center;
+  justify-content: space-between; gap: 10px; flex-wrap: wrap;
+}
+.guide-header-title { color: var(--gold-light); font-size: 1rem; font-weight: 800; }
+.guide-header-title span { font-family: var(--font-ar); color: #fff; font-size: 0.95rem; }
+.guide-lang-toggle { display: flex; gap: 6px; }
+.guide-lang-btn {
+  background: rgba(255,255,255,0.12); border: 1.5px solid rgba(240,217,138,0.35);
+  color: var(--gold-light); font-family: var(--font); font-size: 0.78rem;
+  font-weight: 700; padding: 5px 14px; border-radius: 99px; cursor: pointer;
+  transition: background 0.18s;
+}
+.guide-lang-btn.active { background: var(--gold); border-color: var(--gold); color: #1c1408; }
+.guide-close-btn {
+  background: rgba(255,255,255,0.1); border: 1.5px solid rgba(240,217,138,0.3);
+  color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+  font-size: 1rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.18s; flex-shrink: 0;
+}
+.guide-close-btn:hover { background: rgba(255,255,255,0.22); }
+.guide-body {
+  padding: 22px 26px 26px; max-height: 72vh;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 600px) { .guide-body { padding: 16px 14px 20px; } }
+.guide-content-fr { display: block; }
+.guide-content-ar { display: block; direction: rtl; text-align: right; font-family: var(--font-ar); }
+.guide-content-fr.hidden, .guide-content-ar.hidden { display: none !important; }
+.guide-body h2 {
+  font-size: 1rem; font-weight: 800; color: var(--green-deep);
+  border-left: 4px solid var(--gold); padding-left: 10px; margin: 20px 0 9px;
+}
+.guide-body h2:first-child { margin-top: 0; }
+.guide-content-ar h2 { border-left: none; border-right: 4px solid var(--gold); padding-left: 0; padding-right: 10px; }
+.guide-body p { font-size: 0.88rem; color: var(--text); line-height: 1.75; margin-bottom: 9px; }
+.guide-body ul, .guide-body ol { padding-left: 20px; margin-bottom: 9px; }
+.guide-content-ar ul, .guide-content-ar ol { padding-left: 0; padding-right: 20px; }
+.guide-body li { font-size: 0.86rem; color: var(--text); line-height: 1.7; margin-bottom: 3px; }
+.guide-body strong { color: var(--green-deep); }
+.guide-formula {
+  background: var(--gold-lighter); border: 1.5px solid var(--gold-border);
+  border-radius: var(--radius-sm); padding: 9px 15px;
+  font-family: monospace; font-size: 0.88rem; font-weight: 700;
+  color: var(--gold-dark); margin: 8px 0 12px;
+}
+.guide-warning {
+  background: #fff8e1; border-left: 4px solid #f0a500;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 8px 13px; font-size: 0.82rem; color: #7a5000; margin: 8px 0;
+}
+.guide-content-ar .guide-warning { border-left: none; border-right: 4px solid #f0a500; border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.guide-example-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 0.84rem; }
+.guide-example-table th { background: var(--bg2); color: var(--gold-dark); padding: 5px 9px; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+.guide-example-table td { padding: 5px 9px; border-bottom: 1px solid var(--border); color: var(--text); }
+.guide-example-table tr.total-row td { font-weight: 800; color: var(--green-deep); border-bottom: 2px solid var(--gold-border); background: var(--gold-lighter); }
+.guide-divider { border: none; border-top: 2px solid var(--gold-border); margin: 24px 0 18px; }
+.guide-disclaimer { background: var(--bg2); border-radius: var(--radius-sm); padding: 11px 15px; font-size: 0.79rem; color: var(--text-muted); margin-top: 16px; line-height: 1.6; }
+.btn-guide-header {
+  background: rgba(240,217,138,0.15); border: 1.5px solid rgba(240,217,138,0.45);
+  color: var(--gold-light); font-family: var(--font); font-size: 0.73rem;
+  font-weight: 700; padding: 5px 12px; border-radius: 99px; cursor: pointer;
+  transition: background 0.18s; white-space: nowrap;
+}
+.btn-guide-header:hover { background: rgba(240,217,138,0.28); }
 </style>
 </head>
 <body>
@@ -363,10 +752,163 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
       <h1>Zakat Calculator <span class="ar">حاسبة الزكاة</span></h1>
       <p>Outil de calcul et de gestion de la Zakat — أداة حساب الزكاة وإدارتها</p>
     </div>
+    <button class="btn-guide-header" onclick="openGuide('fr')" title="Guide de la Zakat / دليل الزكاة">
+      📖 Guide / دليل
+    </button>
+    <button class="btn-reset-header" id="btn-reset-header" onclick="confirmReset()" title="Réinitialiser" style="display:none;">
+      🔄 Réinit
+    </button>
   </div>
 </div>
 
-<!-- STICKY DASHBOARD -->
+<!-- ═══ GUIDE ZAKAT — MODALE ═══ -->
+<div class="guide-overlay" id="guide-overlay" onclick="guideOverlayClick(event)">
+  <div class="guide-modal" id="guide-modal">
+    <div class="guide-header">
+      <div class="guide-header-title">📖 Guide de la Zakat &nbsp;/&nbsp; <span>دليل الزكاة</span></div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div class="guide-lang-toggle">
+          <button class="guide-lang-btn active" id="btn-lang-fr" onclick="switchGuideLang('fr')">🇫🇷 Français</button>
+          <button class="guide-lang-btn" id="btn-lang-ar" onclick="switchGuideLang('ar')">AR عربي</button>
+        </div>
+        <button class="guide-close-btn" onclick="closeGuide()" title="Fermer">✕</button>
+      </div>
+    </div>
+    <div class="guide-body">
+
+      <!-- ══ CONTENU FRANÇAIS ══ -->
+      <div class="guide-content-fr" id="guide-fr">
+
+        <h2>Qu'est-ce que la Zakat ?</h2>
+        <p>La Zakat est le <strong>troisième pilier de l'Islam</strong>. C'est une obligation religieuse pour tout musulman possédant des biens qui atteignent ou dépassent un seuil minimum — appelé <strong>Nissab</strong> — pendant une année lunaire complète appelée <strong>Hawl</strong>.</p>
+        <p>Elle consiste à verser <strong>2,5 %</strong> de ses avoirs à ceux qui en ont besoin : les pauvres, les démunis, les endettés, et d'autres catégories définies par le Coran.</p>
+
+        <h2>Qui est concerné ?</h2>
+        <p>La Zakat est obligatoire pour toute personne réunissant les quatre conditions suivantes :</p>
+        <ol>
+          <li><strong>Être musulman</strong></li>
+          <li><strong>Être libre</strong> <em>(condition historique, unanimement retenue par les savants)</em></li>
+          <li><strong>Posséder le Nissab</strong> — une richesse égale ou supérieure au seuil fixé</li>
+          <li><strong>Avoir complété le Hawl</strong> — une année lunaire (~354 jours) de possession continue</li>
+        </ol>
+        <div class="guide-warning">⚠️ Si vos avoirs descendent en dessous du Nissab à un moment de l'année, le Hawl recommence à zéro.</div>
+
+        <h2>Qu'est-ce que le Nissab ?</h2>
+        <p>Le Nissab est le seuil minimum de richesse à partir duquel la Zakat devient obligatoire. Il est basé sur la valeur de <strong>85 grammes d'or pur (24 carats)</strong>.</p>
+        <p>Ce montant est exprimé en Dinars Algériens et <strong>change chaque année</strong> selon le cours de l'or. En Algérie, il est officiellement communiqué par le <strong>Ministère des Affaires Religieuses et des Wakfs</strong>.</p>
+
+        <h2>Comment est calculée la Zakat ?</h2>
+        <div class="guide-formula">Total des avoirs (DA) × 2,5 % = Zakat due</div>
+        <p>Ou de manière équivalente, plus rapide à calculer mentalement :</p>
+        <div class="guide-formula">Total des avoirs (DA) ÷ 40 = Zakat due</div>
+        <p><strong>Condition :</strong> le total doit dépasser le Nissab ET avoir été détenu pendant un Hawl complet.</p>
+        <p><strong>Exemple concret :</strong></p>
+        <table class="guide-example-table">
+          <thead><tr><th>Catégorie</th><th>Montant</th></tr></thead>
+          <tbody>
+            <tr><td>🪙 Or 18k</td><td>850 000 DA</td></tr>
+            <tr><td>💵 Liquidités</td><td>1 200 000 DA</td></tr>
+            <tr><td>💱 Devises</td><td>320 000 DA</td></tr>
+            <tr class="total-row"><td><strong>Total</strong></td><td><strong>2 370 000 DA</strong></td></tr>
+            <tr><td>Nissab</td><td>1 870 000 DA ✅</td></tr>
+            <tr class="total-row"><td><strong>Zakat due</strong></td><td><strong>59 250 DA</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h2>À qui verser la Zakat ?</h2>
+        <p>Le Coran (Sourate At-Tawbah, verset 60) définit <strong>8 catégories</strong> de bénéficiaires :</p>
+        <ol>
+          <li>Les <strong>pauvres</strong> (al-fuqarâ)</li>
+          <li>Les <strong>indigents</strong> (al-masâkîn)</li>
+          <li>Les <strong>collecteurs</strong> de Zakat</li>
+          <li>Ceux dont on cherche à <strong>gagner les cœurs</strong></li>
+          <li>Les esclaves cherchant à s'affranchir <em>(contexte historique)</em></li>
+          <li>Les <strong>endettés</strong> (al-ghârimûn)</li>
+          <li>La <strong>voie d'Allah</strong> (fî sabîlillâh)</li>
+          <li>Les <strong>voyageurs en détresse</strong> (ibn as-sabîl)</li>
+        </ol>
+        <p>En pratique, la Zakat est souvent remise directement à des personnes dans le besoin dans son entourage, ou via des associations reconnues.</p>
+
+        <h2>Conseils pratiques</h2>
+        <ul>
+          <li>Choisissez <strong>une date islamique fixe</strong> chaque année — par exemple le <strong>1er Ramadan</strong> ou le <strong>10 Mouharram (Achoura)</strong> — pour évaluer vos avoirs.<br><span style="color:var(--text-muted);font-size:0.82rem;">⚠️ Ne vous fiez jamais à une date grégorienne fixe : le calendrier lunaire se décale d'environ 11 jours chaque année.</span></li>
+          <li>Mettez à jour le <strong>Nissab</strong> chaque année selon les annonces officielles du Ministère.</li>
+          <li>En cas de doute sur quoi que ce soit, <strong>référez-vous toujours à un savant ou un imam compétent</strong>. Ne vous fiez pas uniquement à cet outil.</li>
+        </ul>
+
+        <div class="guide-disclaimer">
+          ℹ️ Ce guide couvre les cas les plus courants. Certains sujets ont été volontairement exclus pour rester accessible : zakat sur les actions boursières, l'immobilier locatif, la déduction des dettes, les différences entre madhabs, et la Zakat al-Fitr. En cas de situation particulière, consultez un spécialiste.
+        </div>
+      </div>
+
+      <!-- ══ CONTENU ARABE ══ -->
+      <div class="guide-content-ar hidden" id="guide-ar">
+
+        <h2>ما هي الزكاة؟</h2>
+        <p>الزكاة هي <strong>الركن الثالث من أركان الإسلام</strong>، وهي فريضة واجبة على كل مسلم يملك <strong>نصاباً</strong> من المال أو الذهب، وحال عليه <strong>الحول</strong> — أي مرّت عليه سنة قمرية كاملة.</p>
+        <p>وتتمثّل في إخراج <strong>2.5%</strong> من مجموع الأموال الزكوية وإعطائها للمستحقين، كما حددهم القرآن الكريم.</p>
+
+        <h2>من تجب عليه الزكاة؟</h2>
+        <p>تجب الزكاة على كل مسلم توافرت فيه الشروط الأربعة التالية :</p>
+        <ol>
+          <li><strong>الإسلام</strong></li>
+          <li><strong>الحرية</strong> <em>(شرط متفق عليه عند الفقهاء)</em></li>
+          <li><strong>ملك النصاب</strong> — أن يبلغ ماله الحدَّ الأدنى المقرر شرعاً</li>
+          <li><strong>حولان الحول</strong> — مرور سنة قمرية كاملة (~354 يوماً) على ملك النصاب</li>
+        </ol>
+        <div class="guide-warning">⚠️ إذا نقص المال عن النصاب في أي وقت خلال السنة، يبدأ حساب الحول من جديد.</div>
+
+        <h2>ما هو النصاب؟</h2>
+        <p>النصاب هو الحدُّ الأدنى من المال الذي تجب فيه الزكاة، ويُقدَّر بـ <strong>85 غراماً من الذهب الخالص (عيار 24)</strong>.</p>
+        <p>يُعبَّر عنه بالدينار الجزائري ويتغيَّر من سنة إلى أخرى تبعاً لسعر الذهب. في الجزائر، يُعلن عنه رسمياً <strong>وزارة الشؤون الدينية والأوقاف</strong>.</p>
+
+        <h2>كيف تُحسب الزكاة؟</h2>
+        <div class="guide-formula">مجموع الأموال الزكوية (دج) × 2.5% = الزكاة الواجبة</div>
+        <p>أو بصورة مكافئة وأسهل للحساب الذهني :</p>
+        <div class="guide-formula">مجموع الأموال الزكوية (دج) ÷ 40 = الزكاة الواجبة</div>
+        <p><strong>الشرط :</strong> أن يبلغ المجموع النصابَ، وأن يحول عليه الحول كاملاً.</p>
+        <p><strong>مثال عملي :</strong></p>
+        <table class="guide-example-table">
+          <thead><tr><th>الفئة</th><th>المبلغ</th></tr></thead>
+          <tbody>
+            <tr><td>🪙 ذهب عيار 18</td><td>850,000 دج</td></tr>
+            <tr><td>💵 سيولة</td><td>1,200,000 دج</td></tr>
+            <tr><td>💱 عملات أجنبية</td><td>320,000 دج</td></tr>
+            <tr class="total-row"><td><strong>المجموع</strong></td><td><strong>2,370,000 دج</strong></td></tr>
+            <tr><td>النصاب</td><td>1,870,000 دج ✅</td></tr>
+            <tr class="total-row"><td><strong>الزكاة الواجبة</strong></td><td><strong>59,250 دج</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h2>من يستحق الزكاة؟</h2>
+        <p>حدَّد القرآن الكريم (سورة التوبة، الآية 60) <strong>ثمانية أصناف</strong> من المستحقين :</p>
+        <ol>
+          <li><strong>الفقراء</strong></li>
+          <li><strong>المساكين</strong></li>
+          <li><strong>العاملون عليها</strong> (جامعو الزكاة)</li>
+          <li><strong>المؤلَّفة قلوبهم</strong></li>
+          <li>في الرقاب <em>(السياق التاريخي)</em></li>
+          <li><strong>الغارمون</strong> (المدينون العاجزون)</li>
+          <li><strong>في سبيل الله</strong></li>
+          <li><strong>ابن السبيل</strong> (المسافر المنقطع)</li>
+        </ol>
+        <p>في الغالب، تُسلَّم الزكاة مباشرةً لمحتاجين من المعارف والجيران، أو عبر جمعيات خيرية موثوقة.</p>
+
+        <h2>نصائح عملية</h2>
+        <ul>
+          <li>اختر <strong>تاريخاً هجرياً ثابتاً</strong> كل عام — كـ<strong>أول رمضان</strong> أو <strong>عاشوراء (10 محرم)</strong> — لتقييم أموالك.<br><span style="color:var(--text-muted);font-size:0.82rem;">⚠️ لا تعتمد أبداً على تاريخ ميلادي ثابت : التقويم القمري يتقدم ~11 يوماً سنوياً عن التقويم الشمسي.</span></li>
+          <li>جدِّد قيمة <strong>النصاب</strong> سنوياً وفق الإعلانات الرسمية للوزارة.</li>
+          <li>عند الشك في أي شيء، <strong>ارجع دائماً إلى عالم أو إمام متخصص</strong>. لا تعتمد على هذه الأداة وحدها.</li>
+        </ul>
+
+        <div class="guide-disclaimer">
+          ℹ️ يغطّي هذا الدليل الحالات الأكثر شيوعاً. تمّ استبعاد بعض المواضيع قصداً للتبسيط : زكاة الأسهم، العقارات المؤجَّرة، خصم الديون، الفروق بين المذاهب، وزكاة الفطر. في حالات خاصة، استشر متخصصاً.
+        </div>
+      </div>
+
+    </div><!-- /guide-body -->
+  </div><!-- /guide-modal -->
+</div><!-- /guide-overlay -->
 <div class="sticky-dash">
   <div class="dash-item">
     <div class="d-label">🪙 Or 18k</div>
@@ -396,8 +938,8 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 
 <div class="app-body">
 
-<!-- ROW 1 : Date + Nissab -->
-<div class="grid2">
+<!-- ═══ STEP 1 : Date + Nissab ═══ -->
+<div class="mob-step active" data-step="1">
 
   <div class="card">
     <div class="card-title"><span>📅</span> Échéance Hawl <span class="ar">/ تاريخ اكتمال الحول</span></div>
@@ -430,8 +972,18 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
     </div>
   </div>
 
-</div>
+</div><!-- /grid2 step1 -->
+  <!-- Bouton charger (mobile uniquement) -->
+  <div class="mob-action-bar" id="mob-step1-actions">
+    <button class="mob-action-btn mob-btn-load" onclick="document.getElementById('load-input-mob').click()">
+      📂 Charger une sauvegarde
+    </button>
+    <input type="file" id="load-input-mob" accept=".json" style="display:none" onchange="loadFromFile(event)">
+  </div>
+</div><!-- /mob-step 1 -->
 
+<!-- ═══ STEP 2 : Paramètres ═══ -->
+<div class="mob-step" data-step="2">
 <!-- Paramètres Globaux — pleine largeur -->
 <div class="card" style="margin-bottom:14px;">
   <div class="card-title" onclick="toggleAccordion(this)" style="cursor:pointer;user-select:none;">
@@ -450,16 +1002,19 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
       </div>
       <div class="field">
         <label>Taux Dollar (DA/$)</label>
-        <input type="number" id="rate-usd" value="260" oninput="handleInput(this);recalculate()">
+        <input type="number" id="rate-usd" value="250" oninput="handleInput(this);recalculate()">
       </div>
       <div class="field">
         <label>Taux Riyal SAR (DA)</label>
-        <input type="number" id="rate-sar" value="55" oninput="handleInput(this);recalculate()">
+        <input type="number" id="rate-sar" value="65" oninput="handleInput(this);recalculate()">
       </div>
     </div>
   </div>
-</div>
+</div><!-- /card params -->
+</div><!-- /mob-step 2 -->
 
+<!-- ═══ STEP 3 : Devises ═══ -->
+<div class="mob-step" data-step="3">
 <!-- Avoirs en Devises — pleine largeur -->
 <div class="card" style="margin-bottom:14px;">
   <div class="card-title"><span>💱</span> Avoirs en Devises <span class="ar">/ الأموال بالعملات الأجنبية</span></div>
@@ -468,21 +1023,21 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
       <span class="currency-flag">🇪🇺</span>
       <span class="currency-name">Euro</span>
       <span class="currency-rate" id="show-eur-rate">290 DA/€</span>
-      <input type="number" id="eur-amount" value="0" oninput="handleInput(this);recalculate()" min="0">
+      <input type="number" id="eur-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0">
       <span class="currency-converted" id="eur-converted">= 0 DA</span>
     </div>
     <div class="currency-item">
       <span class="currency-flag">🇺🇸</span>
       <span class="currency-name">Dollar</span>
-      <span class="currency-rate" id="show-usd-rate">260 DA/$</span>
-      <input type="number" id="usd-amount" value="0" oninput="handleInput(this);recalculate()" min="0">
+      <span class="currency-rate" id="show-usd-rate">250 DA/$</span>
+      <input type="number" id="usd-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0">
       <span class="currency-converted" id="usd-converted">= 0 DA</span>
     </div>
     <div class="currency-item">
       <span class="currency-flag">🇸🇦</span>
       <span class="currency-name">Riyal SAR</span>
-      <span class="currency-rate" id="show-sar-rate">55 DA/SAR</span>
-      <input type="number" id="sar-amount" value="0" oninput="handleInput(this);recalculate()" min="0">
+      <span class="currency-rate" id="show-sar-rate">65 DA/SAR</span>
+      <input type="number" id="sar-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0">
       <span class="currency-converted" id="sar-converted">= 0 DA</span>
     </div>
 
@@ -491,7 +1046,7 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
       <span class="currency-flag">🌐</span>
       <input type="text" id="custom-name" placeholder="Autre devise" style="flex:1.2;min-width:0;font-size:0.82rem;font-weight:700;" oninput="recalculate()">
       <input type="number" id="custom-rate" value="" placeholder="Taux DA" class="rate-input" oninput="handleInput(this);recalculate()" style="width:80px;flex:none;">
-      <input type="number" id="custom-amount" value="0" oninput="handleInput(this);recalculate()" min="0" style="flex:1;min-width:0;">
+      <input type="number" id="custom-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0" style="flex:1;min-width:0;">
       <span class="currency-converted" id="custom-converted">= 0 DA</span>
     </div>
 
@@ -500,8 +1055,11 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
       <span style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">💱 Total Devises</span>
       <span id="devises-total-da" style="font-size:1rem;font-weight:900;color:var(--green-deep);">0 DA</span>
     </div>
-</div>
+</div><!-- /card devises -->
+</div><!-- /mob-step 3 -->
 
+<!-- ═══ STEP 4 : Or ═══ -->
+<div class="mob-step" data-step="4">
 <!-- Avoirs en Or — pleine largeur -->
 <div class="card" style="margin-bottom:14px;">
   <div class="card-title">
@@ -549,8 +1107,11 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
       </tr>
     </tfoot>
   </table>
-</div>
+</div><!-- /card or -->
+</div><!-- /mob-step 4 -->
 
+<!-- ═══ STEP 5 : Liquidités ═══ -->
+<div class="mob-step" data-step="5">
 <!-- ROW 4 : Liquidités -->
 <div class="card" style="margin-bottom:14px;">
   <div class="card-title"><span>💼</span> Liquidités en DA <span class="ar">/ السيولة بالدينار</span></div>
@@ -578,8 +1139,11 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
       </tr>
     </tfoot>
   </table>
-</div>
+</div><!-- /card liquidités -->
+</div><!-- /mob-step 5 -->
 
+<!-- ═══ STEP 6 : Résultat ═══ -->
+<div class="mob-step" data-step="6">
 <!-- CAMEMBERT -->
 <div class="chart-section" id="chart-section">
   <div class="card-title"><span>📊</span> Répartition des Avoirs <span class="ar">/ توزيع الأصول</span></div>
@@ -591,7 +1155,31 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 <!-- RÉSULTAT FINAL -->
 <div id="summary-badge"></div>
 
+  <!-- Boutons d'action (mobile uniquement) -->
+  <div class="mob-action-bar" id="mob-step6-actions">
+    <button class="mob-action-btn mob-btn-save" onclick="saveToFile()">
+      💾 Sauvegarder les données
+    </button>
+    <button class="mob-action-btn mob-btn-pdf" onclick="exportPDF()">
+      📄 Exporter en PDF (A4)
+    </button>
+    <button class="mob-action-btn mob-btn-reset" onclick="confirmReset()">
+      🔄 Réinitialiser toutes les données
+    </button>
+  </div>
+</div><!-- /mob-step 6 -->
+
 </div><!-- /app-body -->
+
+<!-- ═══ MOBILE NAV BAR ═══ -->
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-nav-btn" id="mob-prev" onclick="mobStep(-1)" aria-label="Précédent">⬅</button>
+  <div class="mob-nav-center">
+    <div class="mob-step-label" id="mob-step-label">📅 Date & Nissab</div>
+    <div class="mob-step-dots" id="mob-step-dots"></div>
+  </div>
+  <button class="mob-nav-btn mob-next" id="mob-next" onclick="mobStep(1)" aria-label="Suivant">➡</button>
+</div>
 
 <!-- PDF BAR -->
 <div class="pdf-bar">
@@ -673,14 +1261,35 @@ function saveSession() {
 function restoreSession() {
   const raw = localStorage.getItem('zakat_session');
   if (!raw) return;
-  const d = JSON.parse(raw);
+  let d;
+  // [v2.000] Validation schéma : JSON corrompu ou incompatible → réinitialisation propre
+  try {
+    d = JSON.parse(raw);
+    if (typeof d !== 'object' || d === null) throw new Error('Not an object');
+    // goldItems doit être un tableau de {name, weight, carat}
+    if (!Array.isArray(d.goldItems)) d.goldItems = [];
+    d.goldItems = d.goldItems.filter(function(it) {
+      return it && typeof it.weight === 'number' && it.weight > 0
+                && typeof it.carat  === 'number' && [14,18,21,24].indexOf(it.carat) !== -1;
+    });
+    // liquidItems doit être un tableau de {name, amount}
+    if (!Array.isArray(d.liquidItems)) d.liquidItems = [];
+    d.liquidItems = d.liquidItems.filter(function(it) {
+      return it && typeof it.amount === 'number' && it.amount >= 0;
+    });
+  } catch(e) {
+    console.warn('[v2.000] Session corrompue — réinitialisation:', e);
+    localStorage.removeItem('zakat_session');
+    showToast('⚠️ Session précédente invalide — réinitialisée', 'error', 4000);
+    return;
+  }
   goldItems = d.goldItems || [];
   liquidItems = d.liquidItems || [];
   document.getElementById('nissab').value = d.nissab || 1615000;
   document.getElementById('gold-price').value = d.goldPrice || 25000;
   document.getElementById('rate-eur').value = d.rateEur || 290;
-  document.getElementById('rate-usd').value = d.rateUsd || 260;
-  document.getElementById('rate-sar').value = d.rateSar || 55;
+  document.getElementById('rate-usd').value = d.rateUsd || 250;
+  document.getElementById('rate-sar').value = d.rateSar || 65;
   document.getElementById('custom-name').value = d.customName || '';
   document.getElementById('custom-rate').value = d.customRate || '';
   document.getElementById('custom-amount').value = d.customAmount || 0;
@@ -706,8 +1315,8 @@ function confirmReset() {
   document.getElementById('nissab').value = 1615000;
   document.getElementById('gold-price').value = 25000;
   document.getElementById('rate-eur').value = 290;
-  document.getElementById('rate-usd').value = 260;
-  document.getElementById('rate-sar').value = 55;
+  document.getElementById('rate-usd').value = 250;
+  document.getElementById('rate-sar').value = 65;
   document.getElementById('custom-name').value = '';
   document.getElementById('custom-rate').value = '';
   document.getElementById('custom-amount').value = 0;
@@ -812,6 +1421,7 @@ function addGoldRow() {
   document.getElementById('new-gold-name').value='';
   document.getElementById('new-gold-weight').value='';
   document.getElementById('new-gold-carat').value='18';
+  playSuccessSound();
   recalculate(); saveSession();
 }
 
@@ -830,6 +1440,7 @@ function addGoldFromConverter() {
   goldItems.push({name:`Bijou ${carat}k`, carat, weight:w});
   document.getElementById('conv-weight').value='';
   document.getElementById('conv-result').textContent=`✅ Ajouté : ${w} g en ${carat}k`;
+  playSuccessSound();
   recalculate(); saveSession();
 }
 
@@ -859,6 +1470,7 @@ function addLiquidRow() {
   liquidItems.push({name,amount:a});
   document.getElementById('new-liquid-name').value='';
   document.getElementById('new-liquid-amount').value='';
+  playSuccessSound();
   recalculate(); saveSession();
 }
 
@@ -867,8 +1479,8 @@ function addLiquidRow() {
 // ============================================================
 function calcDevises() {
   const rEur=parseFloat(document.getElementById('rate-eur').value)||290;
-  const rUsd=parseFloat(document.getElementById('rate-usd').value)||260;
-  const rSar=parseFloat(document.getElementById('rate-sar').value)||55;
+  const rUsd=parseFloat(document.getElementById('rate-usd').value)||250;
+  const rSar=parseFloat(document.getElementById('rate-sar').value)||65;
   document.getElementById('show-eur-rate').textContent=rEur+' DA/€';
   document.getElementById('show-usd-rate').textContent=rUsd+' DA/$';
   document.getElementById('show-sar-rate').textContent=rSar+' DA/SAR';
@@ -963,7 +1575,8 @@ function recalculate() {
   const total = goldDA + liquidDA + devisesDA;
   const nissab = parseFloat(document.getElementById('nissab').value)||1615000;
   const imposable = total >= nissab;
-  const zakat = imposable ? total*0.025 : 0;
+  // [v2.000] Math.ceil : arrondi au surplus — jamais en défaveur du bénéficiaire
+  const zakat = imposable ? Math.ceil(total * 0.025) : 0;
 
   // Sticky dash
   document.getElementById('dash-gold').textContent    = fmtNum(Math.round(goldDA))+' DA';
@@ -1069,8 +1682,10 @@ function recalculate() {
   }
 
   async function exportPDF() {
-  const btn = document.querySelector('.btn-pdf');
-  btn.textContent = '⏳ Génération en cours...';
+  const btn = document.querySelector('.btn-pdf') || document.querySelector('.mob-btn-pdf');
+  if (!btn) return;
+  const origLabel = btn.innerHTML;
+  btn.innerHTML = '⏳ Génération...';
   btn.disabled = true;
 
   try {
@@ -1078,8 +1693,8 @@ function recalculate() {
     const nissab    = parseFloat(document.getElementById('nissab').value) || 1615000;
     const goldPrice = parseFloat(document.getElementById('gold-price').value) || 25000;
     const rEur      = parseFloat(document.getElementById('rate-eur').value) || 290;
-    const rUsd      = parseFloat(document.getElementById('rate-usd').value) || 260;
-    const rSar      = parseFloat(document.getElementById('rate-sar').value) || 55;
+    const rUsd      = parseFloat(document.getElementById('rate-usd').value) || 250;
+    const rSar      = parseFloat(document.getElementById('rate-sar').value) || 65;
     const eurAmt    = parseFloat(document.getElementById('eur-amount').value) || 0;
     const usdAmt    = parseFloat(document.getElementById('usd-amount').value) || 0;
     const sarAmt    = parseFloat(document.getElementById('sar-amount').value) || 0;
@@ -1263,10 +1878,26 @@ td {
 @media print {
   body { padding:7mm 9mm; }
   @page { size:A4 portrait; margin:0; }
+  .pdf-action-bar { display:none !important; }
 }
 </style>
 </head>
 <body>
+
+<!-- BARRE D'ACTION — masquée à l'impression -->
+<div class="pdf-action-bar" style="position:sticky;top:0;z-index:999;background:#f0f0f0;border-bottom:2px solid #d4a843;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+  <div style="flex:1;min-width:180px;">
+    <div style="font-size:13px;font-weight:700;color:#0e3320;">📄 Votre document est prêt</div>
+    <div style="font-size:11px;color:#555;margin-top:2px;">Cliquez sur <strong>Enregistrer en PDF</strong> puis choisissez l'emplacement de sauvegarde.</div>
+  </div>
+  <button onclick="window.print()" style="background:#1a6b3c;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;">
+    💾 Enregistrer en PDF
+  </button>
+  <button onclick="window.close()" style="background:#fff;color:#555;border:1.5px solid #ccc;padding:10px 16px;border-radius:8px;font-size:13px;cursor:pointer;white-space:nowrap;">
+    ✕ Fermer
+  </button>
+</div>
+
 <div class="wrap">
 
   <!-- ═══ EN-TÊTE ═══ -->
@@ -1279,7 +1910,7 @@ td {
       <div style="font-size:9px;color:#c8b86a;margin-top:3px;">
         Outil de calcul de la Zakat — أداة حساب الزكاة وإدارتها
       </div>
-      <!-- Message Sadaqa sous le logo -->
+      <!-- Message Sadaqa -->
       <div style="-webkit-print-color-adjust:exact;print-color-adjust:exact;margin-top:6px;background:#1a4a30;border-radius:5px;padding:5px 9px;max-width:360px;">
         <div style="font-family:'Amiri',serif;font-size:10px;color:#f0d98a;line-height:1.7;direction:rtl;text-align:right;">
           انشر هذا التطبيق كصدقة جارية عني وعن والديّ، ولك الأجر ولوالديك. لا تنسونا من صالح دعائكم
@@ -1450,21 +2081,21 @@ td {
     // Ouvrir dans fenêtre popup et déclencher l'impression/sauvegarde PDF
     const win = window.open('', '_blank', 'width=900,height=700');
     if (!win) {
-      alert('Veuillez autoriser les popups pour ce site afin de générer le PDF.');
+      showToast('⚠️ Autorisez les popups pour exporter le PDF', 'error', 4000);
       return;
     }
     win.document.open();
     win.document.write(html);
     win.document.close();
 
-    // Attendre le chargement des polices puis imprimer
+    // Attendre le chargement des polices (Tajawal + Amiri) puis imprimer
     win.onload = function() {
       setTimeout(function() {
         win.focus();
         win.print();
       }, 800);
     };
-    // Fallback si onload ne se déclenche pas (Safari)
+    // Fallback Safari iOS (onload parfois non déclenché)
     setTimeout(function() {
       if (win && !win.closed) {
         win.focus();
@@ -1473,9 +2104,10 @@ td {
     }, 1500);
 
   } catch(e) {
-    alert('Erreur lors de la génération : ' + e.message);
+    showToast('❌ Erreur PDF : ' + e.message, 'error');
+    console.error('exportPDF:', e);
   } finally {
-    btn.innerHTML = '📄 Exporter en PDF (A4)';
+    btn.innerHTML = origLabel;
     btn.disabled = false;
   }
 }
@@ -1600,10 +2232,174 @@ function initExtras() {
 }
 
 // ============================================================
-// INIT
+// MOBILE STEPPER — v2.000
 // ============================================================
+var MOB_STEPS = [
+  { label: '📅 Date & Nissab — التاريخ والنصاب' },
+  { label: '⚙️ Paramètres — الإعدادات'          },
+  { label: '💱 Devises — العملات'                },
+  { label: '🪙 Or & Bijoux — الذهب'              },
+  { label: '💼 Liquidités — السيولة'             },
+  { label: '📊 Résultat — النتيجة'               }
+];
+var mobCurrent = 1;
+var _prevWidth = window.innerWidth; // [fix] surveiller largeur uniquement
+
+function isMobile() {
+  return window.innerWidth < 768;
+}
+
+function initMobileStepper() {
+  if (!isMobile()) return;
+
+  // Afficher bouton reset dans header
+  var resetBtn = document.getElementById('btn-reset-header');
+  if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+  // Initialiser les dots
+  var dotsEl = document.getElementById('mob-step-dots');
+  dotsEl.innerHTML = '';
+  MOB_STEPS.forEach(function(_, i) {
+    var d = document.createElement('div');
+    d.className = 'mob-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('data-dot', i + 1);
+    d.onclick = function() { goToMobStep(i + 1); };
+    dotsEl.appendChild(d);
+  });
+  goToMobStep(mobCurrent);
+}
+
+function goToMobStep(n) {
+  var steps = document.querySelectorAll('.mob-step');
+  steps.forEach(function(el) { el.classList.remove('active'); });
+  var target = document.querySelector('.mob-step[data-step="' + n + '"]');
+  if (target) target.classList.add('active');
+  mobCurrent = n;
+
+  // Label bilingue
+  document.getElementById('mob-step-label').textContent =
+    '(' + n + '/' + MOB_STEPS.length + ') ' + MOB_STEPS[n - 1].label;
+
+  // Dots
+  document.querySelectorAll('.mob-dot').forEach(function(d) {
+    d.classList.toggle('active', parseInt(d.getAttribute('data-dot')) === n);
+  });
+
+  // Boutons prev/next — icônes fixes ⬅ / ➡, seul disabled change
+  var prevBtn = document.getElementById('mob-prev');
+  var nextBtn = document.getElementById('mob-next');
+  prevBtn.disabled = (n === 1);
+  nextBtn.disabled = (n === MOB_STEPS.length);
+  nextBtn.textContent = (n === MOB_STEPS.length) ? '✅' : '➡';
+
+  // Header compact dès step 2
+  var hdr = document.querySelector('.page-header');
+  if (hdr) hdr.classList.toggle('hdr-compact', n > 1);
+
+  // Recalcul à chaque changement (sync dashboard)
+  try { recalculate(); } catch(e) {}
+}
+
+function mobStep(dir) {
+  var next = mobCurrent + dir;
+  if (next >= 1 && next <= MOB_STEPS.length) goToMobStep(next);
+}
+
+// [fix] Re-init au resize en surveillant UNIQUEMENT la largeur
+window.addEventListener('resize', function() {
+  var newWidth = window.innerWidth;
+  if (newWidth === _prevWidth) return; // clavier virtuel → hauteur seule → ignoré
+  _prevWidth = newWidth;
+
+  if (isMobile()) {
+    initMobileStepper();
+  } else {
+    document.querySelectorAll('.mob-step').forEach(function(el) {
+      el.classList.add('active');
+    });
+    var hdr = document.querySelector('.page-header');
+    if (hdr) hdr.classList.remove('hdr-compact');
+    var resetBtn = document.getElementById('btn-reset-header');
+    if (resetBtn) resetBtn.style.display = 'none';
+  }
+});
+
+// ============================================================
+// SON — Double ding Option B (Web Audio API)
+// ============================================================
+var _audioCtx = null;
+function _getAudioCtx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (_audioCtx.state === 'suspended') _audioCtx.resume();
+  return _audioCtx;
+}
+function playSuccessSound() {
+  try {
+    var c = _getAudioCtx();
+    var t = c.currentTime;
+    [[660, t, 0.10], [880, t + 0.11, 0.12]].forEach(function(p) {
+      var o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(p[0], p[1]);
+      g.gain.setValueAtTime(0.28, p[1]);
+      g.gain.exponentialRampToValueAtTime(0.001, p[1] + p[2]);
+      o.start(p[1]); o.stop(p[1] + p[2]);
+    });
+  } catch(e) { /* audio non disponible, on ignore silencieusement */ }
+}
+
+// ============================================================
+// GUIDE ZAKAT — v2.000
+// ============================================================
+function openGuide(lang) {
+  document.getElementById('guide-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchGuideLang(lang || 'fr');
+}
+function closeGuide() {
+  document.getElementById('guide-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function guideOverlayClick(e) {
+  // Fermer si clic sur le fond (pas sur la modale elle-même)
+  if (e.target === document.getElementById('guide-overlay')) closeGuide();
+}
+function switchGuideLang(lang) {
+  var frEl = document.getElementById('guide-fr');
+  var arEl = document.getElementById('guide-ar');
+  var btnFr = document.getElementById('btn-lang-fr');
+  var btnAr = document.getElementById('btn-lang-ar');
+  if (lang === 'ar') {
+    frEl.classList.add('hidden');
+    arEl.classList.remove('hidden');
+    btnFr.classList.remove('active');
+    btnAr.classList.add('active');
+    document.getElementById('guide-modal').style.direction = 'rtl';
+  } else {
+    arEl.classList.add('hidden');
+    frEl.classList.remove('hidden');
+    btnAr.classList.remove('active');
+    btnFr.classList.add('active');
+    document.getElementById('guide-modal').style.direction = 'ltr';
+  }
+  document.querySelector('.guide-body').scrollTop = 0;
+}
+// Fermeture au Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeGuide();
+});
 initDateSelectors();
 convertHijriToGregorian();
+
+// [v2.000] Mobile stepper init
+if (isMobile()) {
+  initMobileStepper();
+} else {
+  document.querySelectorAll('.mob-step').forEach(function(el) {
+    el.classList.add('active');
+  });
+}
 
 // Restauration automatique de la session sauvegardée
 const saved = localStorage.getItem('zakat_session');

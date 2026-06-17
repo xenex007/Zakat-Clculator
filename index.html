@@ -305,6 +305,78 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 .legend-text .l-pct { font-size:0.75rem;color:var(--text-muted);margin-left:4px; }
 .chart-empty { text-align:center;color:var(--text-muted);font-size:0.85rem;padding:20px;font-style:italic; }
 
+/* ═══ JAUGE NISSAB — v2.001 ═══ */
+.gauge-card { margin-bottom:14px; }
+.gauge-head { display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px; }
+.gauge-title { font-size:0.8rem;font-weight:700;color:var(--green-deep);text-transform:uppercase;letter-spacing:0.03em; }
+.gauge-title .ar { font-family:var(--font-ar);color:var(--gold-dark);text-transform:none;letter-spacing:0;font-size:0.9rem; }
+.gauge-pct { font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--gold-dark);line-height:1; }
+.gauge-track { position:relative;height:18px;background:var(--bg2);border-radius:99px;overflow:hidden;border:1px solid var(--border); }
+.gauge-fill { height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-light));box-shadow:0 0 12px rgba(184,133,31,0.4);transition:width 0.6s cubic-bezier(0.22,1,0.36,1),background 0.4s; }
+.gauge-card.reached .gauge-fill { background:linear-gradient(90deg,#16a34a,#22c55e);box-shadow:0 0 12px rgba(22,163,74,0.5); }
+.gauge-card.reached .gauge-pct { color:var(--green); }
+.gauge-labels { display:flex;justify-content:space-between;margin-top:7px;font-size:0.74rem;font-weight:700;color:var(--text-muted); }
+.gauge-note { margin-top:6px;font-size:0.79rem;font-weight:700;color:var(--gold-dark); }
+.gauge-card.reached .gauge-note { color:var(--green); }
+@media (prefers-reduced-motion: reduce) { .gauge-fill { transition:none; } }
+
+/* ═══ CHIPS SAISIE RAPIDE — v2.001 ═══ */
+.quick-chips { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px; }
+.chip { background:var(--gold-lighter);border:1.5px solid var(--gold-light);color:var(--gold-dark);font-family:var(--font);font-size:0.76rem;font-weight:700;padding:6px 12px;border-radius:99px;cursor:pointer;transition:all 0.18s;min-height:34px; }
+.chip:hover { background:var(--gold-light);border-color:var(--gold-border); }
+.chip:active { transform:scale(0.96); }
+@media (max-width:767px){ .chip{ min-height:40px; font-size:0.82rem; padding:8px 14px; } }
+
+/* ═══ INFOBULLES ⓘ — v2.001 (clic, iOS-safe) ═══ */
+.info-wrap { position:relative; display:inline-flex; vertical-align:middle; }
+.info-btn { background:var(--gold-lighter);border:1.5px solid var(--gold-light);color:var(--gold-dark);width:18px;height:18px;border-radius:50%;font-size:0.7rem;font-weight:800;font-style:italic;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0;font-family:Georgia,serif; }
+.info-btn:hover { background:var(--gold-light); }
+.info-bubble {
+  position:fixed; left:0; top:0;
+  width:250px; max-width:88vw; background:#0f3d22; color:#fff;
+  font-size:0.76rem; font-weight:500; line-height:1.55; text-transform:none; letter-spacing:0;
+  padding:10px 13px; border-radius:10px; box-shadow:0 8px 26px rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.08);
+  opacity:0; pointer-events:none; transition:opacity 0.18s; z-index:9998;
+}
+.info-bubble::after { content:'';position:absolute;top:100%;left:var(--arrow-x,50%);transform:translateX(-50%);border:6px solid transparent;border-top-color:#0f3d22; }
+.info-bubble.below::after { top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:#0f3d22; }
+.info-bubble.show { opacity:1; pointer-events:auto; }
+
+/* ═══ ÉTATS VIDES — v2.001 ═══ */
+.empty-row td { text-align:center !important;color:var(--text-muted);font-style:italic;padding:18px 10px !important;background:transparent !important;font-size:0.8rem;white-space:normal !important; }
+.empty-row:hover td { background:transparent !important; }
+
+/* ═══ ÉDITION INLINE — v2.001 ═══ */
+.editable-cell { cursor:pointer; transition:background 0.15s; }
+.editable-cell:hover { background:var(--gold-lighter) !important; }
+.edit-pencil { opacity:0.4; font-size:0.85em; margin-left:5px; }
+.editable-cell:hover .edit-pencil { opacity:0.8; }
+.inline-edit {
+  width:96px !important; min-width:74px; padding:5px 8px !important; margin:0 !important;
+  font-size:16px !important;            /* iOS : ≥16px → pas de zoom au focus */
+  font-family:var(--font); font-weight:700;
+  border:1.5px solid var(--gold) !important; border-radius:8px;
+  background:#fff; color:var(--text); -webkit-text-fill-color:var(--text);
+  box-shadow:0 0 0 3px rgba(201,150,42,0.15); outline:none;
+}
+html[data-theme="dark"] .inline-edit { background:#2a2316; }
+
+/* ═══ HISTORIQUE ANNUEL — v2.001 ═══ */
+.hist-compare { display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 13px;border-radius:var(--radius-sm);font-size:0.85rem;margin-bottom:11px; }
+.hist-compare.up { background:var(--green-light);color:var(--green-deep);border:1px solid #bfe3cd; }
+.hist-compare.down { background:#fff4f4;color:#b91c1c;border:1px solid #f3c9c9; }
+.hist-compare strong { font-size:0.95rem; }
+.hist-pct { font-weight:700;opacity:0.85; }
+.hist-hint { background:var(--gold-lighter);border:1px solid var(--gold-light);color:var(--gold-dark);padding:9px 13px;border-radius:var(--radius-sm);font-size:0.8rem;margin-bottom:11px;line-height:1.5; }
+.hist-empty { color:var(--text-muted);font-style:italic;font-size:0.83rem;padding:8px 0; }
+.hist-table { width:100%;font-size:0.82rem; }
+.hist-current td { background:var(--gold-lighter) !important;font-weight:700; }
+.hist-badge { font-size:0.62rem;background:var(--green);color:#fff;padding:1px 7px;border-radius:99px;font-weight:700;vertical-align:middle;margin-left:5px; }
+.history-actions { margin-top:11px; }
+html[data-theme="dark"] .hist-compare.up { background:#163020;border-color:#27502f; }
+html[data-theme="dark"] .hist-compare.down { background:#3a1414;border-color:#5a2020;color:#fca5a5; }
+
 /* ═══ RÉSULTAT FINAL ═══ */
 .status-band { border-radius:14px 14px 0 0;padding:16px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap; }
 .status-band.imposable { background:linear-gradient(135deg,#064e27,#1a6b3c); }
@@ -728,7 +800,73 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
   transition: background 0.18s; white-space: nowrap;
 }
 .btn-guide-header:hover { background: rgba(240,217,138,0.28); }
+
+/* ═══════════════════════════════════════════
+   DARK MODE — v2.001
+   ═══════════════════════════════════════════ */
+html[data-theme="dark"] {
+  --bg: #14110a;
+  --bg2: #221c12;
+  --card: #1c1810;
+  --card2: #241f15;
+  --gold: #d4a843;
+  --gold-light: #e8cc72;
+  --gold-lighter: #3a2f14;
+  --gold-dark: #e8cc72;
+  --gold-border: #6e5a23;
+  --green: #2f9d68;
+  --green-light: #1d3a2a;
+  --green-deep: #7fd6a6;
+  --red: #f87171;
+  --red-light: #3a1414;
+  --text: #f0e8d8;
+  --text-muted: #b3a684;
+  --border: #3a3320;
+  --shadow: 0 2px 20px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 40px rgba(0,0,0,0.55);
+  --shadow-lg: 0 16px 60px rgba(0,0,0,0.6);
+}
+html[data-theme="dark"] body { background-color: var(--bg); }
+/* Inputs & selects sombres */
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] select {
+  background: #221c12;
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+  border-color: var(--border);
+}
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus { background:#2a2316; border-color:var(--gold); }
+html[data-theme="dark"] input.valid { background:#1d3a2a; border-color:#2f9d68; }
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] input::-webkit-input-placeholder { color:#7a6f50; }
+/* Date display sombre */
+html[data-theme="dark"] .date-display {
+  background: linear-gradient(135deg,#16263f,#1b2f4d);
+  border-color:#274063; color:#9cc4f5;
+}
+/* Tables : lignes alternées sombres */
+html[data-theme="dark"] tbody tr:nth-child(even) td { background:#221d13; }
+html[data-theme="dark"] th { background:var(--bg2); }
+html[data-theme="dark"] tr:hover td { background:#2c2412; }
+html[data-theme="dark"] td { border-bottom-color:#2e2818; }
+html[data-theme="dark"] .currency-item { border-bottom-color:#2e2818; }
+/* Camembert vide */
+html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
+/* Bouton thème (header) */
+.btn-theme-header {
+  background: rgba(240,217,138,0.15); border: 1.5px solid rgba(240,217,138,0.45);
+  color: var(--gold-light); font-family: var(--font); font-size: 0.73rem;
+  font-weight: 700; padding: 5px 12px; border-radius: 99px; cursor: pointer;
+  transition: background 0.18s; white-space: nowrap;
+}
+.btn-theme-header:hover { background: rgba(240,217,138,0.28); }
 </style>
+<script>
+/* [v2.001] Anti-flash : applique le thème AVANT le rendu (évite le clignotement clair→sombre) */
+(function(){try{var t=localStorage.getItem('zakat_theme');if(!t){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+</script>
 </head>
 <body>
 
@@ -754,6 +892,9 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
     </div>
     <button class="btn-guide-header" onclick="openGuide('fr')" title="Guide de la Zakat / دليل الزكاة">
       📖 Guide / دليل
+    </button>
+    <button class="btn-theme-header" id="btn-theme-header" onclick="toggleTheme()" title="Mode clair / sombre">
+      🌙 Sombre
     </button>
     <button class="btn-reset-header" id="btn-reset-header" onclick="confirmReset()" title="Réinitialiser" style="display:none;">
       🔄 Réinit
@@ -942,7 +1083,7 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 <div class="mob-step active" data-step="1">
 
   <div class="card">
-    <div class="card-title"><span>📅</span> Échéance Hawl <span class="ar">/ تاريخ اكتمال الحول</span></div>
+    <div class="card-title"><span>📅</span> Échéance Hawl <span class="ar">/ تاريخ اكتمال الحول</span><span class="info-wrap"><button type="button" class="info-btn" onclick="toggleTip(this)" aria-label="Aide Hawl">i</button><span class="info-bubble">Le Hawl est l'année lunaire (~354 jours) de possession continue. La Zakat n'est due qu'une fois cette année écoulée sur des avoirs au-dessus du Nissab.</span></span></div>
     <div class="form-row">
       <div class="field">
         <label>Jour / اليوم</label>
@@ -963,7 +1104,7 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
   <div class="card">
     <div class="card-title"><span>⚖️</span> Nissab <span class="ar">/ النصاب</span></div>
     <div class="field">
-      <label>Seuil Nissab (DA)</label>
+      <label>Seuil Nissab (DA) <span class="info-wrap"><button type="button" class="info-btn" onclick="toggleTip(this)" aria-label="Aide Nissab">i</button><span class="info-bubble">Seuil minimum de richesse (valeur de 85 g d'or 24k) à partir duquel la Zakat devient obligatoire. Il change chaque année selon le cours de l'or.</span></span></label>
       <input type="number" id="nissab" value="1615000" oninput="handleInput(this);recalculate()">
     </div>
     <div class="nissab-note">
@@ -993,7 +1134,7 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
   <div class="accordion-body">
   <div class="taux-grid">
       <div class="field">
-        <label>Prix Or 18k (DA/g)</label>
+        <label>Prix Or 18k (DA/g) <span class="info-wrap"><button type="button" class="info-btn" onclick="toggleTip(this)" aria-label="Aide Prix Or">i</button><span class="info-bubble">Prix actuel d'un gramme d'or 18 carats. Il sert à convertir tous tes bijoux (14k, 18k, 21k, 24k) en valeur DA via leur équivalent 18k.</span></span></label>
         <input type="number" id="gold-price" value="25000" oninput="handleInput(this);recalculate()">
       </div>
       <div class="field">
@@ -1086,6 +1227,15 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
     </div>
     <button class="btn btn-outline btn-sm" onclick="addGoldRow()" style="margin-bottom:1px;">+ Ajouter</button>
   </div>
+  <div class="quick-chips" id="gold-chips">
+    <button type="button" class="chip" onclick="setGoldName('Bague')">💍 Bague</button>
+    <button type="button" class="chip" onclick="setGoldName('Bracelet')">📿 Bracelet</button>
+    <button type="button" class="chip" onclick="setGoldName('Collier')">🪙 Collier</button>
+    <button type="button" class="chip" onclick="setGoldName('Chaîne')">⛓️ Chaîne</button>
+    <button type="button" class="chip" onclick="setGoldName('Boucles d’oreilles')">👂 Boucles</button>
+    <button type="button" class="chip" onclick="setGoldName('Alliance')">💞 Alliance</button>
+    <button type="button" class="chip" onclick="setGoldName('Pièce or')">🟡 Pièce</button>
+  </div>
   <table id="gold-table">
     <thead>
       <tr>
@@ -1144,6 +1294,23 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 
 <!-- ═══ STEP 6 : Résultat ═══ -->
 <div class="mob-step" data-step="6">
+
+<!-- JAUGE NISSAB — v2.001 -->
+<div class="card gauge-card" id="nissab-gauge">
+  <div class="gauge-head">
+    <span class="gauge-title">⚖️ Progression vers le Nissab <span class="ar">/ بلوغ النصاب</span></span>
+    <span class="gauge-pct" id="gauge-pct">0%</span>
+  </div>
+  <div class="gauge-track">
+    <div class="gauge-fill" id="gauge-fill"></div>
+  </div>
+  <div class="gauge-labels">
+    <span id="gauge-total">0 DA</span>
+    <span id="gauge-nissab">Nissab : 0 DA</span>
+  </div>
+  <div class="gauge-note" id="gauge-note"></div>
+</div>
+
 <!-- CAMEMBERT -->
 <div class="chart-section" id="chart-section">
   <div class="card-title"><span>📊</span> Répartition des Avoirs <span class="ar">/ توزيع الأصول</span></div>
@@ -1154,6 +1321,17 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 
 <!-- RÉSULTAT FINAL -->
 <div id="summary-badge"></div>
+
+<!-- HISTORIQUE ANNUEL — v2.001 -->
+<div class="card history-card">
+  <div class="card-title"><span>📅</span> Historique annuel <span class="ar">/ السجل السنوي</span></div>
+  <div id="history-compare"></div>
+  <div id="history-list"></div>
+  <div class="history-actions">
+    <button class="btn btn-outline btn-sm" onclick="document.getElementById('history-import').click()">📥 Importer une année (JSON)</button>
+    <input type="file" id="history-import" accept=".json" style="display:none" onchange="importHistoryFile(event)">
+  </div>
+</div>
 
   <!-- Boutons d'action (mobile uniquement) -->
   <div class="mob-action-bar" id="mob-step6-actions">
@@ -1232,6 +1410,272 @@ function handleInput(el) {
     el.classList.remove('valid');
   }
 }
+
+// ============================================================
+// ANIMATIONS — v2.001 (compteurs animés)
+// ============================================================
+var _reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+var _bigZakatPrev = 0;
+
+// Compteur animé sur un élément PERSISTANT (texte = nombre + suffixe)
+function animateNumber(el, to, suffix) {
+  if (!el) return;
+  suffix = (suffix === undefined) ? ' DA' : suffix;
+  to = Math.round(to);
+  var from = (typeof el._curVal === 'number') ? el._curVal : to;
+  if (el._raf) { cancelAnimationFrame(el._raf); el._raf = null; }
+  if (_reduceMotion || from === to) {
+    el._curVal = to;
+    el.textContent = fmtNum(to) + suffix;
+    return;
+  }
+  var start = null, dur = 450;
+  function step(ts) {
+    if (start === null) start = ts;
+    var p = Math.min((ts - start) / dur, 1);
+    var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+    var cur = from + (to - from) * eased;
+    el._curVal = cur;
+    el.textContent = fmtNum(cur) + suffix;
+    if (p < 1) { el._raf = requestAnimationFrame(step); }
+    else { el._curVal = to; el.textContent = fmtNum(to) + suffix; el._raf = null; }
+  }
+  el._raf = requestAnimationFrame(step);
+}
+
+// Grand montant de Zakat (recréé à chaque rendu → valeur précédente gardée en mémoire)
+function animateBigZakat(to) {
+  var el = document.getElementById('big-zakat-num');
+  to = Math.round(to);
+  if (el) { el._curVal = _bigZakatPrev; animateNumber(el, to, ''); }
+  _bigZakatPrev = to;
+}
+
+// ============================================================
+// SAISIE RAPIDE + INFOBULLES — v2.001
+// ============================================================
+// Puce Or → remplit la dénomination puis place le curseur sur le poids
+function setGoldName(name) {
+  var el = document.getElementById('new-gold-name');
+  if (el) el.value = name;
+  var w = document.getElementById('new-gold-weight');
+  if (w) w.focus(); // iOS-safe : focus déclenché par un geste utilisateur, champ ≥16px → pas de zoom
+}
+
+// Infobulle au clic (pas de :hover → fiable sur tactile/iOS).
+// La bulle est déplacée dans <body> à l'ouverture : elle échappe ainsi au overflow:hidden
+// ET aux ancêtres transformés (animation/translate des cartes) qui faussaient position:fixed.
+var _activeBubble = null, _activeBtn = null;
+function closeAllTips() {
+  if (_activeBubble) _activeBubble.classList.remove('show');
+  _activeBubble = null; _activeBtn = null;
+}
+function positionTip(btn, bubble) {
+  bubble.style.left = '0px'; bubble.style.top = '0px';
+  bubble.classList.remove('below');
+  var bw = bubble.offsetWidth, bh = bubble.offsetHeight;
+  var r = btn.getBoundingClientRect();
+  var vw = document.documentElement.clientWidth;
+  var left = r.left + r.width / 2 - bw / 2;
+  left = Math.max(8, Math.min(left, vw - bw - 8));
+  var top = r.top - bh - 9;
+  if (top < 8) { top = r.bottom + 9; bubble.classList.add('below'); } // pas de place au-dessus → en dessous
+  bubble.style.left = left + 'px';
+  bubble.style.top = top + 'px';
+  bubble.style.setProperty('--arrow-x', (r.left + r.width / 2 - left) + 'px');
+}
+function toggleTip(btn) {
+  if (_activeBtn === btn) { closeAllTips(); return; } // re-clic sur le même → ferme
+  closeAllTips();
+  var bubble = btn._bubble || btn.parentNode.querySelector('.info-bubble');
+  if (!bubble) return;
+  if (bubble.parentNode !== document.body) { btn._bubble = bubble; document.body.appendChild(bubble); }
+  bubble.classList.add('show');
+  _activeBubble = bubble; _activeBtn = btn;
+  positionTip(btn, bubble);
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest || (!e.target.closest('.info-btn') && !e.target.closest('.info-bubble'))) closeAllTips();
+});
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllTips(); });
+// Bulle en position:fixed → on la referme au scroll/redimensionnement (sinon elle se décroche)
+window.addEventListener('scroll', closeAllTips, { passive: true });
+window.addEventListener('resize', closeAllTips);
+
+// ============================================================
+// ÉDITION INLINE — v2.001 (poids Or / montant Liquidités)
+// iOS-safe : vrai <input>, inputmode décimal, 16px (pas de zoom), virgule→point.
+// ============================================================
+function editCell(td, type, idx) {
+  if (td.querySelector('input')) return; // déjà en édition
+  closeAllTips();
+  var cur = (type === 'gold') ? goldItems[idx].weight : liquidItems[idx].amount;
+  var inp = document.createElement('input');
+  inp.type = 'text';                       // text + inputmode → évite le bug iOS du type=number avec virgule
+  inp.setAttribute('inputmode', 'decimal');
+  inp.className = 'inline-edit';
+  inp.value = cur;
+  td.innerHTML = '';
+  td.appendChild(inp);
+  inp.focus();
+  try { inp.select(); } catch(e) {}
+
+  var done = false;
+  function commit() {
+    if (done) return; done = true;
+    var v = parseFloat(String(inp.value).replace(',', '.').trim());
+    if (!isNaN(v) && v > 0) {
+      if (type === 'gold') goldItems[idx].weight = v;
+      else liquidItems[idx].amount = v;
+      playSuccessSound();
+    }
+    recalculate(); saveSession();          // re-rend le tableau → l'input disparaît proprement
+  }
+  function cancel() { if (done) return; done = true; recalculate(); }
+
+  inp.addEventListener('blur', commit);
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter')      { e.preventDefault(); inp.blur(); }
+    else if (e.key === 'Escape'){ e.preventDefault(); cancel(); }
+  });
+}
+
+// ============================================================
+// HISTORIQUE ANNUEL — v2.001 (option C : snapshot auto + import JSON)
+// ============================================================
+function loadHistory() {
+  try {
+    var h = JSON.parse(localStorage.getItem('zakat_history') || '{}');
+    return (h && typeof h === 'object' && !Array.isArray(h)) ? h : {};
+  } catch(e) { return {}; }
+}
+function saveHistory(h) { try { localStorage.setItem('zakat_history', JSON.stringify(h)); } catch(e) {} }
+
+// Enregistre/écrase l'entrée de l'année hijri courante (uniquement si avoirs > 0)
+function updateHistory(hy, v) {
+  if (!hy || !(v.total > 0)) return;
+  var h = loadHistory();
+  h[hy] = {
+    hy: hy,
+    total:   Math.round(v.total),
+    zakat:   Math.round(v.zakat),
+    gold:    Math.round(v.gold),
+    devises: Math.round(v.devises),
+    liquid:  Math.round(v.liquid),
+    nissab:  Math.round(v.nissab),
+    savedAt: new Date().toISOString()
+  };
+  saveHistory(h);
+}
+function deleteHistory(hy) {
+  var h = loadHistory();
+  delete h[hy];
+  saveHistory(h);
+  renderHistory(parseInt(document.getElementById('hijri-year').value));
+}
+
+// Recalcule les totaux à partir d'un JSON sauvegardé (pour l'import historique, sans toucher au formulaire)
+function computeFromData(d) {
+  var goldPrice = parseFloat(d.goldPrice) || 25000;
+  var gold = 0;
+  (d.goldItems || []).forEach(function(it){ if (it && it.weight > 0 && it.carat) gold += (it.weight * it.carat / 18) * goldPrice; });
+  var liquid = 0;
+  (d.liquidItems || []).forEach(function(it){ if (it && it.amount > 0) liquid += it.amount; });
+  var rEur = parseFloat(d.rateEur) || 290, rUsd = parseFloat(d.rateUsd) || 250, rSar = parseFloat(d.rateSar) || 65;
+  var devises = (parseFloat(d.eurAmount)||0)*rEur + (parseFloat(d.usdAmount)||0)*rUsd
+              + (parseFloat(d.sarAmount)||0)*rSar + (parseFloat(d.customAmount)||0)*(parseFloat(d.customRate)||0);
+  var total = gold + liquid + devises;
+  var nissab = parseFloat(d.nissab) || 1615000;
+  var zakat = total >= nissab ? Math.ceil(total * 0.025) : 0;
+  return { hy: parseInt(d.hijriYear) || null, gold:gold, liquid:liquid, devises:devises, total:total, nissab:nissab, zakat:zakat };
+}
+function importHistoryFile(ev) {
+  var f = ev.target.files[0];
+  if (!f) return;
+  ev.target.value = '';
+  var rd = new FileReader();
+  rd.onload = function(e) {
+    try {
+      var c = computeFromData(JSON.parse(e.target.result));
+      if (!c.hy)        return showToast('⚠️ Année hijri absente du fichier', 'error', 3500);
+      if (!(c.total>0)) return showToast('⚠️ Ce fichier ne contient aucun avoir', 'error', 3500);
+      updateHistory(c.hy, c);
+      renderHistory(parseInt(document.getElementById('hijri-year').value));
+      showToast('✅ Année ' + c.hy + ' ajoutée à l\'historique', 'success', 3500);
+    } catch(err) { showToast('❌ Fichier JSON invalide', 'error'); }
+  };
+  rd.onerror = function(){ showToast('❌ Erreur lecture fichier', 'error'); };
+  rd.readAsText(f, 'UTF-8');
+}
+
+function renderHistory(currentHy) {
+  var listEl = document.getElementById('history-list');
+  var cmpEl  = document.getElementById('history-compare');
+  if (!listEl || !cmpEl) return;
+  var h = loadHistory();
+  var cur = h[currentHy], prev = h[currentHy - 1];
+
+  // Comparaison année courante vs précédente
+  if (cur && prev && prev.zakat > 0) {
+    var dz = cur.zakat - prev.zakat;
+    var pz = Math.round((dz / prev.zakat) * 100);
+    var up = dz >= 0;
+    cmpEl.innerHTML = '<div class="hist-compare ' + (up ? 'up' : 'down') + '">'
+      + '<span>Zakat vs ' + prev.hy + ' :</span> '
+      + '<strong>' + (up ? '▲ +' : '▼ −') + fmtNum(Math.abs(dz)) + ' DA</strong> '
+      + '<span class="hist-pct">(' + (up ? '+' : '−') + Math.abs(pz) + '%)</span></div>';
+  } else if (cur && !prev) {
+    cmpEl.innerHTML = '<div class="hist-hint">📂 Importe ta sauvegarde de l\'année ' + (currentHy - 1)
+      + ' (bouton ci-dessous) pour comparer ta Zakat d\'une année à l\'autre.</div>';
+  } else {
+    cmpEl.innerHTML = '';
+  }
+
+  // Liste des années (décroissant)
+  var years = Object.keys(h).map(Number).sort(function(a,b){ return b - a; });
+  if (years.length === 0) {
+    listEl.innerHTML = '<div class="hist-empty">Aucune année enregistrée pour l\'instant.</div>';
+    return;
+  }
+  var rows = years.map(function(y) {
+    var e = h[y], isCur = (y === currentHy);
+    return '<tr' + (isCur ? ' class="hist-current"' : '') + '>'
+      + '<td>' + y + (isCur ? ' <span class="hist-badge">en cours</span>' : '') + '</td>'
+      + '<td style="text-align:right">' + fmtNum(e.total) + ' DA</td>'
+      + '<td style="text-align:right;font-weight:800;color:var(--green-deep)">' + fmtNum(e.zakat) + ' DA</td>'
+      + '<td style="text-align:center">' + (isCur ? '' : '<button class="btn btn-sm btn-danger" onclick="deleteHistory(' + y + ')" title="Supprimer">✕</button>') + '</td>'
+      + '</tr>';
+  }).join('');
+  listEl.innerHTML = '<table class="hist-table"><thead><tr><th>Année H.</th>'
+    + '<th style="text-align:right">Total</th><th style="text-align:right">Zakat</th><th></th></tr></thead>'
+    + '<tbody>' + rows + '</tbody></table>';
+}
+
+// ============================================================
+// SWIPE MOBILE — v2.001 (navigation entre étapes)
+// ============================================================
+(function() {
+  var xStart = null, yStart = null, t0 = 0;
+  var SWIPE_MIN = 55, SWIPE_MAX_OFF = 45, SWIPE_MAX_TIME = 600;
+  document.addEventListener('touchstart', function(e) {
+    if (typeof isMobile === 'function' && !isMobile()) { xStart = null; return; }
+    var t = e.target;
+    // Ne pas interférer avec saisie, selects, tableaux scrollables, nav, modales
+    if (t.closest && t.closest('input,select,textarea,button,table,.info-bubble,.guide-modal,.mob-nav')) { xStart = null; return; }
+    var p = e.touches ? e.touches[0] : e;
+    xStart = p.clientX; yStart = p.clientY; t0 = Date.now();
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (xStart === null) return;
+    if (typeof isMobile === 'function' && !isMobile()) { xStart = null; return; }
+    var p = e.changedTouches ? e.changedTouches[0] : e;
+    var dx = p.clientX - xStart, dy = p.clientY - yStart, dt = Date.now() - t0;
+    xStart = null;
+    if (dt > SWIPE_MAX_TIME) return;
+    if (Math.abs(dx) < SWIPE_MIN || Math.abs(dy) > SWIPE_MAX_OFF) return; // doit être franchement horizontal
+    if (dx < 0) mobStep(1); else mobStep(-1);
+  }, { passive: true });
+})();
 
 // ============================================================
 // LOCAL STORAGE
@@ -1385,6 +1829,9 @@ function convertHijriToGregorian() {
 function renderGoldTable() {
   const tbody = document.getElementById('gold-tbody');
   tbody.innerHTML = '';
+  if (goldItems.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">🪙 Aucun bijou ajouté — choisis une puce ci-dessus, ou saisis une dénomination et un poids.</td></tr>';
+  }
   const price = parseFloat(document.getElementById('gold-price').value) || 25000;
   let totalEq18 = 0, totalDA = 0;
 
@@ -1397,7 +1844,7 @@ function renderGoldTable() {
     tr.innerHTML = `
       <td>${item.name}</td>
       <td><span class="badge badge-gold">${item.carat}k</span></td>
-      <td>${fmtG(item.weight)}</td>
+      <td class="editable-cell" onclick="editCell(this,'gold',${idx})" title="Cliquer pour modifier le poids">${fmtG(item.weight)}<span class="edit-pencil">✎</span></td>
       <td>${fmtG(eq18)}</td>
       <td><strong>${fmtNum(Math.round(val))} DA</strong></td>
       <td><button class="btn btn-sm btn-danger" onclick="removeGold(${idx})">✕</button></td>`;
@@ -1450,11 +1897,14 @@ function addGoldFromConverter() {
 function renderLiquidTable() {
   const tbody = document.getElementById('liquid-tbody');
   tbody.innerHTML='';
+  if (liquidItems.length === 0) {
+    tbody.innerHTML='<tr class="empty-row"><td colspan="3">💼 Aucune liquidité ajoutée — saisis une description et un montant ci-dessus.</td></tr>';
+  }
   let total=0;
   liquidItems.forEach((item,idx)=>{
     total+=item.amount;
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${item.name}</td><td><strong>${fmtNum(item.amount)} DA</strong></td><td><button class="btn btn-sm btn-danger" onclick="removeLiquid(${idx})">✕</button></td>`;
+    tr.innerHTML=`<td>${item.name}</td><td class="editable-cell" onclick="editCell(this,'liquid',${idx})" title="Cliquer pour modifier le montant"><strong>${fmtNum(item.amount)} DA</strong><span class="edit-pencil">✎</span></td><td><button class="btn btn-sm btn-danger" onclick="removeLiquid(${idx})">✕</button></td>`;
     tbody.appendChild(tr);
   });
   document.getElementById('liquid-total-da').textContent=fmtNum(total)+' DA';
@@ -1578,12 +2028,12 @@ function recalculate() {
   // [v2.000] Math.ceil : arrondi au surplus — jamais en défaveur du bénéficiaire
   const zakat = imposable ? Math.ceil(total * 0.025) : 0;
 
-  // Sticky dash
-  document.getElementById('dash-gold').textContent    = fmtNum(Math.round(goldDA))+' DA';
-  document.getElementById('dash-devises').textContent = fmtNum(Math.round(devisesDA))+' DA';
-  document.getElementById('dash-liquid').textContent  = fmtNum(Math.round(liquidDA))+' DA';
-  document.getElementById('dash-total').textContent   = fmtNum(Math.round(total))+' DA';
-  document.getElementById('dash-zakat').textContent   = fmtNum(Math.round(zakat))+' DA';
+  // Sticky dash (compteurs animés)
+  animateNumber(document.getElementById('dash-gold'),    goldDA);
+  animateNumber(document.getElementById('dash-devises'), devisesDA);
+  animateNumber(document.getElementById('dash-liquid'),  liquidDA);
+  animateNumber(document.getElementById('dash-total'),   total);
+  animateNumber(document.getElementById('dash-zakat'),   zakat);
 
   // Camembert
   renderChart(goldDA, devisesDA, liquidDA);
@@ -1606,7 +2056,7 @@ function recalculate() {
       </div>
       <div class="zakat-due-zone">
         <div class="zakat-due-label">💎 ZAKAT DUE <span class="ar-inline">الزكاة المستحقة</span></div>
-        <div class="zakat-due-amount">${fmtNum(Math.round(zakat))} <span class="zakat-pct">DA &nbsp;(2,5%)</span></div>
+        <div class="zakat-due-amount"><span id="big-zakat-num">${fmtNum(Math.round(zakat))}</span> <span class="zakat-pct">DA &nbsp;(2,5%)</span></div>
       </div>
       <div class="breakdown-row">
         <div class="b-item"><div class="b-label">🪙 Or 18k</div><div class="b-val">${fmtNum(Math.round(goldDA))} DA</div></div>
@@ -1642,6 +2092,32 @@ function recalculate() {
       </div>
       `;
   }
+
+  // [v2.001] Jauge Nissab — éléments persistants, transition CSS fluide
+  var pctNissab = nissab > 0 ? (total / nissab * 100) : 0;
+  var gFill = document.getElementById('gauge-fill');
+  var gPct  = document.getElementById('gauge-pct');
+  var gTot  = document.getElementById('gauge-total');
+  var gNis  = document.getElementById('gauge-nissab');
+  var gNote = document.getElementById('gauge-note');
+  var gCard = document.getElementById('nissab-gauge');
+  if (gFill) gFill.style.width = Math.min(pctNissab, 100).toFixed(1) + '%';
+  if (gPct)  gPct.textContent  = Math.round(pctNissab) + '%';
+  if (gTot)  gTot.textContent  = fmtNum(Math.round(total)) + ' DA';
+  if (gNis)  gNis.textContent  = 'Nissab : ' + fmtNum(nissab) + ' DA';
+  if (gCard) gCard.classList.toggle('reached', imposable);
+  if (gNote) gNote.textContent = imposable
+    ? '✅ Seuil atteint — surplus de ' + fmtNum(Math.round(total - nissab)) + ' DA'
+    : '⏳ Encore ' + fmtNum(Math.round(nissab - total)) + ' DA avant le Nissab';
+
+  // [v2.001] Grand montant de Zakat — compteur animé
+  if (imposable) animateBigZakat(zakat);
+  else _bigZakatPrev = 0;
+
+  // [v2.001] Historique annuel (option C : snapshot auto de l'année courante)
+  var _hy = parseInt(document.getElementById('hijri-year').value);
+  updateHistory(_hy, { total: total, zakat: zakat, gold: goldDA, devises: devisesDA, liquid: liquidDA, nissab: nissab });
+  renderHistory(_hy);
 
   saveSession();
 }
@@ -2350,6 +2826,21 @@ function playSuccessSound() {
 }
 
 // ============================================================
+// DARK MODE — v2.001
+// ============================================================
+function applyTheme(theme) {
+  var t = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem('zakat_theme', t); } catch(e) {}
+  var b = document.getElementById('btn-theme-header');
+  if (b) b.textContent = t === 'dark' ? '☀️ Clair' : '🌙 Sombre';
+}
+function toggleTheme() {
+  var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+}
+
+// ============================================================
 // GUIDE ZAKAT — v2.000
 // ============================================================
 function openGuide(lang) {
@@ -2391,6 +2882,9 @@ document.addEventListener('keydown', function(e) {
 });
 initDateSelectors();
 convertHijriToGregorian();
+
+// [v2.001] Dark mode — synchronise le libellé du bouton avec le thème déjà appliqué
+applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
 
 // [v2.000] Mobile stepper init
 if (isMobile()) {

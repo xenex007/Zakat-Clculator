@@ -8,11 +8,9 @@
 <html lang="fr" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>حاسبة الزكاة — By XeneX Ameen</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@400;600;700;900&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root {
   --bg: #f4efe6;
@@ -258,19 +256,27 @@ input.valid { border-color:#16a34a;background:#f0fdf4; }
 }
 
 /* ═══ DEVISES ═══ */
-.currency-item { display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid #f0e8d0; }
-.currency-item:last-child { border-bottom:none; }
-.currency-flag { font-size:1.1rem; }
-.currency-name { font-weight:700;font-size:0.82rem;min-width:72px; }
-.currency-rate { font-size:0.72rem;color:var(--text-muted);min-width:60px; }
-.currency-item input[type="number"] { flex:1;min-width:0; }
-.currency-item input[type="text"] { flex:1.2;min-width:0; }
-.currency-item .rate-input { width:70px;flex:none; }
-.currency-converted { font-size:0.82rem;color:var(--green);font-weight:800;min-width:85px;text-align:right; }
-.custom-currency .cc-field { display:flex; flex-direction:column; }
-.cc-lbl { font-size:0.6rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;white-space:nowrap; }
-.custom-currency .currency-converted { min-width:0; }
-.cc-eq .currency-converted { padding:8px 2px;text-align:left;white-space:nowrap; }
+/* Devises : grille unifiée — toutes les lignes (fixes + personnalisées) partagent les mêmes colonnes */
+.dev-head, .currency-item {
+  display:grid;
+  grid-template-columns: 22px minmax(58px,1.3fr) 84px minmax(58px,1fr) minmax(86px,auto) 26px;
+  align-items:center;
+  gap:6px 9px;
+}
+.dev-head { padding:0 0 7px;margin-bottom:3px;border-bottom:1.5px solid var(--gold-lighter); }
+.dev-head span { font-size:0.6rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap; }
+.dev-head .r { text-align:right; }
+.currency-item { padding:7px 0;border-bottom:1px solid #f0e8d0; }
+.currency-flag { font-size:1.1rem;text-align:center; }
+.currency-name { font-weight:700;font-size:0.82rem;min-width:0; }
+.currency-rate { font-size:0.72rem;color:var(--text-muted);white-space:nowrap; }
+.currency-item input[type="number"], .currency-item input[type="text"] { width:100%;min-width:0; }
+.currency-converted { font-size:0.82rem;color:var(--green);font-weight:800;text-align:right;white-space:nowrap;min-width:0; }
+.dev-action { display:flex;justify-content:center; }
+.dev-action .btn-danger { padding:3px 7px; }
+.custom-currency { animation:devIn 0.25s ease-out both; }
+@keyframes devIn { from{opacity:0;transform:translateY(-4px);} to{opacity:1;transform:none;} }
+@media (prefers-reduced-motion:reduce){ .custom-currency{ animation:none; } }
 
 /* ═══ TABLE ═══ */
 table { width:100%;border-collapse:collapse;font-size:0.82rem; }
@@ -518,23 +524,23 @@ html[data-theme="dark"] .hist-compare.down { background:#3a1414;border-color:#5a
   /* Taux grid : 2 colonnes au lieu de 4 */
   .taux-grid { grid-template-columns: 1fr 1fr !important; }
 
-  /* Currency items : layout compact mobile */
+  /* Devises : 2 lignes par devise sur mobile, en-tête de colonnes masqué */
+  .dev-head { display:none; }
   .currency-item {
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 10px 6px;
+    grid-template-columns: 24px 1fr 1fr auto;
+    grid-template-areas:
+      "flag name name action"
+      "rate rate amount eq";
+    gap: 5px 8px;
+    padding: 10px 4px;
   }
-  .currency-item input[type="number"] {
-    flex: 1 1 90px;
-    min-width: 80px;
-  }
-  .currency-converted {
-    flex: 1 1 100%;
-    text-align: right;
-    font-size: 0.85rem;
-    color: var(--green-deep);
-    font-weight: 700;
-  }
+  .currency-item > :nth-child(1) { grid-area:flag; }
+  .currency-item > :nth-child(2) { grid-area:name; }
+  .currency-item > :nth-child(3) { grid-area:rate; }
+  .currency-item > :nth-child(4) { grid-area:amount; }
+  .currency-item > :nth-child(5) { grid-area:eq;align-self:center; }
+  .currency-item > :nth-child(6) { grid-area:action; }
+  .currency-converted { font-size: 0.85rem; color: var(--green-deep); }
 
   /* Tableaux Or & Liquidités : scroll horizontal */
   #gold-table,
@@ -770,10 +776,10 @@ html[data-theme="dark"] .hist-compare.down { background:#3a1414;border-color:#5a
 .guide-content-fr.hidden, .guide-content-ar.hidden { display: none !important; }
 .guide-body h2 {
   font-size: 1rem; font-weight: 800; color: var(--green-deep);
-  border-left: 4px solid var(--gold); padding-left: 10px; margin: 20px 0 9px;
+  padding-bottom: 6px; margin: 22px 0 10px;
+  border-bottom: 2px solid var(--gold-lighter);
 }
 .guide-body h2:first-child { margin-top: 0; }
-.guide-content-ar h2 { border-left: none; border-right: 4px solid var(--gold); padding-left: 0; padding-right: 10px; }
 .guide-body p { font-size: 0.88rem; color: var(--text); line-height: 1.75; margin-bottom: 9px; }
 .guide-body ul, .guide-body ol { padding-left: 20px; margin-bottom: 9px; }
 .guide-content-ar ul, .guide-content-ar ol { padding-left: 0; padding-right: 20px; }
@@ -786,11 +792,56 @@ html[data-theme="dark"] .hist-compare.down { background:#3a1414;border-color:#5a
   color: var(--gold-dark); margin: 8px 0 12px;
 }
 .guide-warning {
-  background: #fff8e1; border-left: 4px solid #f0a500;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: 8px 13px; font-size: 0.82rem; color: #7a5000; margin: 8px 0;
+  background: #fff8e1; border: 1px solid #f0cf7a;
+  border-radius: var(--radius-sm);
+  padding: 9px 13px; font-size: 0.82rem; color: #7a5000; margin: 10px 0;
 }
-.guide-content-ar .guide-warning { border-left: none; border-right: 4px solid #f0a500; border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+html[data-theme="dark"] .guide-warning { background: #3a2e0c; border-color: #6e5a1e; color: #f0d98a; }
+
+/* ═══ POLISH GLOBAL — v2.004 (accessibilité, feedback, rendu) ═══ */
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+input:focus-visible, select:focus-visible { outline: none; } /* gardent leur halo doré dédié */
+.btn:active, .btn-save:active, .btn-load:active, .btn-pdf:active, .btn-reset:active,
+.chip:active, .welcome-start:active, .btn-nissab-history:active, .mob-action-btn:active,
+.mob-nav-btn:active { transform: scale(0.975); }
+.chip:hover { transform: translateY(-1px); }
+input[type="number"]:hover:not(:focus), input[type="text"]:hover:not(:focus), select:hover:not(:focus) { border-color: var(--gold-border); }
+
+/* ═══ ADAPT — cibles tactiles (pointeur grossier) + safe-area — v2.004 ═══ */
+.info-btn { position: relative; }
+.info-btn::after { content:''; position:absolute; inset:-13px; border-radius:50%; } /* zone tactile élargie ~44px */
+@media (pointer: coarse) {
+  .btn-help-header, .btn-guide-header, .btn-theme-header, .btn-reset-header { min-height: 44px; padding: 8px 14px; }
+  .btn-sm { min-height: 44px; }
+  .btn-danger.btn-sm, .dev-action .btn-danger { min-width: 44px; min-height: 44px; }
+}
+.mob-nav { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+
+/* ═══ Progression Nissab dans le bandeau collant — v2.004 ═══ */
+.dash-nissab { flex:1 1 100%; display:flex; align-items:center; gap:9px; margin-top:7px; padding-top:7px; border-top:1px solid rgba(184,133,31,0.28); }
+.dn-cap { font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(232,204,114,0.78); white-space:nowrap; }
+.dn-track { flex:1; height:7px; border-radius:99px; background:rgba(255,255,255,0.14); overflow:hidden; min-width:60px; }
+.dn-fill { height:100%; width:0%; border-radius:99px; background:linear-gradient(90deg,var(--gold),var(--gold-light)); box-shadow:0 0 10px rgba(233,206,123,0.45); transition:width 0.5s cubic-bezier(.22,1,.36,1), background .3s; }
+.dash-nissab.reached .dn-fill { background:linear-gradient(90deg,#16a34a,#34d27f); box-shadow:0 0 10px rgba(34,197,94,0.5); }
+.dn-pct { font-family:var(--font-display); font-size:0.98rem; font-weight:700; color:#e8cc72; white-space:nowrap; min-width:36px; text-align:right; }
+.dash-nissab.reached .dn-pct { color:#86e6ad; }
+@media (prefers-reduced-motion: reduce) { .dn-fill { transition:none; } }
+/* Pied de page — contact / rapport de bug */
+.app-footer { max-width:1080px; margin:20px auto 0; padding:14px 18px 6px; text-align:center; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:5px; }
+.app-footer .af-line { font-size:0.82rem; color:var(--text-muted); }
+.app-footer a { color:var(--green); font-weight:700; text-decoration:none; border-bottom:1px solid var(--green-light); }
+.app-footer a:hover { color:var(--green-deep); border-bottom-color:var(--green); }
+.app-footer .af-ar { font-family:var(--font-ar); font-size:0.8rem; color:var(--text-muted); }
+@media (max-width:767px){ .app-footer { margin-bottom:10px; } }
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 .guide-example-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 0.84rem; }
 .guide-example-table th { background: var(--bg2); color: var(--gold-dark); padding: 5px 9px; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
 .guide-example-table td { padding: 5px 9px; border-bottom: 1px solid var(--border); color: var(--text); }
@@ -1199,6 +1250,11 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
     <div class="d-label">💎 Zakat Due</div>
     <div class="d-val zakat-val" id="dash-zakat">0 DA</div>
   </div>
+  <div class="dash-nissab" id="dash-nissab">
+    <span class="dn-cap">⚖️ Nissab</span>
+    <div class="dn-track"><div class="dn-fill" id="dn-fill"></div></div>
+    <span class="dn-pct" id="dn-pct">0%</span>
+  </div>
 </div>
 
 <div class="app-body">
@@ -1285,26 +1341,37 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
 <div class="card" style="margin-bottom:14px;">
   <div class="card-title"><span>💱</span> Avoirs en Devises <span class="ar">/ الأموال بالعملات الأجنبية</span></div>
 
+    <div class="dev-head">
+      <span></span>
+      <span>Devise / العملة</span>
+      <span>Taux (DA)</span>
+      <span>Montant</span>
+      <span class="r">Équivalent</span>
+      <span></span>
+    </div>
     <div class="currency-item">
       <span class="currency-flag">🇪🇺</span>
       <span class="currency-name">Euro</span>
       <span class="currency-rate" id="show-eur-rate">290 DA/€</span>
-      <input type="number" id="eur-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0">
+      <input type="text" id="eur-amount" value="0" inputmode="decimal" aria-label="Montant en euros" oninput="normDecimal(this);handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()">
       <span class="currency-converted" id="eur-converted">= 0 DA</span>
+      <span class="dev-action"></span>
     </div>
     <div class="currency-item">
       <span class="currency-flag">🇺🇸</span>
       <span class="currency-name">Dollar</span>
       <span class="currency-rate" id="show-usd-rate">250 DA/$</span>
-      <input type="number" id="usd-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0">
+      <input type="text" id="usd-amount" value="0" inputmode="decimal" aria-label="Montant en dollars" oninput="normDecimal(this);handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()">
       <span class="currency-converted" id="usd-converted">= 0 DA</span>
+      <span class="dev-action"></span>
     </div>
     <div class="currency-item">
       <span class="currency-flag">🇸🇦</span>
       <span class="currency-name">Riyal SAR</span>
       <span class="currency-rate" id="show-sar-rate">65 DA/SAR</span>
-      <input type="number" id="sar-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0">
+      <input type="text" id="sar-amount" value="0" inputmode="decimal" aria-label="Montant en riyals saoudiens" oninput="normDecimal(this);handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()">
       <span class="currency-converted" id="sar-converted">= 0 DA</span>
+      <span class="dev-action"></span>
     </div>
 
     <!-- Devises personnalisées — créées à la demande -->
@@ -1415,22 +1482,6 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
 <!-- ═══ STEP 6 : Résultat ═══ -->
 <div class="mob-step" data-step="6">
 
-<!-- JAUGE NISSAB — v2.001 -->
-<div class="card gauge-card" id="nissab-gauge">
-  <div class="gauge-head">
-    <span class="gauge-title">⚖️ Progression vers le Nissab <span class="ar">/ بلوغ النصاب</span></span>
-    <span class="gauge-pct" id="gauge-pct">0%</span>
-  </div>
-  <div class="gauge-track">
-    <div class="gauge-fill" id="gauge-fill"></div>
-  </div>
-  <div class="gauge-labels">
-    <span id="gauge-total">0 DA</span>
-    <span id="gauge-nissab">Nissab : 0 DA</span>
-  </div>
-  <div class="gauge-note" id="gauge-note"></div>
-</div>
-
 <!-- CAMEMBERT -->
 <div class="chart-section" id="chart-section">
   <div class="card-title"><span>📊</span> Répartition des Avoirs <span class="ar">/ توزيع الأصول</span></div>
@@ -1447,10 +1498,6 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
   <div class="card-title"><span>📅</span> Historique annuel <span class="ar">/ السجل السنوي</span></div>
   <div id="history-compare"></div>
   <div id="history-list"></div>
-  <div class="history-actions">
-    <button class="btn btn-outline btn-sm" onclick="document.getElementById('history-import').click()">📥 Importer une année (JSON)</button>
-    <input type="file" id="history-import" accept=".json" style="display:none" onchange="importHistoryFile(event)">
-  </div>
 </div>
 
   <!-- Boutons d'action (mobile uniquement) -->
@@ -1487,6 +1534,12 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
   <button class="btn btn-pdf" onclick="exportPDF()">📄 Exporter en PDF (A4)</button>
   <button class="btn btn-reset" onclick="confirmReset()">🔄 Réinitialiser</button>
 </div>
+
+<!-- PIED DE PAGE — contact / rapport de bug -->
+<footer class="app-footer">
+  <span class="af-line">🐞 Un bug, une incohérence ou une suggestion ? <a href="mailto:xenex007@gmail.com?subject=Zakat%20Calculator%20-%20Rapport&body=Bonjour%2C%0D%0A%0D%0AJe%20souhaite%20signaler%20ou%20proposer%20%3A%0D%0A-%20%0D%0A%0D%0AEtape%20concernee%20%3A%20%0D%0AAppareil%20et%20navigateur%20%3A%20%0D%0A%0D%0AMerci%21">Écrivez-moi</a></span>
+  <span class="af-ar" dir="rtl">للإبلاغ عن خطأ أو اقتراح، راسلني على <a href="mailto:xenex007@gmail.com?subject=Zakat%20Calculator%20-%20Rapport">xenex007@gmail.com</a></span>
+</footer>
 
 </div><!-- /app-content -->
 
@@ -1696,41 +1749,6 @@ function deleteHistory(hy) {
 }
 
 // Recalcule les totaux à partir d'un JSON sauvegardé (pour l'import historique, sans toucher au formulaire)
-function computeFromData(d) {
-  var goldPrice = parseFloat(d.goldPrice) || 25000;
-  var gold = 0;
-  (d.goldItems || []).forEach(function(it){ if (it && it.weight > 0 && it.carat) gold += (it.weight * it.carat / 18) * goldPrice; });
-  var liquid = 0;
-  (d.liquidItems || []).forEach(function(it){ if (it && it.amount > 0) liquid += it.amount; });
-  var rEur = parseFloat(d.rateEur) || 290, rUsd = parseFloat(d.rateUsd) || 250, rSar = parseFloat(d.rateSar) || 65;
-  var customSum = 0;
-  migrateCustomDevises(d).forEach(function(cd){ customSum += (parseFloat(cd.amount)||0)*(parseFloat(cd.rate)||0); });
-  var devises = (parseFloat(d.eurAmount)||0)*rEur + (parseFloat(d.usdAmount)||0)*rUsd
-              + (parseFloat(d.sarAmount)||0)*rSar + customSum;
-  var total = gold + liquid + devises;
-  var nissab = parseFloat(d.nissab) || 2295000;
-  var zakat = total >= nissab ? Math.ceil(total * 0.025) : 0;
-  return { hy: parseInt(d.hijriYear) || null, gold:gold, liquid:liquid, devises:devises, total:total, nissab:nissab, zakat:zakat };
-}
-function importHistoryFile(ev) {
-  var f = ev.target.files[0];
-  if (!f) return;
-  ev.target.value = '';
-  var rd = new FileReader();
-  rd.onload = function(e) {
-    try {
-      var c = computeFromData(JSON.parse(e.target.result));
-      if (!c.hy)        return showToast('⚠️ Année hijri absente du fichier', 'error', 3500);
-      if (!(c.total>0)) return showToast('⚠️ Ce fichier ne contient aucun avoir', 'error', 3500);
-      updateHistory(c.hy, c);
-      renderHistory(parseInt(document.getElementById('hijri-year').value));
-      showToast('✅ Année ' + c.hy + ' ajoutée à l\'historique', 'success', 3500);
-    } catch(err) { showToast('❌ Fichier JSON invalide', 'error'); }
-  };
-  rd.onerror = function(){ showToast('❌ Erreur lecture fichier', 'error'); };
-  rd.readAsText(f, 'UTF-8');
-}
-
 function renderHistory(currentHy) {
   var listEl = document.getElementById('history-list');
   var cmpEl  = document.getElementById('history-compare');
@@ -1820,8 +1838,15 @@ function saveSession() {
     hijriMonth: document.getElementById('hijri-month').value,
     hijriYear: document.getElementById('hijri-year').value,
   };
-  localStorage.setItem('zakat_session', JSON.stringify(data));
+  try { localStorage.setItem('zakat_session', JSON.stringify(data)); } catch(e) {} // iOS navigation privée
 }
+// [v2.004] Persistance différée : évite d'écrire dans localStorage à chaque frappe
+var _saveTimer = null;
+function saveSessionSoon() {
+  if (_saveTimer) clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(function(){ _saveTimer = null; saveSession(); }, 400);
+}
+window.addEventListener('pagehide', function(){ if (_saveTimer) { clearTimeout(_saveTimer); _saveTimer = null; saveSession(); } });
 
 function restoreSession() {
   const raw = localStorage.getItem('zakat_session');
@@ -1887,6 +1912,8 @@ function confirmReset() {
   document.getElementById('usd-amount').value = 0;
   document.getElementById('sar-amount').value = 0;
   localStorage.removeItem('zakat_session');
+  // [v2.004] Efface aussi le montant historisé de l'année en cours (sinon il persiste après reset)
+  try { var _h = loadHistory(); delete _h[parseInt(document.getElementById('hijri-year').value)]; saveHistory(_h); } catch(e) {}
   recalculate();
 }
 
@@ -1961,12 +1988,12 @@ function renderGoldTable() {
     totalDA += val;
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${item.name}</td>
+      <td>${escAttr(item.name)}</td>
       <td><span class="badge badge-gold">${item.carat}k</span></td>
       <td class="editable-cell" onclick="editCell(this,'gold',${idx})" title="Cliquer pour modifier le poids">${fmtG(item.weight)}<span class="edit-pencil">✎</span></td>
       <td>${fmtG(eq18)}</td>
       <td><strong>${fmtNum(Math.round(val))} DA</strong></td>
-      <td><button class="btn btn-sm btn-danger" onclick="removeGold(${idx})">✕</button></td>`;
+      <td><button class="btn btn-sm btn-danger" onclick="removeGold(${idx})" title="Supprimer" aria-label="Supprimer ce bijou">✕</button></td>`;
     tbody.appendChild(tr);
   });
 
@@ -1991,25 +2018,6 @@ function addGoldRow() {
   recalculate(); saveSession();
 }
 
-function updateConverter() {
-  const carat = parseInt(document.getElementById('conv-carat').value);
-  const w = parseFloat(document.getElementById('conv-weight').value);
-  if (!w||w<=0) { document.getElementById('conv-result').textContent="Entrez un poids pour calculer l'équivalent 18k"; return; }
-  const eq18 = (w*carat/18).toFixed(2);
-  document.getElementById('conv-result').textContent=`✅ ${w} g en ${carat}k = ${eq18} g en 18k`;
-}
-
-function addGoldFromConverter() {
-  const carat = parseInt(document.getElementById('conv-carat').value);
-  const w = parseFloat(document.getElementById('conv-weight').value);
-  if (!w||w<=0) return showToast('⚠️ Poids invalide', 'error');
-  goldItems.push({name:`Bijou ${carat}k`, carat, weight:w});
-  document.getElementById('conv-weight').value='';
-  document.getElementById('conv-result').textContent=`✅ Ajouté : ${w} g en ${carat}k`;
-  playSuccessSound();
-  recalculate(); saveSession();
-}
-
 // ============================================================
 // LIQUIDITÉS
 // ============================================================
@@ -2023,7 +2031,7 @@ function renderLiquidTable() {
   liquidItems.forEach((item,idx)=>{
     total+=item.amount;
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${item.name}</td><td class="editable-cell" onclick="editCell(this,'liquid',${idx})" title="Cliquer pour modifier le montant"><strong>${fmtNum(item.amount)} DA</strong><span class="edit-pencil">✎</span></td><td><button class="btn btn-sm btn-danger" onclick="removeLiquid(${idx})">✕</button></td>`;
+    tr.innerHTML=`<td>${escAttr(item.name)}</td><td class="editable-cell" onclick="editCell(this,'liquid',${idx})" title="Cliquer pour modifier le montant"><strong>${fmtNum(item.amount)} DA</strong><span class="edit-pencil">✎</span></td><td><button class="btn btn-sm btn-danger" onclick="removeLiquid(${idx})" title="Supprimer" aria-label="Supprimer cette liquidité">✕</button></td>`;
     tbody.appendChild(tr);
   });
   document.getElementById('liquid-total-da').textContent=fmtNum(total)+' DA';
@@ -2047,6 +2055,13 @@ function addLiquidRow() {
 // DEVISES PERSONNALISÉES — v2.003 (ajout / suppression à la demande)
 // ============================================================
 function escAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+// [v2.004] Normalise un champ décimal : virgule→point, retire tout caractère non numérique (iOS-safe)
+function normDecimal(el){
+  if(!el) return;
+  var v = el.value, nv = v.replace(/,/g,'.').replace(/[^0-9.]/g,'');
+  var i = nv.indexOf('.'); if(i!==-1) nv = nv.slice(0,i+1)+nv.slice(i+1).replace(/\./g,'');
+  if(nv!==v){ var p=el.selectionStart; el.value=nv; try{ el.setSelectionRange(p,p); }catch(e){} }
+}
 function migrateCustomDevises(d){
   if (d && Array.isArray(d.customDevises)) {
     return d.customDevises.filter(function(x){ return x && typeof x === 'object'; })
@@ -2063,17 +2078,13 @@ function renderCustomDevises(){
   if (!host) return;
   host.innerHTML = customDevises.map(function(d, i){
     var v = (parseFloat(d.amount)||0)*(parseFloat(d.rate)||0);
-    return '<div class="currency-item custom-currency" style="border-top:1.5px dashed var(--border);margin-top:4px;padding-top:10px;align-items:flex-end;flex-wrap:wrap;">'
-      + '<span class="currency-flag" style="margin-bottom:8px;">🌐</span>'
-      + '<div class="cc-field" style="flex:1.4;min-width:104px;"><span class="cc-lbl">Devise / العملة</span>'
-      +   '<input type="text" value="'+escAttr(d.name)+'" placeholder="Ex : Yen, Livre…" oninput="updateCustomDevise('+i+',\'name\',this.value)" style="width:100%;font-size:0.82rem;font-weight:700;"></div>'
-      + '<div class="cc-field" style="width:84px;flex:none;"><span class="cc-lbl">Taux (DA)</span>'
-      +   '<input type="number" inputmode="decimal" value="'+escAttr(d.rate)+'" placeholder="0" oninput="updateCustomDevise('+i+',\'rate\',this.value)" style="width:100%;"></div>'
-      + '<div class="cc-field" style="flex:1;min-width:84px;"><span class="cc-lbl">Montant / المبلغ</span>'
-      +   '<input type="number" inputmode="decimal" min="0" value="'+escAttr(d.amount)+'" placeholder="0" oninput="updateCustomDevise('+i+',\'amount\',this.value)" style="width:100%;"></div>'
-      + '<div class="cc-field cc-eq" style="flex:1;min-width:84px;"><span class="cc-lbl">Équivalent</span>'
-      +   '<span class="currency-converted" id="cust-eq-'+i+'">= '+fmtNum(Math.round(v))+' DA</span></div>'
-      + '<button type="button" class="btn btn-sm btn-danger" onclick="removeCustomDevise('+i+')" title="Supprimer cette devise" style="margin-bottom:6px;">✕</button>'
+    return '<div class="currency-item custom-currency">'
+      + '<span class="currency-flag">🌐</span>'
+      + '<input type="text" value="'+escAttr(d.name)+'" placeholder="Devise" aria-label="Nom de la devise" oninput="updateCustomDevise('+i+',\'name\',this.value)" style="font-weight:700;font-size:0.82rem;">'
+      + '<input type="text" inputmode="decimal" value="'+escAttr(d.rate)+'" placeholder="Taux" aria-label="Taux en DA" oninput="normDecimal(this);updateCustomDevise('+i+',\'rate\',this.value)">'
+      + '<input type="text" inputmode="decimal" value="'+escAttr(d.amount)+'" placeholder="Montant" aria-label="Montant" oninput="normDecimal(this);updateCustomDevise('+i+',\'amount\',this.value)">'
+      + '<span class="currency-converted" id="cust-eq-'+i+'">= '+fmtNum(Math.round(v))+' DA</span>'
+      + '<span class="dev-action"><button type="button" class="btn btn-sm btn-danger" onclick="removeCustomDevise('+i+')" title="Supprimer cette devise" aria-label="Supprimer">✕</button></span>'
       + '</div>';
   }).join('');
 }
@@ -2268,22 +2279,14 @@ function recalculate() {
       `;
   }
 
-  // [v2.001] Jauge Nissab — éléments persistants, transition CSS fluide
+  // [v2.004] Progression Nissab — affichée en continu dans le bandeau collant
   var pctNissab = nissab > 0 ? (total / nissab * 100) : 0;
-  var gFill = document.getElementById('gauge-fill');
-  var gPct  = document.getElementById('gauge-pct');
-  var gTot  = document.getElementById('gauge-total');
-  var gNis  = document.getElementById('gauge-nissab');
-  var gNote = document.getElementById('gauge-note');
-  var gCard = document.getElementById('nissab-gauge');
-  if (gFill) gFill.style.width = Math.min(pctNissab, 100).toFixed(1) + '%';
-  if (gPct)  gPct.textContent  = Math.round(pctNissab) + '%';
-  if (gTot)  gTot.textContent  = fmtNum(Math.round(total)) + ' DA';
-  if (gNis)  gNis.textContent  = 'Nissab : ' + fmtNum(nissab) + ' DA';
-  if (gCard) gCard.classList.toggle('reached', imposable);
-  if (gNote) gNote.textContent = imposable
-    ? '✅ Seuil atteint — surplus de ' + fmtNum(Math.round(total - nissab)) + ' DA'
-    : '⏳ Encore ' + fmtNum(Math.round(nissab - total)) + ' DA avant le Nissab';
+  var dnFill = document.getElementById('dn-fill');
+  var dnPct  = document.getElementById('dn-pct');
+  var dnBar  = document.getElementById('dash-nissab');
+  if (dnFill) dnFill.style.width = Math.min(pctNissab, 100).toFixed(1) + '%';
+  if (dnPct)  dnPct.textContent  = Math.round(pctNissab) + '%';
+  if (dnBar)  dnBar.classList.toggle('reached', imposable);
 
   // [v2.001] Grand montant de Zakat — compteur animé
   if (imposable) animateBigZakat(zakat);
@@ -2294,44 +2297,12 @@ function recalculate() {
   updateHistory(_hy, { total: total, zakat: zakat, gold: goldDA, devises: devisesDA, liquid: liquidDA, nissab: nissab });
   renderHistory(_hy);
 
-  saveSession();
+  saveSessionSoon();
 }
 
 // ============================================================
 // PDF EXPORT
 // ============================================================
-  // ── Rendu arabe pour PDF : remplace chaque élément .ar/.ar-inline par une image canvas ──
-  function renderArabicAsImage(el) {
-    const text = el.textContent.trim();
-    if (!text) return;
-    const style = window.getComputedStyle(el);
-    const fontSize = parseFloat(style.fontSize) * 1.5;
-    const color = style.color;
-    const font = `${style.fontWeight} ${fontSize}px Tajawal,Cairo,Arial`;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.font = font;
-    const w = ctx.measureText(text).width + 20;
-    canvas.width = w;
-    canvas.height = fontSize * 1.6;
-    ctx.font = font;
-    ctx.fillStyle = color;
-    ctx.textAlign = 'right';
-    ctx.direction = 'rtl';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(text, w - 4, canvas.height / 2);
-    const img = document.createElement('img');
-    img.src = canvas.toDataURL();
-    img.style.display = el.style.display || 'inline-block';
-    img.style.verticalAlign = 'middle';
-    img.style.height = (canvas.height / 1.5) + 'px';
-    img.style.width = 'auto';
-    img._replaces = el;
-    el.parentNode.insertBefore(img, el);
-    el.style.display = 'none';
-    return img;
-  }
-
   async function exportPDF() {
   const btn = document.querySelector('.btn-pdf') || document.querySelector('.mob-btn-pdf');
   if (!btn) return;
@@ -2391,7 +2362,7 @@ function recalculate() {
       const val  = eq18 * goldPrice;
       const bg   = i % 2 === 1 ? '#fdf8ee' : '#fffdf8';
       orRows += `<tr style="background:${bg}">
-        <td style="padding:3px 6px;font-size:8.5px;">${item.name}</td>
+        <td style="padding:3px 6px;font-size:8.5px;">${escAttr(item.name)}</td>
         <td style="text-align:center;padding:3px 4px;font-size:8px;">${item.carat}k</td>
         <td style="text-align:center;padding:3px 4px;font-size:8.5px;">${G(item.weight)}</td>
         <td style="text-align:center;padding:3px 4px;font-size:8.5px;">${G(eq18)}</td>
@@ -2404,7 +2375,7 @@ function recalculate() {
     liquidItems.forEach((item, i) => {
       const bg = i % 2 === 1 ? '#fdf8ee' : '#fffdf8';
       liqRows += `<tr style="background:${bg}">
-        <td style="font-size:8.5px;padding:3px 5px;">${item.name}</td>
+        <td style="font-size:8.5px;padding:3px 5px;">${escAttr(item.name)}</td>
         <td style="font-size:8.5px;font-weight:700;text-align:right;padding:3px 5px;">${N(item.amount)}</td>
       </tr>`;
     });
@@ -2420,7 +2391,7 @@ function recalculate() {
     devises.forEach((d, i) => {
       const bg = i % 2 === 1 ? '#fdf8ee' : '#fffdf8';
       devRows += `<tr style="background:${bg}">
-        <td style="font-size:8.5px;padding:3px 5px;">${d.flag} ${d.name}</td>
+        <td style="font-size:8.5px;padding:3px 5px;">${d.flag} ${escAttr(d.name)}</td>
         <td style="font-size:8px;text-align:center;padding:3px 4px;color:#7a6a4a;">${d.montant > 0 ? N(d.montant) + ' × ' + d.taux : '—'}</td>
         <td style="font-size:8.5px;font-weight:700;text-align:right;padding:3px 5px;">${N(Math.round(d.valDA))}</td>
       </tr>`;
@@ -2805,8 +2776,12 @@ function loadFromFile(event) {
   reader.onload = function(e) {
     try {
       const d = JSON.parse(e.target.result);
-      goldItems   = d.goldItems   || [];
-      liquidItems = d.liquidItems || [];
+      goldItems = (Array.isArray(d.goldItems) ? d.goldItems : []).filter(function(it){
+        return it && typeof it.weight === 'number' && it.weight > 0 && [14,18,21,24].indexOf(it.carat) !== -1;
+      });
+      liquidItems = (Array.isArray(d.liquidItems) ? d.liquidItems : []).filter(function(it){
+        return it && typeof it.amount === 'number' && it.amount >= 0;
+      });
       if (d.nissab)       document.getElementById('nissab').value       = d.nissab;
       if (d.goldPrice)    document.getElementById('gold-price').value   = d.goldPrice;
       if (d.rateEur)      document.getElementById('rate-eur').value     = d.rateEur;

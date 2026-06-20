@@ -267,6 +267,10 @@ input.valid { border-color:#16a34a;background:#f0fdf4; }
 .currency-item input[type="text"] { flex:1.2;min-width:0; }
 .currency-item .rate-input { width:70px;flex:none; }
 .currency-converted { font-size:0.82rem;color:var(--green);font-weight:800;min-width:85px;text-align:right; }
+.custom-currency .cc-field { display:flex; flex-direction:column; }
+.cc-lbl { font-size:0.6rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;white-space:nowrap; }
+.custom-currency .currency-converted { min-width:0; }
+.cc-eq .currency-converted { padding:8px 2px;text-align:left;white-space:nowrap; }
 
 /* ═══ TABLE ═══ */
 table { width:100%;border-collapse:collapse;font-size:0.82rem; }
@@ -862,6 +866,68 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
   transition: background 0.18s; white-space: nowrap;
 }
 .btn-theme-header:hover { background: rgba(240,217,138,0.28); }
+
+/* ═══ POPUP D'ACCUEIL — v2.002 ═══ */
+.btn-help-header{background:rgba(240,217,138,0.15);border:1.5px solid rgba(240,217,138,0.45);color:var(--gold-light);font-family:var(--font);font-size:0.73rem;font-weight:700;padding:5px 12px;border-radius:99px;cursor:pointer;transition:background 0.18s;white-space:nowrap;}
+.btn-help-header:hover{background:rgba(240,217,138,0.28);}
+.welcome-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(10,28,18,0.74);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;padding:20px 12px;overflow-y:auto;}
+.welcome-overlay.open{display:flex;}
+.welcome-modal{background:var(--card);border:2px solid var(--gold-border);border-radius:var(--radius);width:100%;max-width:560px;box-shadow:0 24px 80px rgba(10,28,18,0.55);overflow:hidden;animation:guideSlideIn 0.28s ease;}
+.welcome-head{background:linear-gradient(135deg,#0e3320,#1a6b3c);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.welcome-title{color:var(--gold-light);font-size:1.05rem;font-weight:800;}
+.welcome-title span{font-family:var(--font-ar);color:#fff;font-size:0.95rem;margin-left:6px;}
+.welcome-body{padding:18px 20px 20px;max-height:74vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.welcome-lead{font-size:0.92rem;line-height:1.7;color:var(--text);margin-bottom:14px;}
+.welcome-alert{background:#fff4d6;border:2px solid #e0a800;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:15px;animation:waPulse 1.8s ease-in-out 3;}
+.welcome-alert .wa-badge{display:inline-block;background:#e0a800;color:#3a2800;font-size:0.66rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:2px 9px;border-radius:99px;margin-bottom:7px;}
+.welcome-alert .wa-fr{font-size:0.88rem;font-weight:700;color:#7a5000;line-height:1.55;}
+.welcome-alert .wa-ar{font-family:var(--font-ar);font-size:0.87rem;font-weight:700;color:#7a5000;line-height:1.75;text-align:right;margin-top:9px;direction:rtl;}
+html[data-theme="dark"] .welcome-alert{background:#3a2e0c;border-color:#b08800;}
+html[data-theme="dark"] .welcome-alert .wa-fr,html[data-theme="dark"] .welcome-alert .wa-ar{color:#f0d98a;}
+@keyframes waPulse{0%,100%{box-shadow:0 0 0 0 rgba(224,168,0,0.4)}50%{box-shadow:0 0 0 7px rgba(224,168,0,0)}}
+@media (prefers-reduced-motion:reduce){.welcome-alert{animation:none;}}
+.wc-ar{border-top:1px dashed var(--border);padding-top:8px;}
+.welcome-card{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:11px;}
+.welcome-card.sadaqa{background:var(--gold-lighter);border-color:var(--gold-light);}
+.wc-head{font-weight:800;font-size:0.86rem;color:var(--green-deep);margin-bottom:8px;}
+.welcome-card p{font-size:0.84rem;line-height:1.65;color:var(--text);}
+.wc-row{display:flex;gap:10px;align-items:flex-start;font-size:0.84rem;line-height:1.6;color:var(--text);margin-bottom:8px;}
+.wc-ico{font-size:1.2rem;flex:none;line-height:1.3;}
+.wc-row kbd{background:#1c1408;color:#fff;border-radius:5px;padding:1px 7px;font-size:0.78rem;font-family:monospace;}
+html[data-theme="dark"] .wc-row kbd{background:#000;}
+.wc-ar{font-family:var(--font-ar);font-size:0.86rem;color:var(--gold-dark);margin-top:8px;line-height:1.7;text-align:right;}
+.welcome-card.sadaqa .wc-ar{color:#7a5c10;}
+html[data-theme="dark"] .welcome-card.sadaqa .wc-ar{color:var(--gold-light);}
+.welcome-dont{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-muted);font-weight:600;margin:6px 0 14px;text-transform:none;letter-spacing:0;cursor:pointer;}
+.welcome-dont input{width:18px;height:18px;flex:none;}
+.welcome-start{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#fff;border:none;border-radius:var(--radius-sm);padding:13px;font-family:var(--font);font-size:0.95rem;font-weight:700;cursor:pointer;min-height:50px;}
+.welcome-start:hover{filter:brightness(1.07);}
+
+/* ═══ HISTORIQUE DU NISSAB — v2.002 ═══ */
+.btn-nissab-history{margin-top:9px;width:100%;background:transparent;border:1.5px dashed var(--gold-border);color:var(--gold-dark);font-family:var(--font);font-size:0.78rem;font-weight:700;padding:9px;border-radius:var(--radius-sm);cursor:pointer;transition:background 0.18s,border-style 0.18s;min-height:42px;}
+.btn-nissab-history:hover{background:var(--gold-lighter);border-style:solid;}
+.btn-nissab-history .ar-inline-btn{font-family:var(--font-ar);font-weight:700;margin-left:4px;}
+html[data-theme="dark"] .btn-nissab-history{color:var(--gold-light);}
+.nissab-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(10,28,18,0.74);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;padding:20px 12px;overflow-y:auto;}
+.nissab-overlay.open{display:flex;}
+.nissab-modal{background:var(--card);border:2px solid var(--gold-border);border-radius:var(--radius);width:100%;max-width:520px;box-shadow:0 24px 80px rgba(10,28,18,0.55);overflow:hidden;animation:guideSlideIn 0.28s ease;}
+.nissab-head{background:linear-gradient(135deg,#0e3320,#1a6b3c);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.nissab-head .nt{color:var(--gold-light);font-size:1rem;font-weight:800;}
+.nissab-head .nt span{font-family:var(--font-ar);color:#fff;font-size:0.92rem;margin-left:6px;}
+.nissab-body{padding:14px 16px 18px;max-height:74vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.nissab-source{background:var(--gold-lighter);border:1px solid var(--gold-light);border-radius:var(--radius-sm);padding:9px 12px;font-size:0.76rem;color:var(--gold-dark);line-height:1.6;margin-bottom:12px;}
+html[data-theme="dark"] .nissab-source{color:var(--gold-light);}
+.nissab-row{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;background:none;border:none;border-bottom:1px solid var(--border);font-family:var(--font);font-size:0.88rem;color:var(--text);cursor:pointer;text-align:left;transition:background 0.15s;min-height:44px;}
+.nissab-row:hover{background:var(--gold-lighter);}
+.nissab-row .ny{font-weight:800;color:var(--green-deep);min-width:104px;}
+.nissab-row .ny small{font-weight:600;color:var(--gold-dark);font-size:0.72em;}
+html[data-theme="dark"] .nissab-row .ny small{color:var(--gold-light);}
+.nissab-row .nv{flex:1;text-align:right;font-variant-numeric:tabular-nums;font-weight:700;}
+.nissab-row .napply{font-size:0.68rem;color:var(--gold-dark);font-weight:700;min-width:74px;text-align:right;opacity:0;transition:opacity 0.15s;}
+.nissab-row:hover .napply{opacity:1;}
+.nissab-row.current{background:var(--green-light);}
+html[data-theme="dark"] .nissab-row.current{background:#163020;}
+.nissab-row.current .ny::after{content:' • actuel';font-size:0.6rem;color:var(--green);font-weight:700;}
 </style>
 <script>
 /* [v2.001] Anti-flash : applique le thème AVANT le rendu (évite le clignotement clair→sombre) */
@@ -890,6 +956,9 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
       <h1>Zakat Calculator <span class="ar">حاسبة الزكاة</span></h1>
       <p>Outil de calcul et de gestion de la Zakat — أداة حساب الزكاة وإدارتها</p>
     </div>
+    <button class="btn-help-header" id="btn-help-header" onclick="openWelcome()" title="Comment garder cette app ? / كيفية حفظ التطبيق">
+      ❔ Aide / مساعدة
+    </button>
     <button class="btn-guide-header" onclick="openGuide('fr')" title="Guide de la Zakat / دليل الزكاة">
       📖 Guide / دليل
     </button>
@@ -951,7 +1020,7 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
             <tr><td>💵 Liquidités</td><td>1 200 000 DA</td></tr>
             <tr><td>💱 Devises</td><td>320 000 DA</td></tr>
             <tr class="total-row"><td><strong>Total</strong></td><td><strong>2 370 000 DA</strong></td></tr>
-            <tr><td>Nissab</td><td>1 870 000 DA ✅</td></tr>
+            <tr><td>Nissab</td><td>2 295 000 DA ✅</td></tr>
             <tr class="total-row"><td><strong>Zakat due</strong></td><td><strong>59 250 DA</strong></td></tr>
           </tbody>
         </table>
@@ -1016,7 +1085,7 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
             <tr><td>💵 سيولة</td><td>1,200,000 دج</td></tr>
             <tr><td>💱 عملات أجنبية</td><td>320,000 دج</td></tr>
             <tr class="total-row"><td><strong>المجموع</strong></td><td><strong>2,370,000 دج</strong></td></tr>
-            <tr><td>النصاب</td><td>1,870,000 دج ✅</td></tr>
+            <tr><td>النصاب</td><td>2,295,000 دج ✅</td></tr>
             <tr class="total-row"><td><strong>الزكاة الواجبة</strong></td><td><strong>59,250 دج</strong></td></tr>
           </tbody>
         </table>
@@ -1050,6 +1119,61 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
     </div><!-- /guide-body -->
   </div><!-- /guide-modal -->
 </div><!-- /guide-overlay -->
+
+<!-- ═══ POPUP D'ACCUEIL — v2.002 ═══ -->
+<div class="welcome-overlay" id="welcome-overlay" onclick="welcomeOverlayClick(event)">
+  <div class="welcome-modal">
+    <div class="welcome-head">
+      <div class="welcome-title">🕌 Bienvenue <span>أهلاً وسهلاً</span></div>
+      <button class="guide-close-btn" onclick="closeWelcome()" title="Fermer">✕</button>
+    </div>
+    <div class="welcome-body">
+      <div class="welcome-alert">
+        <span class="wa-badge">⚠️ À lire · اقرأ أولاً</span>
+        <div class="wa-fr">Ne fermez pas trop vite ! Pour réutiliser cette application <strong>chaque année</strong>, vous devez d'abord l'<strong>enregistrer sur votre appareil</strong> (voir ci-dessous). Sinon, vous risquez de ne plus la retrouver.</div>
+        <div class="wa-ar">لا تُغلق هذه النافذة بسرعة! لإعادة استعمال التطبيق <strong>كل سنة</strong>، يجب أولاً <strong>حفظه على جهازك</strong> (انظر بالأسفل). وإلا فقد لا تجده مرّة أخرى.</div>
+      </div>
+
+      <p class="welcome-lead">Cette application est <strong>un seul fichier</strong> qui fonctionne <strong>sans Internet</strong>. Gardez-la chez vous et réutilisez-la chaque année. 🤲<br><span dir="rtl" style="display:block;font-family:var(--font-ar);margin-top:4px;">هذا التطبيق ملفّ <strong>واحد</strong> يعمل <strong>بدون إنترنت</strong>. احتفظ به واستعمله كل سنة.</span></p>
+
+      <div class="welcome-card">
+        <div class="wc-head">💾 Gardez l'application chez vous</div>
+        <div class="wc-row"><span class="wc-ico">💻</span><div><strong>Ordinateur :</strong> appuyez sur <kbd>Ctrl</kbd>+<kbd>S</kbd> (Mac : <kbd>⌘</kbd>+<kbd>S</kbd>), puis enregistrez le fichier dans un dossier de votre choix. Double-cliquez dessus quand vous voulez.</div></div>
+        <div class="wc-row"><span class="wc-ico">📱</span><div><strong>Téléphone :</strong> menu du navigateur (⋮ ou Partager) → <strong>« Ajouter à l'écran d'accueil »</strong>. L'application s'ouvrira comme une vraie appli, même hors-ligne.</div></div>
+        <div class="wc-ar" dir="rtl"><strong>💾 احتفظ بالتطبيق عندك:</strong><br>💻 الحاسوب: اضغط <strong>Ctrl+S</strong> (ماك: ⌘+S)، ثم احفظ الملف في مجلّد تختاره، وانقر عليه نقراً مزدوجاً متى شئت.<br>📱 الهاتف: من قائمة المتصفّح (⋮ أو «مشاركة») اختر <strong>«إضافة إلى الشاشة الرئيسية»</strong>، فيفتح كتطبيق حقيقي حتى بدون إنترنت.</div>
+      </div>
+
+      <div class="welcome-card">
+        <div class="wc-head">🔒 Vos données restent chez vous</div>
+        <p>Aucune connexion, aucun compte, aucun envoi. Tout ce que vous saisissez est enregistré <strong>uniquement sur votre appareil</strong>. Vous pouvez aussi <strong>sauvegarder un fichier</strong> pour archiver vos données ou les transférer sur un autre appareil.</p>
+        <div class="wc-ar" dir="rtl"><strong>🔒 بياناتك تبقى عندك:</strong> لا اتصال ولا حساب ولا إرسال. كل ما تُدخله يُحفَظ على <strong>جهازك فقط</strong>. ويمكنك أيضاً <strong>حفظ ملف</strong> لأرشفة بياناتك أو نقلها إلى جهاز آخر.</div>
+      </div>
+
+      <div class="welcome-card sadaqa">
+        <div class="wc-head">🤲 Sadaqa Jariya — صدقة جارية</div>
+        <p>Cet outil est <strong>offert gratuitement</strong> comme aumône continue. Partagez-le librement autour de vous : sa réutilité vous est comptée, à vous et à l'auteur.</p>
+        <div class="wc-ar" dir="rtl"><strong>🤲 صدقة جارية:</strong> هذا التطبيق مجاني، يُقدَّم صدقةً جارية. انشره بين الناس فنفعه يُكتب لك وللمؤلّف. اللهم اجعله صدقةً جاريةً عنّي وعن والديّ، ولك الأجر ولوالديك.</div>
+      </div>
+
+      <label class="welcome-dont"><input type="checkbox" id="welcome-dont"> Ne plus afficher au démarrage · عدم الإظهار مجدداً</label>
+      <button class="welcome-start" onclick="closeWelcome()">J'ai compris, commencer · فهمت، ابدأ →</button>
+    </div>
+  </div>
+</div><!-- /welcome-overlay -->
+
+<!-- ═══ HISTORIQUE DU NISSAB — v2.002 ═══ -->
+<div class="nissab-overlay" id="nissab-overlay" onclick="nissabOverlayClick(event)">
+  <div class="nissab-modal">
+    <div class="nissab-head">
+      <div class="nt">📜 Historique du Nissab <span>تاريخ النصاب</span></div>
+      <button class="guide-close-btn" onclick="closeNissabHistory()" title="Fermer">✕</button>
+    </div>
+    <div class="nissab-body">
+      <div class="nissab-source">🏛️ Source : Ministère des Affaires Religieuses et des Wakfs — Algérie. Cliquez sur une année pour appliquer son Nissab au calcul. Vérifiez toujours le seuil de l'année en cours.</div>
+      <div id="nissab-list"></div>
+    </div>
+  </div>
+</div><!-- /nissab-overlay -->
 <div class="sticky-dash">
   <div class="dash-item">
     <div class="d-label">🪙 Or 18k</div>
@@ -1105,12 +1229,13 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
     <div class="card-title"><span>⚖️</span> Nissab <span class="ar">/ النصاب</span></div>
     <div class="field">
       <label>Seuil Nissab (DA) <span class="info-wrap"><button type="button" class="info-btn" onclick="toggleTip(this)" aria-label="Aide Nissab">i</button><span class="info-bubble">Seuil minimum de richesse (valeur de 85 g d'or 24k) à partir duquel la Zakat devient obligatoire. Il change chaque année selon le cours de l'or.</span></span></label>
-      <input type="number" id="nissab" value="1615000" oninput="handleInput(this);recalculate()">
+      <input type="number" id="nissab" value="2295000" oninput="handleInput(this);recalculate()">
     </div>
     <div class="nissab-note">
       💰 Ce montant correspond à :<br>
       🟡 <strong>Or 24k : 85 g</strong> &nbsp;|&nbsp; 🟠 <strong>Or 21k : 97 g</strong> &nbsp;|&nbsp; 🟤 <strong>Or 18k : 113 g</strong>
     </div>
+    <button type="button" class="btn-nissab-history" onclick="openNissabHistory()">📜 Historique des Nissab · 1993–2026 (1414–1448 H) <span class="ar-inline-btn">تاريخ النصاب</span></button>
   </div>
 
 </div><!-- /grid2 step1 -->
@@ -1182,14 +1307,9 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
       <span class="currency-converted" id="sar-converted">= 0 DA</span>
     </div>
 
-    <!-- Autre devise — en dernier -->
-    <div class="currency-item" style="border-top:1.5px dashed var(--border);margin-top:4px;padding-top:10px;">
-      <span class="currency-flag">🌐</span>
-      <input type="text" id="custom-name" placeholder="Autre devise" style="flex:1.2;min-width:0;font-size:0.82rem;font-weight:700;" oninput="recalculate()">
-      <input type="number" id="custom-rate" value="" placeholder="Taux DA" class="rate-input" oninput="handleInput(this);recalculate()" style="width:80px;flex:none;">
-      <input type="number" id="custom-amount" value="0" oninput="handleInput(this);recalculate()" onchange="if(parseFloat(this.value)>0)playSuccessSound()" min="0" style="flex:1;min-width:0;">
-      <span class="currency-converted" id="custom-converted">= 0 DA</span>
-    </div>
+    <!-- Devises personnalisées — créées à la demande -->
+    <div id="custom-devises-list"></div>
+    <button type="button" class="btn btn-outline btn-sm" onclick="addCustomDevise()" style="margin-top:8px;width:100%;">➕ Ajouter une devise <span style="font-family:var(--font-ar);">/ إضافة عملة</span></button>
 
     <!-- Total devises -->
     <div style="margin-top:10px;padding:8px 10px;background:var(--card2);border-radius:var(--radius-sm);border:1.5px solid var(--gold-border);display:flex;align-items:center;justify-content:space-between;">
@@ -1376,6 +1496,7 @@ html[data-theme="dark"] .chart-empty { color:var(--text-muted); }
 // ============================================================
 let goldItems = [];
 let liquidItems = [];
+var customDevises = []; // devises personnalisées : [{name, rate, amount}]
 
 // ============================================================
 // HELPERS — formatage milliers
@@ -1582,10 +1703,12 @@ function computeFromData(d) {
   var liquid = 0;
   (d.liquidItems || []).forEach(function(it){ if (it && it.amount > 0) liquid += it.amount; });
   var rEur = parseFloat(d.rateEur) || 290, rUsd = parseFloat(d.rateUsd) || 250, rSar = parseFloat(d.rateSar) || 65;
+  var customSum = 0;
+  migrateCustomDevises(d).forEach(function(cd){ customSum += (parseFloat(cd.amount)||0)*(parseFloat(cd.rate)||0); });
   var devises = (parseFloat(d.eurAmount)||0)*rEur + (parseFloat(d.usdAmount)||0)*rUsd
-              + (parseFloat(d.sarAmount)||0)*rSar + (parseFloat(d.customAmount)||0)*(parseFloat(d.customRate)||0);
+              + (parseFloat(d.sarAmount)||0)*rSar + customSum;
   var total = gold + liquid + devises;
-  var nissab = parseFloat(d.nissab) || 1615000;
+  var nissab = parseFloat(d.nissab) || 2295000;
   var zakat = total >= nissab ? Math.ceil(total * 0.025) : 0;
   return { hy: parseInt(d.hijriYear) || null, gold:gold, liquid:liquid, devises:devises, total:total, nissab:nissab, zakat:zakat };
 }
@@ -1689,9 +1812,7 @@ function saveSession() {
     rateEur: document.getElementById('rate-eur').value,
     rateUsd: document.getElementById('rate-usd').value,
     rateSar: document.getElementById('rate-sar').value,
-    customName: document.getElementById('custom-name').value,
-    customRate: document.getElementById('custom-rate').value,
-    customAmount: document.getElementById('custom-amount').value,
+    customDevises: customDevises,
     eurAmount: document.getElementById('eur-amount').value,
     usdAmount: document.getElementById('usd-amount').value,
     sarAmount: document.getElementById('sar-amount').value,
@@ -1729,14 +1850,13 @@ function restoreSession() {
   }
   goldItems = d.goldItems || [];
   liquidItems = d.liquidItems || [];
-  document.getElementById('nissab').value = d.nissab || 1615000;
+  document.getElementById('nissab').value = d.nissab || 2295000;
   document.getElementById('gold-price').value = d.goldPrice || 25000;
   document.getElementById('rate-eur').value = d.rateEur || 290;
   document.getElementById('rate-usd').value = d.rateUsd || 250;
   document.getElementById('rate-sar').value = d.rateSar || 65;
-  document.getElementById('custom-name').value = d.customName || '';
-  document.getElementById('custom-rate').value = d.customRate || '';
-  document.getElementById('custom-amount').value = d.customAmount || 0;
+  customDevises = migrateCustomDevises(d);
+  renderCustomDevises();
   document.getElementById('eur-amount').value = d.eurAmount || 0;
   document.getElementById('usd-amount').value = d.usdAmount || 0;
   document.getElementById('sar-amount').value = d.sarAmount || 0;
@@ -1756,14 +1876,13 @@ function confirmReset() {
   if (!confirm('Réinitialiser toutes les données ? Cette action est irréversible.')) return;
   goldItems = [];
   liquidItems = [];
-  document.getElementById('nissab').value = 1615000;
+  document.getElementById('nissab').value = 2295000;
   document.getElementById('gold-price').value = 25000;
   document.getElementById('rate-eur').value = 290;
   document.getElementById('rate-usd').value = 250;
   document.getElementById('rate-sar').value = 65;
-  document.getElementById('custom-name').value = '';
-  document.getElementById('custom-rate').value = '';
-  document.getElementById('custom-amount').value = 0;
+  customDevises = [];
+  renderCustomDevises();
   document.getElementById('eur-amount').value = 0;
   document.getElementById('usd-amount').value = 0;
   document.getElementById('sar-amount').value = 0;
@@ -1925,6 +2044,59 @@ function addLiquidRow() {
 }
 
 // ============================================================
+// DEVISES PERSONNALISÉES — v2.003 (ajout / suppression à la demande)
+// ============================================================
+function escAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function migrateCustomDevises(d){
+  if (d && Array.isArray(d.customDevises)) {
+    return d.customDevises.filter(function(x){ return x && typeof x === 'object'; })
+      .map(function(x){ return { name:(x.name||''), rate:(x.rate||''), amount:(x.amount||'') }; });
+  }
+  // Ancien format (une seule devise) → migration transparente
+  if (d && (d.customName || (parseFloat(d.customAmount)||0) > 0)) {
+    return [{ name:d.customName||'', rate:d.customRate||'', amount:d.customAmount||'' }];
+  }
+  return [];
+}
+function renderCustomDevises(){
+  var host = document.getElementById('custom-devises-list');
+  if (!host) return;
+  host.innerHTML = customDevises.map(function(d, i){
+    var v = (parseFloat(d.amount)||0)*(parseFloat(d.rate)||0);
+    return '<div class="currency-item custom-currency" style="border-top:1.5px dashed var(--border);margin-top:4px;padding-top:10px;align-items:flex-end;flex-wrap:wrap;">'
+      + '<span class="currency-flag" style="margin-bottom:8px;">🌐</span>'
+      + '<div class="cc-field" style="flex:1.4;min-width:104px;"><span class="cc-lbl">Devise / العملة</span>'
+      +   '<input type="text" value="'+escAttr(d.name)+'" placeholder="Ex : Yen, Livre…" oninput="updateCustomDevise('+i+',\'name\',this.value)" style="width:100%;font-size:0.82rem;font-weight:700;"></div>'
+      + '<div class="cc-field" style="width:84px;flex:none;"><span class="cc-lbl">Taux (DA)</span>'
+      +   '<input type="number" inputmode="decimal" value="'+escAttr(d.rate)+'" placeholder="0" oninput="updateCustomDevise('+i+',\'rate\',this.value)" style="width:100%;"></div>'
+      + '<div class="cc-field" style="flex:1;min-width:84px;"><span class="cc-lbl">Montant / المبلغ</span>'
+      +   '<input type="number" inputmode="decimal" min="0" value="'+escAttr(d.amount)+'" placeholder="0" oninput="updateCustomDevise('+i+',\'amount\',this.value)" style="width:100%;"></div>'
+      + '<div class="cc-field cc-eq" style="flex:1;min-width:84px;"><span class="cc-lbl">Équivalent</span>'
+      +   '<span class="currency-converted" id="cust-eq-'+i+'">= '+fmtNum(Math.round(v))+' DA</span></div>'
+      + '<button type="button" class="btn btn-sm btn-danger" onclick="removeCustomDevise('+i+')" title="Supprimer cette devise" style="margin-bottom:6px;">✕</button>'
+      + '</div>';
+  }).join('');
+}
+function addCustomDevise(){
+  customDevises.push({ name:'', rate:'', amount:'' });
+  renderCustomDevises();
+  recalculate(); saveSession();
+  var rows = document.querySelectorAll('#custom-devises-list .custom-currency');
+  var last = rows[rows.length-1];
+  if (last){ var inp = last.querySelector('input[type="text"]'); if (inp) inp.focus(); }
+}
+function removeCustomDevise(i){
+  customDevises.splice(i,1);
+  renderCustomDevises();
+  recalculate(); saveSession();
+}
+function updateCustomDevise(i, field, value){
+  if (!customDevises[i]) return;
+  customDevises[i][field] = value;
+  recalculate(); saveSession();
+}
+
+// ============================================================
 // DEVISES
 // ============================================================
 function calcDevises() {
@@ -1940,10 +2112,13 @@ function calcDevises() {
   document.getElementById('eur-converted').textContent='= '+fmtNum(Math.round(eur))+' DA';
   document.getElementById('usd-converted').textContent='= '+fmtNum(Math.round(usd))+' DA';
   document.getElementById('sar-converted').textContent='= '+fmtNum(Math.round(sar))+' DA';
-  const cRate=parseFloat(document.getElementById('custom-rate').value)||0;
-  const cAmt=parseFloat(document.getElementById('custom-amount').value)||0;
-  const custom=cAmt*cRate;
-  document.getElementById('custom-converted').textContent='= '+fmtNum(Math.round(custom))+' DA';
+  var custom=0;
+  customDevises.forEach(function(cd, i){
+    var v=(parseFloat(cd.amount)||0)*(parseFloat(cd.rate)||0);
+    custom+=v;
+    var eq=document.getElementById('cust-eq-'+i);
+    if(eq) eq.textContent='= '+fmtNum(Math.round(v))+' DA';
+  });
   const total=eur+usd+sar+custom;
   document.getElementById('devises-total-da').textContent=fmtNum(Math.round(total))+' DA';
   return total;
@@ -2023,7 +2198,7 @@ function recalculate() {
   const liquidDA = renderLiquidTable();
   const devisesDA = calcDevises();
   const total = goldDA + liquidDA + devisesDA;
-  const nissab = parseFloat(document.getElementById('nissab').value)||1615000;
+  const nissab = parseFloat(document.getElementById('nissab').value)||2295000;
   const imposable = total >= nissab;
   // [v2.000] Math.ceil : arrondi au surplus — jamais en défaveur du bénéficiaire
   const zakat = imposable ? Math.ceil(total * 0.025) : 0;
@@ -2166,7 +2341,7 @@ function recalculate() {
 
   try {
     // Collecter les données courantes
-    const nissab    = parseFloat(document.getElementById('nissab').value) || 1615000;
+    const nissab    = parseFloat(document.getElementById('nissab').value) || 2295000;
     const goldPrice = parseFloat(document.getElementById('gold-price').value) || 25000;
     const rEur      = parseFloat(document.getElementById('rate-eur').value) || 290;
     const rUsd      = parseFloat(document.getElementById('rate-usd').value) || 250;
@@ -2174,9 +2349,8 @@ function recalculate() {
     const eurAmt    = parseFloat(document.getElementById('eur-amount').value) || 0;
     const usdAmt    = parseFloat(document.getElementById('usd-amount').value) || 0;
     const sarAmt    = parseFloat(document.getElementById('sar-amount').value) || 0;
-    const custName  = document.getElementById('custom-name').value || '';
-    const custRate  = parseFloat(document.getElementById('custom-rate').value) || 0;
-    const custAmt   = parseFloat(document.getElementById('custom-amount').value) || 0;
+    var customDA = 0;
+    customDevises.forEach(function(cd){ customDA += (parseFloat(cd.amount)||0)*(parseFloat(cd.rate)||0); });
     const gregDate  = document.getElementById('gregorian-date').textContent || '';
     const hijriDay  = document.getElementById('hijri-day').value;
     const hijriMonth= document.getElementById('hijri-month').value;
@@ -2186,8 +2360,7 @@ function recalculate() {
     const eurDA   = eurAmt * rEur;
     const usdDA   = usdAmt * rUsd;
     const sarDA   = sarAmt * rSar;
-    const custDA  = custAmt * custRate;
-    const devisesDA = eurDA + usdDA + sarDA + custDA;
+    const devisesDA = eurDA + usdDA + sarDA + customDA;
 
     let goldDA = 0, totalEq18 = 0;
     goldItems.forEach(item => {
@@ -2239,7 +2412,7 @@ function recalculate() {
     // Lignes Devises
     let devRows = '';
     const devises = [];
-    if (custAmt > 0 && custName) devises.push({ flag:'🌐', name: custName, montant: custAmt, taux: custRate, valDA: custDA });
+    customDevises.forEach(function(cd){ var a=parseFloat(cd.amount)||0, r=parseFloat(cd.rate)||0; if (a > 0 && cd.name) devises.push({ flag:'🌐', name: cd.name, montant: a, taux: r, valDA: a*r }); });
     if (eurAmt > 0) devises.push({ flag:'🇪🇺', name:'Euro', montant: eurAmt, taux: rEur, valDA: eurDA });
     if (usdAmt > 0) devises.push({ flag:'🇺🇸', name:'Dollar', montant: usdAmt, taux: rUsd, valDA: usdDA });
     if (sarAmt > 0) devises.push({ flag:'🇸🇦', name:'Riyal SAR', montant: sarAmt, taux: rSar, valDA: sarDA });
@@ -2600,9 +2773,7 @@ function saveToFile() {
     rateEur:      document.getElementById('rate-eur').value,
     rateUsd:      document.getElementById('rate-usd').value,
     rateSar:      document.getElementById('rate-sar').value,
-    customName:   document.getElementById('custom-name').value,
-    customRate:   document.getElementById('custom-rate').value,
-    customAmount: document.getElementById('custom-amount').value,
+    customDevises: customDevises,
     eurAmount:    document.getElementById('eur-amount').value,
     usdAmount:    document.getElementById('usd-amount').value,
     sarAmount:    document.getElementById('sar-amount').value,
@@ -2641,9 +2812,8 @@ function loadFromFile(event) {
       if (d.rateEur)      document.getElementById('rate-eur').value     = d.rateEur;
       if (d.rateUsd)      document.getElementById('rate-usd').value     = d.rateUsd;
       if (d.rateSar)      document.getElementById('rate-sar').value     = d.rateSar;
-      document.getElementById('custom-name').value   = d.customName   || '';
-      document.getElementById('custom-rate').value   = d.customRate   || '';
-      document.getElementById('custom-amount').value = d.customAmount || 0;
+      customDevises = migrateCustomDevises(d);
+      renderCustomDevises();
       document.getElementById('eur-amount').value    = d.eurAmount    || 0;
       document.getElementById('usd-amount').value    = d.usdAmount    || 0;
       document.getElementById('sar-amount').value    = d.sarAmount    || 0;
@@ -2841,6 +3011,73 @@ function toggleTheme() {
 }
 
 // ============================================================
+// POPUP D'ACCUEIL — v2.002
+// ============================================================
+function openWelcome() {
+  document.getElementById('welcome-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeWelcome() {
+  var dont = document.getElementById('welcome-dont');
+  if (dont && dont.checked) { try { localStorage.setItem('zakat_welcome_seen', '1'); } catch(e) {} }
+  document.getElementById('welcome-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function welcomeOverlayClick(e) {
+  if (e.target === document.getElementById('welcome-overlay')) closeWelcome();
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('welcome-overlay').classList.contains('open')) closeWelcome();
+});
+
+// ============================================================
+// HISTORIQUE DU NISSAB — v2.002 (Algérie, source : Min. Affaires Religieuses)
+// ============================================================
+// [G grégorien, Nissab DA, année hégirienne qui commence dans cette année grégorienne]
+var NISSAB_HISTORY = [
+  [2026,2295000,'1448'],[2025,1615000,'1447'],[2024,1105000,'1446'],[2023,892500,'1445'],[2022,816000,'1444'],
+  [2021,731000,'1443'],[2020,705500,'1442'],[2019,582250,'1441'],[2018,552500,'1440'],[2017,450500,'1439'],
+  [2016,450500,'1438'],[2015,395250,'1437'],[2014,395250,'1436'],[2013,501500,'1435'],[2012,467500,'1434'],
+  [2011,467500,'1433'],[2010,335750,'1432'],[2009,229500,'1431'],[2008,199750,'1429–1430'],[2007,152150,'1428'],
+  [2006,118154,'1427'],[2005,118154,'1426'],[2004,118154,'1425'],[2003,100200,'1424'],[2002,97750,'1423'],
+  [2001,96050,'1422'],[2000,96050,'1421'],[1999,95200,'1420'],[1998,94350,'1419'],[1997,93500,'1418'],
+  [1996,89250,'1417'],[1995,84000,'1416'],[1994,84000,'1415'],[1993,56000,'1414']
+];
+function renderNissabHistory() {
+  var host = document.getElementById('nissab-list');
+  if (!host) return;
+  var cy = new Date().getFullYear();
+  host.innerHTML = NISSAB_HISTORY.map(function(r) {
+    return '<button type="button" class="nissab-row' + (r[0] === cy ? ' current' : '') + '" onclick="applyNissab(' + r[1] + ',' + r[0] + ')">'
+      + '<span class="ny">' + r[0] + '<small> / ' + r[2] + ' H</small></span>'
+      + '<span class="nv tnum">' + fmtNum(r[1]) + ' DA</span>'
+      + '<span class="napply">Appliquer ›</span></button>';
+  }).join('');
+}
+function openNissabHistory() {
+  renderNissabHistory();
+  document.getElementById('nissab-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeNissabHistory() {
+  document.getElementById('nissab-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function nissabOverlayClick(e) {
+  if (e.target === document.getElementById('nissab-overlay')) closeNissabHistory();
+}
+function applyNissab(v, y) {
+  var el = document.getElementById('nissab');
+  if (el) { el.value = v; handleInput(el); }
+  recalculate(); saveSession();
+  closeNissabHistory();
+  showToast('✅ Nissab ' + y + ' appliqué : ' + fmtNum(v) + ' DA', 'success', 3500);
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('nissab-overlay').classList.contains('open')) closeNissabHistory();
+});
+
+// ============================================================
 // GUIDE ZAKAT — v2.000
 // ============================================================
 function openGuide(lang) {
@@ -2905,6 +3142,14 @@ if (saved) {
   }
 }
 
+// [v2.002] Popup d'accueil au 1er lancement (tant que « Ne plus afficher » n'est pas coché)
+try {
+  if (!localStorage.getItem('zakat_welcome_seen')) {
+    setTimeout(openWelcome, 350);
+  }
+} catch(e) {}
+
+renderCustomDevises();
 recalculate();
 initExtras();
 </script>

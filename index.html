@@ -9,6 +9,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f3d22">
+<meta name="application-name" content="Zakat Calculator">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Zakat">
 <title>حاسبة الزكاة — By XeneX Ameen</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@400;600;700;900&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -315,20 +321,6 @@ td select { width:auto;padding:3px 6px;font-size:0.8rem;border-radius:6px; }
 .legend-text .l-pct { font-size:0.75rem;color:var(--text-muted);margin-left:4px; }
 .chart-empty { text-align:center;color:var(--text-muted);font-size:0.85rem;padding:20px;font-style:italic; }
 
-/* ═══ JAUGE NISSAB — v2.001 ═══ */
-.gauge-card { margin-bottom:14px; }
-.gauge-head { display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px; }
-.gauge-title { font-size:0.8rem;font-weight:700;color:var(--green-deep);text-transform:uppercase;letter-spacing:0.03em; }
-.gauge-title .ar { font-family:var(--font-ar);color:var(--gold-dark);text-transform:none;letter-spacing:0;font-size:0.9rem; }
-.gauge-pct { font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--gold-dark);line-height:1; }
-.gauge-track { position:relative;height:18px;background:var(--bg2);border-radius:99px;overflow:hidden;border:1px solid var(--border); }
-.gauge-fill { height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-light));box-shadow:0 0 12px rgba(184,133,31,0.4);transition:width 0.6s cubic-bezier(0.22,1,0.36,1),background 0.4s; }
-.gauge-card.reached .gauge-fill { background:linear-gradient(90deg,#16a34a,#22c55e);box-shadow:0 0 12px rgba(22,163,74,0.5); }
-.gauge-card.reached .gauge-pct { color:var(--green); }
-.gauge-labels { display:flex;justify-content:space-between;margin-top:7px;font-size:0.74rem;font-weight:700;color:var(--text-muted); }
-.gauge-note { margin-top:6px;font-size:0.79rem;font-weight:700;color:var(--gold-dark); }
-.gauge-card.reached .gauge-note { color:var(--green); }
-@media (prefers-reduced-motion: reduce) { .gauge-fill { transition:none; } }
 
 /* ═══ CHIPS SAISIE RAPIDE — v2.001 ═══ */
 .quick-chips { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px; }
@@ -832,6 +824,10 @@ input[type="number"]:hover:not(:focus), input[type="text"]:hover:not(:focus), se
 .app-footer a { color:var(--green); font-weight:700; text-decoration:none; border-bottom:1px solid var(--green-light); }
 .app-footer a:hover { color:var(--green-deep); border-bottom-color:var(--green); }
 .app-footer .af-ar { font-family:var(--font-ar); font-size:0.8rem; color:var(--text-muted); }
+.footer-actions { margin-bottom:9px; }
+.btn-share { background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff; border:none; border-radius:99px; padding:10px 22px; font-family:var(--font); font-size:0.85rem; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:7px; box-shadow:0 3px 12px rgba(22,96,58,0.3); min-height:44px; transition:filter 0.18s, transform 0.18s; }
+.btn-share:hover { filter:brightness(1.08); transform:translateY(-1px); }
+.btn-share:active { transform:scale(0.97); }
 @media (max-width:767px){ .app-footer { margin-bottom:10px; } }
 body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
 @media (prefers-reduced-motion: reduce) {
@@ -1012,6 +1008,9 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
     </button>
     <button class="btn-guide-header" onclick="openGuide('fr')" title="Guide de la Zakat / دليل الزكاة">
       📖 Guide / دليل
+    </button>
+    <button class="btn-guide-header" onclick="shareApp()" title="Partager l'application / مشاركة التطبيق">
+      📤 Partager / مشاركة
     </button>
     <button class="btn-theme-header" id="btn-theme-header" onclick="toggleTheme()" title="Mode clair / sombre">
       🌙 Sombre
@@ -1537,6 +1536,7 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
 
 <!-- PIED DE PAGE — contact / rapport de bug -->
 <footer class="app-footer">
+  <div class="footer-actions"><button type="button" class="btn-share" onclick="shareApp()">📤 Partager l'application <span style="font-family:var(--font-ar)">/ شارك التطبيق</span></button></div>
   <span class="af-line">🐞 Un bug, une incohérence ou une suggestion ? <a href="mailto:xenex007@gmail.com?subject=Zakat%20Calculator%20-%20Rapport&body=Bonjour%2C%0D%0A%0D%0AJe%20souhaite%20signaler%20ou%20proposer%20%3A%0D%0A-%20%0D%0A%0D%0AEtape%20concernee%20%3A%20%0D%0AAppareil%20et%20navigateur%20%3A%20%0D%0A%0D%0AMerci%21">Écrivez-moi</a></span>
   <span class="af-ar" dir="rtl">للإبلاغ عن خطأ أو اقتراح، راسلني على <a href="mailto:xenex007@gmail.com?subject=Zakat%20Calculator%20-%20Rapport">xenex007@gmail.com</a></span>
 </footer>
@@ -2078,11 +2078,13 @@ function renderCustomDevises(){
   if (!host) return;
   host.innerHTML = customDevises.map(function(d, i){
     var v = (parseFloat(d.amount)||0)*(parseFloat(d.rate)||0);
+    var rOk = (d.rate   !== '' && d.rate   != null && parseFloat(d.rate)   > 0) ? ' valid' : '';
+    var aOk = (d.amount !== '' && d.amount != null && parseFloat(d.amount) > 0) ? ' valid' : '';
     return '<div class="currency-item custom-currency">'
       + '<span class="currency-flag">🌐</span>'
       + '<input type="text" value="'+escAttr(d.name)+'" placeholder="Devise" aria-label="Nom de la devise" oninput="updateCustomDevise('+i+',\'name\',this.value)" style="font-weight:700;font-size:0.82rem;">'
-      + '<input type="text" inputmode="decimal" value="'+escAttr(d.rate)+'" placeholder="Taux" aria-label="Taux en DA" oninput="normDecimal(this);updateCustomDevise('+i+',\'rate\',this.value)">'
-      + '<input type="text" inputmode="decimal" value="'+escAttr(d.amount)+'" placeholder="Montant" aria-label="Montant" oninput="normDecimal(this);updateCustomDevise('+i+',\'amount\',this.value)">'
+      + '<input type="text" inputmode="decimal" class="'+rOk+'" value="'+escAttr(d.rate)+'" placeholder="Taux" aria-label="Taux en DA" oninput="normDecimal(this);handleInput(this);updateCustomDevise('+i+',\'rate\',this.value)">'
+      + '<input type="text" inputmode="decimal" class="'+aOk+'" value="'+escAttr(d.amount)+'" placeholder="Montant" aria-label="Montant" oninput="normDecimal(this);handleInput(this);updateCustomDevise('+i+',\'amount\',this.value)" onchange="if(parseFloat(this.value)>0)playSuccessSound()">'
       + '<span class="currency-converted" id="cust-eq-'+i+'">= '+fmtNum(Math.round(v))+' DA</span>'
       + '<span class="dev-action"><button type="button" class="btn btn-sm btn-danger" onclick="removeCustomDevise('+i+')" title="Supprimer cette devise" aria-label="Supprimer">✕</button></span>'
       + '</div>';
@@ -2971,6 +2973,57 @@ function playSuccessSound() {
 }
 
 // ============================================================
+// PWA + PARTAGE — v2.005
+// ============================================================
+var APP_URL = 'https://xenex007.github.io/Zakat-Clculator/'; // lien public de l'app (GitHub Pages)
+function getShareUrl(){ return (location.protocol === 'http:' || location.protocol === 'https:') ? location.href : APP_URL; }
+function shareApp(){
+  var url = getShareUrl();
+  var text = '🕌 Calculez votre Zakat — gratuit, hors-ligne, FR/AR. Une Sadaqa Jariya à partager :';
+  if (navigator.share) {
+    navigator.share({ title: 'Zakat Calculator — حاسبة الزكاة', text: text, url: url }).catch(function(){});
+  } else if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text + ' ' + url).then(
+      function(){ showToast('✅ Lien copié — partagez-le !', 'success', 3000); },
+      function(){ window.prompt('Copiez le lien à partager :', url); }
+    );
+  } else {
+    window.prompt('Copiez le lien à partager :', url);
+  }
+}
+// Manifest PWA + icônes injectés dynamiquement (garde le fichier unique)
+(function(){
+  try {
+    var ico = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%230f3d22'/%3E%3Cg transform='translate(256 256)' fill='none' stroke='%23e8cc72' stroke-width='22'%3E%3Crect x='-150' y='-150' width='300' height='300'/%3E%3Crect x='-150' y='-150' width='300' height='300' transform='rotate(45)'/%3E%3C/g%3E%3Ccircle cx='256' cy='256' r='42' fill='%23e8cc72'/%3E%3C/svg%3E";
+    var manifest = {
+      name: 'Zakat Calculator — حاسبة الزكاة',
+      short_name: 'Zakat',
+      start_url: '.',
+      display: 'standalone',
+      orientation: 'portrait',
+      background_color: '#f4efe6',
+      theme_color: '#0f3d22',
+      icons: [{ src: ico, sizes: 'any', type: 'image/svg+xml', purpose: 'any' }]
+    };
+    var l = document.createElement('link');
+    l.rel = 'manifest';
+    l.href = 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(manifest));
+    document.head.appendChild(l);
+    var logo = document.querySelector('.header-logo img'); // icône iOS = logo déjà présent
+    if (logo && logo.src) {
+      var al = document.createElement('link');
+      al.rel = 'apple-touch-icon';
+      al.href = logo.src;
+      document.head.appendChild(al);
+    }
+    // Service worker (hors-ligne total) — actif uniquement si l'app est hébergée en HTTP/HTTPS
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+      window.addEventListener('load', function(){ navigator.serviceWorker.register('./sw.js').catch(function(){}); });
+    }
+  } catch(e) {}
+})();
+
+// ============================================================
 // DARK MODE — v2.001
 // ============================================================
 function applyTheme(theme) {
@@ -3127,6 +3180,12 @@ try {
 renderCustomDevises();
 recalculate();
 initExtras();
+
+// [v2.005] Cohérence : verdit les montants devises déjà remplis au chargement (comme les devises personnalisées)
+['eur-amount','usd-amount','sar-amount','nissab','gold-price','rate-eur','rate-usd','rate-sar'].forEach(function(id){
+  var el = document.getElementById(id);
+  if (el && parseFloat(el.value) > 0) handleInput(el);
+});
 </script>
 </body>
 </html>

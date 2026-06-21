@@ -829,6 +829,86 @@ input[type="number"]:hover:not(:focus), input[type="text"]:hover:not(:focus), se
 .btn-share:hover { filter:brightness(1.08); transform:translateY(-1px); }
 .btn-share:active { transform:scale(0.97); }
 @media (max-width:767px){ .app-footer { margin-bottom:10px; } }
+
+/* ═══════════ CALCUL GUIDÉ (assistant mobile) — v2.006 ═══════════ */
+#assistant{ display:none; }
+@media (max-width:767px){
+  body.asst-on .sticky-dash, body.asst-on .app-body, body.asst-on .mob-nav,
+  body.asst-on .pdf-bar, body.asst-on .app-footer, body.asst-on .page-header { display:none !important; }
+  body.asst-on{ overflow:hidden; }
+  body.asst-on #assistant{ display:flex; flex-direction:column; position:fixed; inset:0; z-index:400; height:100dvh; }
+}
+#assistant{ background:var(--bg); }
+.a-top{ background:linear-gradient(135deg,#071c0e,#0f3d22 60%,#16603a); padding:12px 16px 11px; color:#fff; flex:none; }
+.a-tbar{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+.a-tt{ font-size:.8rem; font-weight:800; color:var(--gold-light); }
+.a-tt span{ font-family:var(--font-ar); color:#fff; font-weight:700; margin-left:5px; }
+.a-mode{ background:rgba(240,217,138,.15); border:1.5px solid rgba(240,217,138,.4); color:var(--gold-light); font-family:var(--font); font-size:.62rem; font-weight:700; padding:6px 11px; border-radius:99px; cursor:pointer; min-height:36px; }
+.a-bar{ height:6px; background:rgba(255,255,255,.14); border-radius:99px; overflow:hidden; }
+.a-bar>i{ display:block; height:100%; width:6%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); border-radius:99px; transition:width .35s cubic-bezier(.22,1,.36,1); }
+.a-steplbl{ font-size:.62rem; color:rgba(240,217,138,.82); margin-top:7px; font-weight:600; }
+.a-steplbl b{ color:#fff; }
+#a-body{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:22px 18px 20px; }
+.a-screen{ display:none; }
+.a-screen.active{ display:block; animation:aFade .28s ease both; }
+@keyframes aFade{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+@media (prefers-reduced-motion:reduce){ .a-screen.active{ animation:none; } .a-bar>i{ transition:none; } }
+.a-q{ font-size:1.3rem; font-weight:800; color:var(--green-deep); line-height:1.25; }
+.a-qar{ font-family:var(--font-ar); font-size:1.02rem; color:var(--gold-dark); font-weight:700; margin:3px 0 15px; direction:rtl; text-align:right; }
+.a-hint{ font-size:.82rem; color:var(--text-muted); line-height:1.6; margin-bottom:15px; }
+.a-fld{ display:block; font-size:.72rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; margin:0 0 6px; }
+#assistant input, #assistant select{ width:100%; min-height:54px; border:2px solid var(--border); border-radius:14px; background:var(--card2); font-family:var(--font); font-size:1.1rem; font-weight:700; color:var(--text); padding:0 14px; outline:none; -webkit-text-fill-color:var(--text); }
+#assistant input:focus, #assistant select:focus{ border-color:var(--gold); background:var(--card); box-shadow:0 0 0 4px rgba(201,150,42,.14); }
+.a-row3{ display:grid; grid-template-columns:1fr 1fr 1.1fr; gap:9px; }
+.a-greg{ margin-top:12px; background:linear-gradient(135deg,#eff6ff,#dbeafe); border:1.5px solid #bfdbfe; border-radius:12px; padding:11px; color:#1d4ed8; font-weight:700; font-size:.95rem; text-align:center; }
+html[data-theme="dark"] .a-greg{ background:linear-gradient(135deg,#16263f,#1b2f4d); border-color:#274063; color:#9cc4f5; }
+.a-bigbtn{ width:100%; min-height:56px; border:none; border-radius:16px; font-family:var(--font); font-size:1.02rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:13px; }
+.a-bigbtn small{ display:block; font-size:.7rem; font-weight:600; opacity:.85; }
+.a-gold{ background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:#fff; box-shadow:0 6px 18px rgba(184,133,31,.32); }
+.a-soft{ background:var(--gold-lighter); border:2px solid var(--gold-border)!important; color:var(--gold-dark); }
+.a-outg{ background:var(--card); border:2px solid var(--green)!important; color:var(--green); }
+.a-bigbtn:active{ transform:scale(.98); }
+.a-yesno{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:6px; }
+.a-yesno button{ min-height:120px; border-radius:18px; border:2px solid var(--border); background:var(--card); cursor:pointer; font-family:var(--font); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; font-size:1.05rem; font-weight:800; color:var(--green-deep); }
+.a-yesno button .i{ font-size:2rem; }
+.a-yesno button .ar{ font-family:var(--font-ar); font-size:.85rem; font-weight:600; color:var(--text-muted); }
+.a-yesno button.no{ color:var(--text-muted); }
+.a-yesno button:active{ transform:scale(.97); border-color:var(--gold); }
+.a-chips{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px; }
+.a-chip{ background:var(--gold-lighter); border:1.5px solid var(--gold-light); color:var(--gold-dark); font-family:var(--font); font-size:.85rem; font-weight:700; padding:9px 14px; border-radius:99px; cursor:pointer; min-height:40px; }
+.a-carats{ display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin:4px 0; }
+.a-carat{ min-height:52px; border:2px solid var(--border); border-radius:13px; background:var(--card); font-family:var(--font); font-size:1rem; font-weight:800; color:var(--text); cursor:pointer; }
+.a-carat.sel{ background:var(--gold-lighter); border-color:var(--gold); color:var(--gold-dark); }
+.a-list{ margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+.a-item{ display:flex; align-items:center; gap:8px; background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:11px 13px; font-size:.88rem; font-weight:700; }
+.a-item .v{ color:var(--green); font-weight:800; margin-left:auto; white-space:nowrap; }
+.a-item .a-x{ background:none; border:none; color:var(--red); font-weight:800; cursor:pointer; font-size:1rem; padding:0 4px; width:auto; min-height:auto; }
+.a-empty{ text-align:center; color:var(--text-muted); font-style:italic; font-size:.84rem; padding:6px; }
+.a-devrow{ display:grid; grid-template-columns:1.3fr .8fr 1fr auto; gap:6px; align-items:center; margin-top:8px; }
+.a-devrow input{ min-height:46px!important; font-size:.95rem!important; padding:0 10px!important; }
+.a-devrow .a-x{ background:none; border:none; color:var(--red); font-weight:800; font-size:1rem; cursor:pointer; }
+.a-res-band{ border-radius:16px 16px 0 0; padding:15px; color:#fff; text-align:center; background:linear-gradient(135deg,#064e27,#1a6b3c); }
+.a-res-band.non{ background:linear-gradient(135deg,#7f1d1d,#b91c1c); }
+.a-res-band .fr{ font-size:.9rem; font-weight:900; color:var(--gold-light); text-transform:uppercase; letter-spacing:.04em; }
+.a-res-band .ar{ font-family:var(--font-ar); font-size:1.12rem; color:#fff; margin-top:3px; }
+.a-res-due{ background:linear-gradient(160deg,#7a5c10,#c9962a,#7a5c10); padding:18px 14px; text-align:center; color:#fff; }
+.a-res-due.non{ background:linear-gradient(160deg,#450a0a,#b91c1c,#450a0a); }
+.a-res-due .cap{ font-size:.68rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; opacity:.92; }
+.a-res-due .num{ font-family:var(--font-display); font-size:2.8rem; font-weight:700; line-height:1.05; margin-top:3px; }
+.a-res-due .num small{ font-family:var(--font); font-size:.85rem; opacity:.8; }
+.a-res-note{ font-size:.8rem; color:var(--text-muted); text-align:center; margin-top:10px; }
+.a-res-break{ background:var(--card); border:1px solid var(--border); border-top:none; border-radius:0 0 16px 16px; display:grid; grid-template-columns:1fr 1fr; gap:1px; overflow:hidden; }
+.a-res-break>div{ background:var(--card); padding:11px; text-align:center; }
+.a-res-break .l{ font-size:.62rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; }
+.a-res-break .v{ font-family:var(--font-display); font-size:1.05rem; font-weight:700; color:var(--green); margin-top:2px; }
+.a-nav{ flex:none; background:var(--card); border-top:1px solid var(--border); padding:11px 14px max(11px,env(safe-area-inset-bottom)); display:flex; align-items:center; gap:10px; }
+.a-back{ flex:none; width:54px; height:50px; border-radius:13px; border:2px solid var(--border); background:var(--card); font-size:1.3rem; color:var(--green-deep); cursor:pointer; }
+.a-back:disabled{ opacity:.35; }
+.a-next{ flex:1; height:50px; border-radius:13px; border:none; background:linear-gradient(135deg,var(--green),var(--green-deep)); color:#fff; font-family:var(--font); font-size:1rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
+.a-next bdi{ font-family:var(--font-ar); }
+.a-next:active{ transform:scale(.98); }
+.asst-switch{ display:none; }
+@media (max-width:767px){ body:not(.asst-on) .asst-switch{ display:inline-flex; } }
 body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1011,6 +1091,9 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
     </button>
     <button class="btn-guide-header" onclick="shareApp()" title="Partager l'application / مشاركة التطبيق">
       📤 Partager / مشاركة
+    </button>
+    <button class="btn-guide-header asst-switch" onclick="asstToGuided()" title="Calcul guidé / الحساب الموجّه">
+      📿 Guidé / موجّه
     </button>
     <button class="btn-theme-header" id="btn-theme-header" onclick="toggleTheme()" title="Mode clair / sombre">
       🌙 Sombre
@@ -1253,6 +1336,162 @@ html[data-theme="dark"] .nissab-row.current{background:#163020;}
     <span class="dn-cap">⚖️ Nissab</span>
     <div class="dn-track"><div class="dn-fill" id="dn-fill"></div></div>
     <span class="dn-pct" id="dn-pct">0%</span>
+  </div>
+</div>
+
+<!-- ═══════════ CALCUL GUIDÉ (assistant mobile) — v2.006 ═══════════ -->
+<div id="assistant">
+  <div class="a-top">
+    <div class="a-tbar">
+      <div class="a-tt">📿 Calcul guidé <span>الحساب الموجّه</span></div>
+      <div style="display:flex;gap:6px">
+        <button class="a-mode" onclick="toggleTheme()" title="Thème clair / sombre" aria-label="Thème">🌓</button>
+        <button class="a-mode" onclick="asstToFull()">☰ Complet</button>
+      </div>
+    </div>
+    <div class="a-bar"><i id="a-bar"></i></div>
+    <div class="a-steplbl" id="a-steplbl"></div>
+  </div>
+  <div id="a-body">
+
+    <div class="a-screen active" data-s="welcome">
+      <div class="a-q">Calculons votre Zakat</div>
+      <div class="a-qar">لنحسب زكاتك</div>
+      <div class="a-hint">Quelques questions simples, une par une, pour calculer votre Zakat. Tout reste sur votre téléphone. 🤲<br><span dir="rtl" style="font-family:var(--font-ar)">أسئلة بسيطة، واحداً تلو الآخر. كل شيء يبقى على هاتفك.</span></div>
+      <button class="a-bigbtn a-gold" onclick="asstGo('date')">Commencer · ابدأ →</button>
+      <button class="a-bigbtn a-outg" onclick="document.getElementById('load-input').click()">📂 Charger une sauvegarde<small>تحميل نسخة محفوظة</small></button>
+    </div>
+
+    <div class="a-screen" data-s="date" data-step="1" data-lbl="Date · التاريخ">
+      <div class="a-q">Date d'échéance (Hawl) ?</div>
+      <div class="a-qar">ما تاريخ إخراج زكاتك؟</div>
+      <div class="a-hint">La date hégirienne où une année lunaire s'achève sur vos biens.</div>
+      <div class="a-row3">
+        <div><label class="a-fld">Jour · يوم</label><select id="a-hd" onchange="asstDateChange()"></select></div>
+        <div><label class="a-fld">Mois · شهر</label><select id="a-hm" onchange="asstDateChange()"></select></div>
+        <div><label class="a-fld">Année · سنة</label><input type="text" inputmode="numeric" id="a-hy" value="1448" oninput="asstDateChange()"></div>
+      </div>
+      <div class="a-greg" id="a-greg">📅 —</div>
+    </div>
+
+    <div class="a-screen" data-s="nissab" data-step="2" data-lbl="Nissab · النصاب">
+      <div class="a-q">Seuil Nissab cette année ?</div>
+      <div class="a-qar">ما هو النصاب هذا العام؟</div>
+      <div class="a-hint">Seuil minimum à partir duquel la Zakat est due (valeur de 85 g d'or 24k).</div>
+      <button class="a-bigbtn a-soft" onclick="asstUseNissab()">✅ Utiliser 2 295 000 DA (2026)<small>استعمل نصاب هذا العام</small></button>
+      <label class="a-fld" style="margin-top:12px">Seuil Nissab (DA)</label>
+      <input type="text" inputmode="numeric" id="a-nissab" oninput="normDecimal(this);asstNissabInput(this.value)">
+      <button class="a-bigbtn a-outg" style="min-height:48px;font-size:.9rem" onclick="openNissabHistory()">📜 Voir l'historique · السجل</button>
+    </div>
+
+    <div class="a-screen" data-s="goldprice" data-step="3" data-lbl="Prix de l'or · سعر الذهب">
+      <div class="a-q">Prix actuel de l'or 18k ?</div>
+      <div class="a-qar">سعر غرام الذهب عيار 18؟</div>
+      <div class="a-hint">En dinars par gramme (DA/g). Sert à convertir tous vos bijoux.</div>
+      <label class="a-fld">Prix Or 18k (DA/g)</label>
+      <input type="text" inputmode="numeric" id="a-goldprice" oninput="normDecimal(this);asstGoldPrice(this.value)">
+    </div>
+
+    <div class="a-screen" data-s="or-q" data-step="4" data-lbl="Or · الذهب">
+      <div class="a-q">Possédez-vous de l'or ?</div>
+      <div class="a-qar">هل تملك ذهباً؟</div>
+      <div class="a-yesno">
+        <button onclick="asstGo('or-input')"><span class="i">🪙</span>Oui<span class="ar">نعم</span></button>
+        <button class="no" onclick="asstGo('dev-q')"><span class="i">🚫</span>Non<span class="ar">لا</span></button>
+      </div>
+    </div>
+
+    <div class="a-screen" data-s="or-input" data-step="4" data-lbl="Or · الذهب">
+      <div class="a-q">Ajoutez vos bijoux</div>
+      <div class="a-qar">أضف قطع الذهب</div>
+      <label class="a-fld">Dénomination · التسمية</label>
+      <input type="text" id="a-gold-name" placeholder="Ex : Bracelet, Bague…">
+      <div class="a-chips">
+        <span class="a-chip" onclick="asstSetGoldName('Bague')">Bague</span>
+        <span class="a-chip" onclick="asstSetGoldName('Bracelet')">Bracelet</span>
+        <span class="a-chip" onclick="asstSetGoldName('Collier')">Collier</span>
+        <span class="a-chip" onclick="asstSetGoldName('Pièce or')">Pièce</span>
+      </div>
+      <label class="a-fld" style="margin-top:8px">Carats · العيار</label>
+      <div class="a-carats" id="a-carats">
+        <button class="a-carat" onclick="asstSetCarat(14,this)">14k</button>
+        <button class="a-carat sel" onclick="asstSetCarat(18,this)">18k</button>
+        <button class="a-carat" onclick="asstSetCarat(21,this)">21k</button>
+        <button class="a-carat" onclick="asstSetCarat(24,this)">24k</button>
+      </div>
+      <label class="a-fld" style="margin-top:8px">Poids (g) · الوزن</label>
+      <input type="text" inputmode="decimal" id="a-gold-weight" placeholder="0.0">
+      <button class="a-bigbtn a-soft" onclick="asstAddGold()">＋ Ajouter ce bijou · أضف</button>
+      <div class="a-list" id="a-gold-list"></div>
+    </div>
+
+    <div class="a-screen" data-s="dev-q" data-step="5" data-lbl="Devises · العملات">
+      <div class="a-q">Avez-vous des devises ?</div>
+      <div class="a-qar">هل لديك عملات أجنبية؟</div>
+      <div class="a-yesno">
+        <button onclick="asstGo('dev-input')"><span class="i">💱</span>Oui<span class="ar">نعم</span></button>
+        <button class="no" onclick="asstGo('liq-q')"><span class="i">🚫</span>Non<span class="ar">لا</span></button>
+      </div>
+    </div>
+
+    <div class="a-screen" data-s="dev-input" data-step="5" data-lbl="Devises · العملات">
+      <div class="a-q">Vos devises</div>
+      <div class="a-qar">عملاتك الأجنبية</div>
+      <div class="a-hint">Renseignez le taux (DA) et le montant pour chaque devise.</div>
+      <div class="a-devrow" style="grid-template-columns:auto 1fr 1fr"><span style="font-weight:800">🇪🇺 €</span><input type="text" inputmode="decimal" id="a-rate-eur" placeholder="Taux" aria-label="Taux euro" oninput="normDecimal(this);asstDevRate('eur',this.value)"><input type="text" inputmode="decimal" id="a-eur" placeholder="Montant" aria-label="Montant euros" oninput="normDecimal(this);asstDevAmount('eur',this.value)" onchange="if(parseFloat(this.value)>0)playSuccessSound()"></div>
+      <div class="a-devrow" style="grid-template-columns:auto 1fr 1fr"><span style="font-weight:800">🇺🇸 $</span><input type="text" inputmode="decimal" id="a-rate-usd" placeholder="Taux" aria-label="Taux dollar" oninput="normDecimal(this);asstDevRate('usd',this.value)"><input type="text" inputmode="decimal" id="a-usd" placeholder="Montant" aria-label="Montant dollars" oninput="normDecimal(this);asstDevAmount('usd',this.value)" onchange="if(parseFloat(this.value)>0)playSuccessSound()"></div>
+      <div class="a-devrow" style="grid-template-columns:auto 1fr 1fr"><span style="font-weight:800">🇸🇦 SAR</span><input type="text" inputmode="decimal" id="a-rate-sar" placeholder="Taux" aria-label="Taux riyal" oninput="normDecimal(this);asstDevRate('sar',this.value)"><input type="text" inputmode="decimal" id="a-sar" placeholder="Montant" aria-label="Montant riyals" oninput="normDecimal(this);asstDevAmount('sar',this.value)" onchange="if(parseFloat(this.value)>0)playSuccessSound()"></div>
+      <div class="a-list" id="a-dev-list"></div>
+      <button class="a-bigbtn a-outg" style="min-height:48px;font-size:.92rem" onclick="asstAddCustomDev()">＋ Autre devise · عملة أخرى</button>
+    </div>
+
+    <div class="a-screen" data-s="liq-q" data-step="6" data-lbl="Liquidités · السيولة">
+      <div class="a-q">Avez-vous des liquidités ?</div>
+      <div class="a-qar">هل لديك سيولة نقدية؟</div>
+      <div class="a-hint">Comptes, espèces, dettes à récupérer…</div>
+      <div class="a-yesno">
+        <button onclick="asstGo('liq-input')"><span class="i">💼</span>Oui<span class="ar">نعم</span></button>
+        <button class="no" onclick="asstGo('result')"><span class="i">🚫</span>Non<span class="ar">لا</span></button>
+      </div>
+    </div>
+
+    <div class="a-screen" data-s="liq-input" data-step="6" data-lbl="Liquidités · السيولة">
+      <div class="a-q">Ajoutez vos liquidités</div>
+      <div class="a-qar">أضف سيولتك</div>
+      <label class="a-fld">Description · الوصف</label>
+      <input type="text" id="a-liq-name" placeholder="Ex : Compte CCP, espèces…">
+      <label class="a-fld" style="margin-top:10px">Montant (DA) · المبلغ</label>
+      <input type="text" inputmode="numeric" id="a-liq-amount" placeholder="0">
+      <button class="a-bigbtn a-soft" onclick="asstAddLiq()">＋ Ajouter · أضف</button>
+      <div class="a-list" id="a-liq-list"></div>
+    </div>
+
+    <div class="a-screen" data-s="result" data-step="7" data-lbl="Résultat · النتيجة">
+      <div class="a-res-band imp" id="a-res-band">
+        <div class="fr" id="a-res-fr">—</div>
+        <div class="ar" id="a-res-ar">—</div>
+      </div>
+      <div class="a-res-due" id="a-res-due">
+        <div class="cap">💎 Zakat due · الزكاة المستحقة</div>
+        <div class="num"><span id="a-res-num">0</span> <small>DA · 2,5 %</small></div>
+      </div>
+      <div class="a-res-break">
+        <div><div class="l">🪙 Or</div><div class="v" id="a-res-gold">0</div></div>
+        <div><div class="l">💱 Devises</div><div class="v" id="a-res-dev">0</div></div>
+        <div><div class="l">💵 Liquidités</div><div class="v" id="a-res-liq">0</div></div>
+        <div><div class="l">⚖️ Nissab</div><div class="v" id="a-res-nis">0</div></div>
+      </div>
+      <div class="a-res-note" id="a-res-note"></div>
+      <button class="a-bigbtn a-gold" onclick="exportPDF()">📄 Exporter en PDF · PDF</button>
+      <button class="a-bigbtn a-outg" onclick="saveToFile()">💾 Sauvegarder · حفظ</button>
+      <button class="a-bigbtn a-soft" onclick="shareApp()">📤 Partager l'appli · مشاركة</button>
+      <button class="a-bigbtn" style="background:transparent;color:var(--text-muted);min-height:44px;font-size:.85rem" onclick="asstRestart()">↺ Recommencer · إعادة</button>
+    </div>
+
+  </div>
+  <div class="a-nav">
+    <button class="a-back" id="a-back" onclick="asstPrev()" disabled>←</button>
+    <button class="a-next" id="a-next" onclick="asstNext()">Suivant · التالي →</button>
   </div>
 </div>
 
@@ -2294,6 +2533,10 @@ function recalculate() {
   if (imposable) animateBigZakat(zakat);
   else _bigZakatPrev = 0;
 
+  // [v2.006] Résultats exposés pour le Calcul guidé
+  window.LAST = { total: total, zakat: zakat, gold: goldDA, devises: devisesDA, liquid: liquidDA, nissab: nissab, imposable: imposable };
+  if (typeof renderAsstResult === 'function') renderAsstResult();
+
   // [v2.001] Historique annuel (option C : snapshot auto de l'année courante)
   var _hy = parseInt(document.getElementById('hijri-year').value);
   updateHistory(_hy, { total: total, zakat: zakat, gold: goldDA, devises: devisesDA, liquid: liquidDA, nissab: nissab });
@@ -2973,6 +3216,132 @@ function playSuccessSound() {
 }
 
 // ============================================================
+// CALCUL GUIDÉ (assistant mobile) — v2.006
+// ============================================================
+var ASST_FLOW = ['welcome','date','nissab','goldprice','or-q','or-input','dev-q','dev-input','liq-q','liq-input','result'];
+var ASST_MILES = 7, asstCur = '', asstStack = [], _asstCarat = 18;
+
+function _asstScreen(s){ return document.querySelector('#assistant .a-screen[data-s="'+s+'"]'); }
+function _asstShow(s){
+  var el = _asstScreen(s); if(!el) return;
+  document.querySelectorAll('#assistant .a-screen').forEach(function(e){ e.classList.remove('active'); });
+  el.classList.add('active'); asstCur = s;
+  var b = document.getElementById('a-body'); if(b) b.scrollTop = 0;
+  asstSyncScreen(s);
+  var step = el.getAttribute('data-step'), lbl = el.getAttribute('data-lbl') || '';
+  var bar = document.getElementById('a-bar'), sl = document.getElementById('a-steplbl');
+  if(s === 'welcome'){ if(bar) bar.style.width = '6%'; if(sl) sl.textContent = ''; }
+  else { if(bar) bar.style.width = Math.round(step/ASST_MILES*100)+'%'; if(sl) sl.innerHTML = 'Étape <b>'+step+'</b> / '+ASST_MILES+' — '+lbl; }
+  var back = document.getElementById('a-back'), next = document.getElementById('a-next');
+  if(back) back.disabled = (asstStack.length === 0);
+  if(next){
+    next.style.display = (s==='welcome'||s==='or-q'||s==='dev-q'||s==='liq-q'||s==='result') ? 'none' : 'flex';
+    next.innerHTML = (s==='liq-input') ? '<span>Voir le résultat</span> <bdi>· النتيجة</bdi> <span>✓</span>' : '<span>Suivant</span> <bdi>· التالي</bdi> <span>→</span>';
+  }
+}
+function asstGo(s){ if(asstCur && asstCur !== s) asstStack.push(asstCur); _asstShow(s); }
+function asstPrev(){ var p = asstStack.pop(); if(p) _asstShow(p); }
+function asstNext(){ var n = ASST_FLOW[ASST_FLOW.indexOf(asstCur)+1]; if(n) asstGo(n); }
+function asstRestart(){ asstStack = []; _asstShow('welcome'); }
+
+function asstSyncScreen(s){
+  if(s==='date'){ var g=document.getElementById('gregorian-date'), ag=document.getElementById('a-greg'); if(g&&ag) ag.textContent=g.textContent; }
+  else if(s==='nissab'){ var n=document.getElementById('nissab'), an=document.getElementById('a-nissab'); if(n&&an&&!an.value) an.value=n.value; }
+  else if(s==='goldprice'){ var gp=document.getElementById('gold-price'), agp=document.getElementById('a-goldprice'); if(gp&&agp&&!agp.value) agp.value=gp.value; }
+  else if(s==='or-input'){ renderAsstGold(); }
+  else if(s==='dev-input'){ asstSyncDev(); renderAsstDev(); }
+  else if(s==='liq-input'){ renderAsstLiq(); }
+  else if(s==='result'){ recalculate(); renderAsstResult(); }
+}
+function asstInitDate(){
+  var ad=document.getElementById('a-hd'), am=document.getElementById('a-hm');
+  if(ad && !ad.options.length){ for(var i=1;i<=30;i++){ var o=document.createElement('option'); o.value=i; o.textContent=i; ad.appendChild(o); } }
+  if(am && !am.options.length && typeof hijriMonths!=='undefined'){ hijriMonths.forEach(function(mn,i){ var o=document.createElement('option'); o.value=i+1; o.textContent=(i+1)+'. '+mn; am.appendChild(o); }); }
+  var hd=document.getElementById('hijri-day'),hm=document.getElementById('hijri-month'),hy=document.getElementById('hijri-year'),ay=document.getElementById('a-hy');
+  if(ad&&hd) ad.value=hd.value; if(am&&hm) am.value=hm.value; if(ay&&hy) ay.value=hy.value;
+}
+function asstDateChange(){
+  var hd=document.getElementById('hijri-day'),hm=document.getElementById('hijri-month'),hy=document.getElementById('hijri-year');
+  var ad=document.getElementById('a-hd'),am=document.getElementById('a-hm'),ay=document.getElementById('a-hy');
+  if(hd&&ad) hd.value=ad.value; if(hm&&am) hm.value=am.value; if(hy&&ay) hy.value=ay.value;
+  convertHijriToGregorian();
+  var g=document.getElementById('gregorian-date'),ag=document.getElementById('a-greg'); if(g&&ag) ag.textContent=g.textContent;
+  saveSession();
+}
+function asstNissabInput(v){ var n=document.getElementById('nissab'); if(n){ n.value=v; handleInput(n); } recalculate(); }
+function asstUseNissab(){ var an=document.getElementById('a-nissab'); if(an) an.value='2295000'; asstNissabInput('2295000'); }
+function asstGoldPrice(v){ var gp=document.getElementById('gold-price'); if(gp){ gp.value=v; handleInput(gp); } recalculate(); }
+function asstSetGoldName(n){ var el=document.getElementById('a-gold-name'); if(el) el.value=n; }
+function asstSetCarat(c, btn){ _asstCarat=c; document.querySelectorAll('#a-carats .a-carat').forEach(function(b){ b.classList.remove('sel'); }); if(btn) btn.classList.add('sel'); }
+function asstAddGold(){
+  var name=(document.getElementById('a-gold-name').value||'').trim()||'Bijou';
+  var w=parseFloat(String(document.getElementById('a-gold-weight').value).replace(',','.'));
+  if(!w||w<=0){ showToast('⚠️ Poids invalide','error'); return; }
+  goldItems.push({name:name, carat:_asstCarat, weight:w});
+  document.getElementById('a-gold-name').value=''; document.getElementById('a-gold-weight').value='';
+  playSuccessSound(); recalculate(); saveSession(); renderAsstGold();
+}
+function asstRemoveGold(i){ goldItems.splice(i,1); recalculate(); saveSession(); renderAsstGold(); }
+function renderAsstGold(){
+  var host=document.getElementById('a-gold-list'); if(!host) return;
+  var price=parseFloat(document.getElementById('gold-price').value)||25000;
+  host.innerHTML = goldItems.length ? goldItems.map(function(it,i){
+    var val=Math.round((it.weight*it.carat/18)*price);
+    return '<div class="a-item"><span>'+escAttr(it.name)+' · '+it.carat+'k · '+it.weight+' g</span><span class="v">'+fmtNum(val)+' DA</span><button class="a-x" onclick="asstRemoveGold('+i+')" aria-label="Supprimer">✕</button></div>';
+  }).join('') : '<div class="a-empty">Aucun bijou ajouté · لا شيء بعد</div>';
+}
+function asstSyncDev(){
+  ['eur','usd','sar'].forEach(function(c){
+    var amt=document.getElementById(c+'-amount'), aAmt=document.getElementById('a-'+c);
+    if(amt&&aAmt) aAmt.value = (parseFloat(amt.value)>0)? amt.value : '';
+    var rate=document.getElementById('rate-'+c), aRate=document.getElementById('a-rate-'+c);
+    if(rate&&aRate&&!aRate.value) aRate.value=rate.value;
+  });
+}
+function asstDevAmount(c,v){ var el=document.getElementById(c+'-amount'); if(el){ el.value=v; handleInput(el); } recalculate(); }
+function asstDevRate(c,v){ var el=document.getElementById('rate-'+c); if(el){ el.value=v; } recalculate(); }
+function asstAddCustomDev(){ customDevises.push({name:'',rate:'',amount:''}); recalculate(); saveSession(); renderAsstDev(); }
+function asstRemoveCustomDev(i){ customDevises.splice(i,1); recalculate(); saveSession(); renderAsstDev(); }
+function renderAsstDev(){
+  var host=document.getElementById('a-dev-list'); if(!host) return;
+  host.innerHTML = customDevises.map(function(d,i){
+    return '<div class="a-devrow"><input type="text" value="'+escAttr(d.name)+'" placeholder="Devise" aria-label="Devise" oninput="updateCustomDevise('+i+',\'name\',this.value)"><input type="text" inputmode="decimal" value="'+escAttr(d.rate)+'" placeholder="Taux" aria-label="Taux" oninput="normDecimal(this);updateCustomDevise('+i+',\'rate\',this.value)"><input type="text" inputmode="decimal" value="'+escAttr(d.amount)+'" placeholder="Montant" aria-label="Montant" oninput="normDecimal(this);updateCustomDevise('+i+',\'amount\',this.value)"><button class="a-x" onclick="asstRemoveCustomDev('+i+')" aria-label="Supprimer">✕</button></div>';
+  }).join('');
+}
+function asstAddLiq(){
+  var name=(document.getElementById('a-liq-name').value||'').trim()||'Liquidité';
+  var a=parseFloat(String(document.getElementById('a-liq-amount').value).replace(',','.'));
+  if(!a||a<=0){ showToast('⚠️ Montant invalide','error'); return; }
+  liquidItems.push({name:name, amount:a});
+  document.getElementById('a-liq-name').value=''; document.getElementById('a-liq-amount').value='';
+  playSuccessSound(); recalculate(); saveSession(); renderAsstLiq();
+}
+function asstRemoveLiq(i){ liquidItems.splice(i,1); recalculate(); saveSession(); renderAsstLiq(); }
+function renderAsstLiq(){
+  var host=document.getElementById('a-liq-list'); if(!host) return;
+  host.innerHTML = liquidItems.length ? liquidItems.map(function(it,i){
+    return '<div class="a-item"><span>'+escAttr(it.name)+'</span><span class="v">'+fmtNum(it.amount)+' DA</span><button class="a-x" onclick="asstRemoveLiq('+i+')" aria-label="Supprimer">✕</button></div>';
+  }).join('') : '<div class="a-empty">Aucune liquidité ajoutée · لا شيء بعد</div>';
+}
+function renderAsstResult(){
+  var L=window.LAST; if(!L) return;
+  var set=function(id,v){ var e=document.getElementById(id); if(e) e.textContent=v; };
+  var band=document.getElementById('a-res-band'); if(band) band.className='a-res-band '+(L.imposable?'imp':'non');
+  var due=document.getElementById('a-res-due'); if(due) due.className='a-res-due '+(L.imposable?'':'non');
+  set('a-res-fr', L.imposable?'✅ Zakat obligatoire':'❌ Non imposable');
+  set('a-res-ar', L.imposable?'تجب عليك الزكاة':'لا تجب عليك الزكاة');
+  set('a-res-num', fmtNum(Math.round(L.zakat)));
+  set('a-res-gold', fmtNum(Math.round(L.gold)));
+  set('a-res-dev', fmtNum(Math.round(L.devises)));
+  set('a-res-liq', fmtNum(Math.round(L.liquid)));
+  set('a-res-nis', fmtNum(Math.round(L.nissab)));
+  var note=document.getElementById('a-res-note');
+  if(note) note.textContent = L.imposable ? ('Total des actifs : '+fmtNum(Math.round(L.total))+' DA') : ('Manque '+fmtNum(Math.round(L.nissab-L.total))+' DA pour atteindre le Nissab');
+}
+function asstToFull(){ try{ localStorage.setItem('zakat_mode','full'); }catch(e){} document.body.classList.remove('asst-on'); var h=document.querySelector('.page-header'); if(h) h.classList.remove('hdr-compact'); if(typeof isMobile==='function'&&isMobile()&&typeof initMobileStepper==='function') initMobileStepper(); }
+function asstToGuided(){ try{ localStorage.setItem('zakat_mode','assistant'); }catch(e){} document.body.classList.add('asst-on'); var h=document.querySelector('.page-header'); if(h) h.classList.add('hdr-compact'); _asstShow(asstCur||'welcome'); }
+
+// ============================================================
 // PWA + PARTAGE — v2.005
 // ============================================================
 var APP_URL = 'https://xenex007.github.io/Zakat-Clculator/'; // lien public de l'app (GitHub Pages)
@@ -3186,6 +3555,18 @@ initExtras();
   var el = document.getElementById(id);
   if (el && parseFloat(el.value) > 0) handleInput(el);
 });
+
+// [v2.006] Calcul guidé — initialisation + mode par défaut
+asstInitDate();
+(function(){
+  var m; try{ m = localStorage.getItem('zakat_mode'); }catch(e){}
+  if(!m) m = (typeof isMobile === 'function' && isMobile()) ? 'assistant' : 'full';
+  if(m === 'assistant'){
+    document.body.classList.add('asst-on');
+    var h = document.querySelector('.page-header'); if(h) h.classList.add('hdr-compact');
+    _asstShow('welcome');
+  }
+})();
 </script>
 </body>
 </html>
